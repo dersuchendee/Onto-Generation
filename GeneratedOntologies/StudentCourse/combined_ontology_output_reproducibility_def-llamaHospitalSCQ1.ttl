@@ -1,0 +1,1237 @@
+
+@prefix : <http://example.org/medical_degrees#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:MedicalDegree a owl:Class ;
+    rdfs:label "Medical Degree" ;
+    rdfs:comment "A degree earned by an individual in the field of medicine" .
+
+:NursingDegree a owl:Class ;
+    rdfs:label "Nursing Degree" ;
+    rdfs:comment "A degree earned by an individual in the field of nursing" ;
+    rdfs:subClassOf :MedicalDegree .
+
+:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual" .
+
+:hasMedicalDegree a owl:ObjectProperty ;
+    rdfs:label "has medical degree" ;
+    rdfs:comment "Relates a person to their medical degree" ;
+    rdfs:domain :Person ;
+    rdfs:range :MedicalDegree .
+
+:hasNursingDegree a owl:ObjectProperty ;
+    rdfs:label "has nursing degree" ;
+    rdfs:comment "Relates a person to their nursing degree" ;
+    rdfs:domain :Person ;
+    rdfs:range :NursingDegree ;
+    rdfs:subPropertyOf :hasMedicalDegree .
+
+:CertifiedNurse a owl:Class ;
+    rdfs:label "Certified Nurse" ;
+    rdfs:comment "A nurse who has earned a nursing degree" ;
+    rdfs:subClassOf :Person ;
+    rdfs:subClassOf [ a owl:Restriction ;
+        owl:onProperty :hasNursingDegree ;
+        owl:someValuesFrom :NursingDegree ] .
+
+:NursingAssistant a owl:Class ;
+    rdfs:label "Nursing Assistant" ;
+    rdfs:comment "An individual who assists nurses" ;
+    rdfs:subClassOf :Person .
+
+:employs a owl:ObjectProperty ;
+    rdfs:label "employs" ;
+    rdfs:comment "Relates an organization to an individual it employs" ;
+    rdfs:domain :Organization ;
+    rdfs:range :Person .
+
+:Organization a owl:Class ;
+    rdfs:label "Organization" ;
+    rdfs:comment "An entity that employs individuals" .
+
+:Hospital a owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A healthcare organization" ;
+    rdfs:subClassOf :Organization .
+
+:unionRepresentative a owl:ObjectProperty ;
+    rdfs:label "union representative" ;
+    rdfs:comment "Relates an organization to its union representative" ;
+    rdfs:domain :Organization ;
+    rdfs:range :Person .
+
+:evaluates a owl:ObjectProperty ;
+    rdfs:label "evaluates" ;
+    rdfs:comment "Relates a doctor to an individual they evaluate" ;
+    rdfs:domain :Doctor ;
+    rdfs:range :Person .
+
+:Doctor a owl:Class ;
+    rdfs:label "Doctor" ;
+    rdfs:comment "A medical professional" ;
+    rdfs:subClassOf :Person .
+
+:ResearchArticle a owl:Class ;
+    rdfs:label "Research Article" ;
+    rdfs:comment "A published article on a research topic" .
+
+:publishes a owl:ObjectProperty ;
+    rdfs:label "publishes" ;
+    rdfs:comment "Relates a person to an article they publish" ;
+    rdfs:domain :Person ;
+    rdfs:range :ResearchArticle .
+
+:ArticleCollection a owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of published articles" .
+
+:contains a owl:ObjectProperty ;
+    rdfs:label "contains" ;
+    rdfs:comment "Relates an article collection to an article it contains" ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range :ResearchArticle .
+
+:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A meeting for discussion or training" .
+
+:presents a owl:ObjectProperty ;
+    rdfs:label "presents" ;
+    rdfs:comment "Relates a seminar to an article it presents" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :ResearchArticle .
+@prefix : <http://example.org/medical_degrees#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:StudyPeriod a owl:Class ;
+    rdfs:label "Study Period" ;
+    rdfs:comment "A period of time during which a person studies for a specific degree" .
+
+:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual" .
+
+:Degree a owl:Class ;
+    rdfs:label "Degree" ;
+    rdfs:comment "A degree earned by an individual" .
+
+:studiesFor a owl:ObjectProperty ;
+    rdfs:label "studies for" ;
+    rdfs:comment "Relates a person to the degree they are studying for" ;
+    rdfs:domain :Person ;
+    rdfs:range :Degree .
+
+:hasStudyPeriod a owl:ObjectProperty ;
+    rdfs:label "has study period" ;
+    rdfs:comment "Relates a degree to the study period for that degree" ;
+    rdfs:domain :Degree ;
+    rdfs:range :StudyPeriod .
+
+:starts a owl:ObjectProperty ;
+    rdfs:label "starts" ;
+    rdfs:comment "Relates a study period to its start date" ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range :Date .
+
+:ends a owl:ObjectProperty ;
+    rdfs:label "ends" ;
+    rdfs:comment "Relates a study period to its end date" ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range :Date .
+
+:Date a owl:Class ;
+    rdfs:label "Date" ;
+    rdfs:comment "A date" .
+
+:hasStartDate a owl:DatatypeProperty ;
+    rdfs:label "has start date" ;
+    rdfs:comment "Relates a study period to its start date" ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range xsd:date .
+
+:hasEndDate a owl:DatatypeProperty ;
+    rdfs:label "has end date" ;
+    rdfs:comment "Relates a study period to its end date" ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range xsd:date .
+
+:StudyPeriod owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty :hasStartDate ;
+    owl:someValuesFrom xsd:date
+] , [
+    a owl:Restriction ;
+    owl:onProperty :hasEndDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:Person owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty :studiesFor ;
+    owl:someValuesFrom :Degree
+] .
+
+:Degree owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty :hasStudyPeriod ;
+    owl:someValuesFrom :StudyPeriod
+] .
+@prefix : <http://example.org/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual" .
+
+:Hospital a owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A healthcare organization" .
+
+:Employee a owl:Class ;
+    rdfs:label "Employee" ;
+    rdfs:comment "An individual employed by an organization" ;
+    rdfs:subClassOf :Person .
+
+:employs a owl:ObjectProperty ;
+    rdfs:label "employs" ;
+    rdfs:comment "Relates an organization to an individual it employs" ;
+    rdfs:domain :Hospital ;
+    rdfs:range :Employee .
+
+:Employment a owl:Class ;
+    rdfs:label "Employment" ;
+    rdfs:comment "A period of time during which a person is employed by an organization" ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :employs ;
+        owl:someValuesFrom :Employee
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasStartDate ;
+        owl:someValuesFrom xsd:date
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasEndDate ;
+        owl:someValuesFrom xsd:date
+    ] .
+
+:hasStartDate a owl:DatatypeProperty ;
+    rdfs:label "has start date" ;
+    rdfs:comment "Relates an employment to its start date" ;
+    rdfs:domain :Employment ;
+    rdfs:range xsd:date .
+
+:hasEndDate a owl:DatatypeProperty ;
+    rdfs:label "has end date" ;
+    rdfs:comment "Relates an employment to its end date" ;
+    rdfs:domain :Employment ;
+    rdfs:range xsd:date .
+
+:EmploymentPeriod a owl:Class ;
+    rdfs:label "Employment Period" ;
+    rdfs:comment "A period of time during which a person is employed by an organization" ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :hasStartDate ;
+        owl:someValuesFrom xsd:date
+    ] , [
+        a owl:Restriction ;
+        owl:onProperty :hasEndDate ;
+        owl:someValuesFrom xsd:date
+    ] .
+
+:FirstEmployment a owl:Class ;
+    rdfs:label "First Employment" ;
+    rdfs:comment "The first employment of a person" ;
+    rdfs:subClassOf :Employment ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :hasStartDate ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] , [
+        a owl:Restriction ;
+        owl:onProperty :hasEndDate ;
+        owl:maxCardinality "0"^^xsd:nonNegativeInteger
+    ] .
+
+:hasFirstEmployment a owl:ObjectProperty ;
+    rdfs:label "has first employment" ;
+    rdfs:comment "Relates a person to their first employment" ;
+    rdfs:domain :Person ;
+    rdfs:range :FirstEmployment .
+@prefix : <http://example.org/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:City a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A city where a hospital is located" .
+
+:Hospital a owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A healthcare organization" ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :locatedIn ;
+        owl:someValuesFrom :City
+    ] .
+
+:locatedIn a owl:ObjectProperty ;
+    rdfs:label "located in" ;
+    rdfs:comment "Relates a hospital to the city it is located in" ;
+    rdfs:domain :Hospital ;
+    rdfs:range :City .
+
+:hasHospital a owl:ObjectProperty ;
+    rdfs:label "has hospital" ;
+    rdfs:comment "Relates a city to a hospital located in it" ;
+    rdfs:domain :City ;
+    rdfs:range :Hospital ;
+    owl:inverseOf :locatedIn .
+
+:Organization a owl:Class ;
+    rdfs:label "Organization" ;
+    rdfs:comment "An entity that employs individuals" ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasHospital ;
+        owl:someValuesFrom :Hospital
+    ] .
+
+:employs a owl:ObjectProperty ;
+    rdfs:label "employs" ;
+    rdfs:comment "Relates an organization to an individual it employs" ;
+    rdfs:domain :Organization ;
+    rdfs:range :Person .
+
+:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual" .
+
+:Hospital owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty :locatedIn ;
+    owl:someValuesFrom :City
+] , [
+    a owl:Restriction ;
+    owl:onProperty :employs ;
+    owl:someValuesFrom :Person
+] .
+
+:City owl:equivalentClass [
+    a owl:Restriction ;
+    owl:onProperty :hasHospital ;
+    owl:someValuesFrom :Hospital
+] .
+@prefix : <http://example.org/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:City a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A city where a hospital is located" .
+
+:Country a owl:Class ;
+    rdfs:label "Country" ;
+    rdfs:comment "A country where a city is located" .
+
+:locatedIn a owl:ObjectProperty ;
+    rdfs:label "located in" ;
+    rdfs:comment "Relates a city to the country it is located in" ;
+    rdfs:domain :City ;
+    rdfs:range :Country .
+
+:hasCity a owl:ObjectProperty ;
+    rdfs:label "has city" ;
+    rdfs:comment "Relates a country to a city located in it" ;
+    rdfs:domain :Country ;
+    rdfs:range :City ;
+    owl:inverseOf :locatedIn .
+
+:City rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :locatedIn ;
+    owl:someValuesFrom :Country
+] .
+
+:Country rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasCity ;
+    owl:someValuesFrom :City
+] .
+@prefix : <http://example.org/union#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Union a owl:Class ;
+    rdfs:label "Union" ;
+    rdfs:comment "A union that organizes staff members" .
+
+:StaffMember a owl:Class ;
+    rdfs:label "Staff Member" ;
+    rdfs:comment "A member of the staff" .
+
+:UnionMember a owl:Class ;
+    rdfs:label "Union Member" ;
+    rdfs:comment "A member of a union" ;
+    rdfs:subClassOf :StaffMember ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :memberOf ;
+        owl:someValuesFrom :Union
+    ] .
+
+:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of" ;
+    rdfs:comment "Relates a staff member to the union they are a member of" ;
+    rdfs:domain :StaffMember ;
+    rdfs:range :Union ;
+    owl:inverseOf :hasMember .
+
+:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member" ;
+    rdfs:comment "Relates a union to one of its members" ;
+    rdfs:domain :Union ;
+    rdfs:range :StaffMember .
+
+:Union rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasMember ;
+    owl:someValuesFrom :StaffMember
+] .
+
+:StaffMember rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :memberOf ;
+    owl:maxCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+:Union rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasMember ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+:hasMemberAt a owl:ObjectProperty ;
+    rdfs:label "has member at" ;
+    rdfs:comment "Relates a union to one of its members at a specific point in time" ;
+    rdfs:domain :Union ;
+    rdfs:range :StaffMember ;
+    rdfs:subPropertyOf :hasMember .
+
+:memberOfAt a owl:ObjectProperty ;
+    rdfs:label "member of at" ;
+    rdfs:comment "Relates a staff member to the union they are a member of at a specific point in time" ;
+    rdfs:domain :StaffMember ;
+    rdfs:range :Union ;
+    owl:inverseOf :hasMemberAt ;
+    rdfs:subPropertyOf :memberOf .
+
+:Time a owl:Class ;
+    rdfs:label "Time" ;
+    rdfs:comment "A point in time" .
+
+:hasMemberAt rdfs:subPropertyOf [
+    a owl:Restriction ;
+    owl:onProperty :atTime ;
+    owl:someValuesFrom :Time
+] .
+
+:memberOfAt rdfs:subPropertyOf [
+    a owl:Restriction ;
+    owl:onProperty :atTime ;
+    owl:someValuesFrom :Time
+] .
+
+:atTime a owl:ObjectProperty ;
+    rdfs:label "at time" ;
+    rdfs:comment "Relates a relation to the point in time at which it holds" ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf ( :hasMemberAt :memberOfAt )
+    ] ;
+    rdfs:range :Time .
+@prefix : <http://example.org/unionrole#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:UnionRole a owl:Ontology ;
+    rdfs:label "Union Role" ;
+    rdfs:comment "An ontology for representing union roles" .
+
+:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "A person who can be a union member" .
+
+:Union a owl:Class ;
+    rdfs:label "Union" ;
+    rdfs:comment "A union that organizes staff members" .
+
+:UnionMember a owl:Class ;
+    rdfs:label "Union Member" ;
+    rdfs:comment "A member of a union" ;
+    rdfs:subClassOf :Person ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :memberOf ;
+        owl:someValuesFrom :Union
+    ] .
+
+:Role a owl:Class ;
+    rdfs:label "Role" ;
+    rdfs:comment "A role within a union" .
+
+:UnionRole a owl:Class ;
+    rdfs:label "Union Role" ;
+    rdfs:comment "A role within a union" ;
+    rdfs:subClassOf :Role ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :withinUnion ;
+        owl:someValuesFrom :Union
+    ] .
+
+:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of" ;
+    rdfs:comment "Relates a person to the union they are a member of" ;
+    rdfs:domain :Person ;
+    rdfs:range :Union ;
+    owl:inverseOf :hasMember .
+
+:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member" ;
+    rdfs:comment "Relates a union to one of its members" ;
+    rdfs:domain :Union ;
+    rdfs:range :Person .
+
+:withinUnion a owl:ObjectProperty ;
+    rdfs:label "within union" ;
+    rdfs:comment "Relates a role to the union it is within" ;
+    rdfs:domain :Role ;
+    rdfs:range :Union .
+
+:hasRole a owl:ObjectProperty ;
+    rdfs:label "has role" ;
+    rdfs:comment "Relates a person to their role within a union" ;
+    rdfs:domain :Person ;
+    rdfs:range :Role .
+
+:atTime a owl:ObjectProperty ;
+    rdfs:label "at time" ;
+    rdfs:comment "Relates a relation to the point in time at which it holds" ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf ( :hasMemberAt :memberOfAt )
+    ] ;
+    rdfs:range :Time .
+
+:Time a owl:Class ;
+    rdfs:label "Time" ;
+    rdfs:comment "A point in time" .
+
+:hasMemberAt a owl:ObjectProperty ;
+    rdfs:label "has member at" ;
+    rdfs:comment "Relates a union to one of its members at a specific point in time" ;
+    rdfs:domain :Union ;
+    rdfs:range :Person ;
+    rdfs:subPropertyOf :hasMember ;
+    rdfs:subPropertyOf [
+        a owl:Restriction ;
+        owl:onProperty :atTime ;
+        owl:someValuesFrom :Time
+    ] .
+
+:memberOfAt a owl:ObjectProperty ;
+    rdfs:label "member of at" ;
+    rdfs:comment "Relates a person to the union they are a member of at a specific point in time" ;
+    rdfs:domain :Person ;
+    rdfs:range :Union ;
+    owl:inverseOf :hasMemberAt ;
+    rdfs:subPropertyOf :memberOf ;
+    rdfs:subPropertyOf [
+        a owl:Restriction ;
+        owl:onProperty :atTime ;
+        owl:someValuesFrom :Time
+    ] .
+@prefix : <http://example.org/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Evaluation a owl:Class ;
+    rdfs:label "Evaluation" ;
+    rdfs:comment "An evaluation statement given by a doctor for an employee" .
+
+:Doctor a owl:Class ;
+    rdfs:label "Doctor" ;
+    rdfs:comment "A medical professional" ;
+    rdfs:subClassOf :Person .
+
+:Employee a owl:Class ;
+    rdfs:label "Employee" ;
+    rdfs:comment "An individual employed by an organization" ;
+    rdfs:subClassOf :Person .
+
+:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual" .
+
+:evaluates a owl:ObjectProperty ;
+    rdfs:label "evaluates" ;
+    rdfs:comment "Relates a doctor to an employee they evaluate" ;
+    rdfs:domain :Doctor ;
+    rdfs:range :Employee .
+
+:givenBy a owl:ObjectProperty ;
+    rdfs:label "given by" ;
+    rdfs:comment "Relates an evaluation to the doctor who gave it" ;
+    rdfs:domain :Evaluation ;
+    rdfs:range :Doctor ;
+    owl:inverseOf :gives .
+
+:gives a owl:ObjectProperty ;
+    rdfs:label "gives" ;
+    rdfs:comment "Relates a doctor to an evaluation they give" ;
+    rdfs:domain :Doctor ;
+    rdfs:range :Evaluation .
+
+:givenFor a owl:ObjectProperty ;
+    rdfs:label "given for" ;
+    rdfs:comment "Relates an evaluation to the employee it is given for" ;
+    rdfs:domain :Evaluation ;
+    rdfs:range :Employee ;
+    owl:inverseOf :hasEvaluation .
+
+:hasEvaluation a owl:ObjectProperty ;
+    rdfs:label "has evaluation" ;
+    rdfs:comment "Relates an employee to an evaluation they have" ;
+    rdfs:domain :Employee ;
+    rdfs:range :Evaluation .
+
+:Evaluation rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :givenBy ;
+    owl:someValuesFrom :Doctor
+] , [
+    a owl:Restriction ;
+    owl:onProperty :givenFor ;
+    owl:someValuesFrom :Employee
+] .
+
+:Doctor rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :gives ;
+    owl:someValuesFrom :Evaluation
+] , [
+    a owl:Restriction ;
+    owl:onProperty :evaluates ;
+    owl:someValuesFrom :Employee
+] .
+
+:Employee rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasEvaluation ;
+    owl:someValuesFrom :Evaluation
+] .
+@prefix : <http://example.org/articlecollection#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:ArticleCollection a owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of published articles" .
+
+:Book a owl:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "A book containing a collection of articles" ;
+    rdfs:subClassOf :ArticleCollection .
+
+:CD a owl:Class ;
+    rdfs:label "CD" ;
+    rdfs:comment "A CD containing a collection of articles" ;
+    rdfs:subClassOf :ArticleCollection .
+
+:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A published article" .
+
+:contains a owl:ObjectProperty ;
+    rdfs:label "contains" ;
+    rdfs:comment "Relates an article collection to an article it contains" ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range :Article .
+
+:hasArticle a owl:ObjectProperty ;
+    rdfs:label "has article" ;
+    rdfs:comment "Relates an article to the collection it belongs to" ;
+    rdfs:domain :Article ;
+    rdfs:range :ArticleCollection ;
+    owl:inverseOf :contains .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :contains ;
+    owl:someValuesFrom :Article
+] .
+
+:CD rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :contains ;
+    owl:someValuesFrom :Article
+] .
+
+:Article rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasArticle ;
+    owl:someValuesFrom :ArticleCollection
+] .
+
+:Page a owl:Class ;
+    rdfs:label "Page" ;
+    rdfs:comment "A page in a book" .
+
+:hasPage a owl:ObjectProperty ;
+    rdfs:label "has page" ;
+    rdfs:comment "Relates a book to one of its pages" ;
+    rdfs:domain :Book ;
+    rdfs:range :Page .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPage ;
+    owl:someValuesFrom :Page
+] .
+
+:Page rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPage ;
+    owl:inverseOf :hasPage ;
+    owl:someValuesFrom :Book
+] .
+
+:pageNumber a owl:DatatypeProperty ;
+    rdfs:label "page number" ;
+    rdfs:comment "The number of pages in a book" ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:integer .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :pageNumber ;
+    owl:someValuesFrom xsd:integer
+] .
+@prefix : <http://example.org/articlecollection#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:ArticleCollection a owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of published articles" .
+
+:Book a owl:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "A book containing a collection of articles" ;
+    rdfs:subClassOf :ArticleCollection .
+
+:CD a owl:Class ;
+    rdfs:label "CD" ;
+    rdfs:comment "A CD containing a collection of articles" ;
+    rdfs:subClassOf :ArticleCollection .
+
+:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A published article" .
+
+:contains a owl:ObjectProperty ;
+    rdfs:label "contains" ;
+    rdfs:comment "Relates an article collection to an article it contains" ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range :Article .
+
+:hasArticle a owl:ObjectProperty ;
+    rdfs:label "has article" ;
+    rdfs:comment "Relates an article to the collection it belongs to" ;
+    rdfs:domain :Article ;
+    rdfs:range :ArticleCollection ;
+    owl:inverseOf :contains .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :contains ;
+    owl:someValuesFrom :Article
+] .
+
+:CD rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :contains ;
+    owl:someValuesFrom :Article
+] .
+
+:Article rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasArticle ;
+    owl:someValuesFrom :ArticleCollection
+] .
+
+:Page a owl:Class ;
+    rdfs:label "Page" ;
+    rdfs:comment "A page in a book" .
+
+:hasPage a owl:ObjectProperty ;
+    rdfs:label "has page" ;
+    rdfs:comment "Relates a book to one of its pages" ;
+    rdfs:domain :Book ;
+    rdfs:range :Page .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPage ;
+    owl:someValuesFrom :Page
+] .
+
+:Page rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPage ;
+    owl:inverseOf :hasPage ;
+    owl:someValuesFrom :Book
+] .
+
+:pageNumber a owl:DatatypeProperty ;
+    rdfs:label "page number" ;
+    rdfs:comment "The number of pages in a book" ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:integer .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :pageNumber ;
+    owl:someValuesFrom xsd:integer
+] .
+@prefix : <http://example.org/articlecollection#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:ArticleCollection a owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of published articles" .
+
+:Book a owl:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "A book containing a collection of articles" ;
+    rdfs:subClassOf :ArticleCollection .
+
+:CD a owl:Class ;
+    rdfs:label "CD" ;
+    rdfs:comment "A CD containing a collection of articles" ;
+    rdfs:subClassOf :ArticleCollection .
+
+:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A published article" .
+
+:contains a owl:ObjectProperty ;
+    rdfs:label "contains" ;
+    rdfs:comment "Relates an article collection to an article it contains" ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range :Article .
+
+:hasArticle a owl:ObjectProperty ;
+    rdfs:label "has article" ;
+    rdfs:comment "Relates an article to the collection it belongs to" ;
+    rdfs:domain :Article ;
+    rdfs:range :ArticleCollection ;
+    owl:inverseOf :contains .
+
+:PublicationDate a owl:Class ;
+    rdfs:label "Publication Date" ;
+    rdfs:comment "The date of publication of an article collection" .
+
+:hasPublicationDate a owl:DatatypeProperty ;
+    rdfs:label "has publication date" ;
+    rdfs:comment "Relates an article collection to its publication date" ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range xsd:date .
+
+:Book rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPublicationDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:CD rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPublicationDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:ArticleCollection rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPublicationDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:hasPublicationDate rdfs:subPropertyOf [
+    a owl:Restriction ;
+    owl:onProperty :hasPublicationDate ;
+    owl:someValuesFrom xsd:date
+] .
+@prefix : <http://example.org/seminar#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A meeting for discussion or training" .
+
+:Time a owl:Class ;
+    rdfs:label "Time" ;
+    rdfs:comment "A point in time" .
+
+:takesPlaceAt a owl:ObjectProperty ;
+    rdfs:label "takes place at" ;
+    rdfs:comment "Relates a seminar to the time it takes place" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Time .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :takesPlaceAt ;
+    owl:someValuesFrom :Time
+] .
+
+:hasSeminar a owl:ObjectProperty ;
+    rdfs:label "has seminar" ;
+    rdfs:comment "Relates a time to a seminar that takes place at that time" ;
+    rdfs:domain :Time ;
+    rdfs:range :Seminar ;
+    owl:inverseOf :takesPlaceAt .
+
+:Time rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasSeminar ;
+    owl:someValuesFrom :Seminar
+] .
+
+:SeminarTime a owl:Class ;
+    rdfs:label "Seminar Time" ;
+    rdfs:comment "A time at which a seminar takes place" ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :takesPlaceAt ;
+        owl:someValuesFrom :Time
+    ] , [
+        a owl:Restriction ;
+        owl:onProperty :hasSeminar ;
+        owl:someValuesFrom :Seminar
+    ] .
+
+:hasDate a owl:DatatypeProperty ;
+    rdfs:label "has date" ;
+    rdfs:comment "The date of a seminar" ;
+    rdfs:domain :Seminar ;
+    rdfs:range xsd:date .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasDate ;
+    owl:someValuesFrom xsd:date
+] .
+@prefix : <http://example.org/seminararticles#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A meeting for discussion or training" .
+
+:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A published article" .
+
+:SeminarArticle a owl:Class ;
+    rdfs:label "Seminar Article" ;
+    rdfs:comment "An article presented in a seminar" ;
+    rdfs:subClassOf :Article ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :presentedIn ;
+        owl:someValuesFrom :Seminar
+    ] .
+
+:presentedIn a owl:ObjectProperty ;
+    rdfs:label "presented in" ;
+    rdfs:comment "Relates an article to the seminar it is presented in" ;
+    rdfs:domain :Article ;
+    rdfs:range :Seminar ;
+    owl:inverseOf :presents .
+
+:presents a owl:ObjectProperty ;
+    rdfs:label "presents" ;
+    rdfs:comment "Relates a seminar to an article it presents" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Article .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :presents ;
+    owl:someValuesFrom :Article
+] .
+
+:Article rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :presentedIn ;
+    owl:someValuesFrom :Seminar
+] .
+
+:hasDate a owl:DatatypeProperty ;
+    rdfs:label "has date" ;
+    rdfs:comment "The date of a seminar" ;
+    rdfs:domain :Seminar ;
+    rdfs:range xsd:date .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:hasArticleTitle a owl:DatatypeProperty ;
+    rdfs:label "has article title" ;
+    rdfs:comment "The title of an article" ;
+    rdfs:domain :Article ;
+    rdfs:range xsd:string .
+
+:Article rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasArticleTitle ;
+    owl:someValuesFrom xsd:string
+] .
+
+:hasSeminarTitle a owl:DatatypeProperty ;
+    rdfs:label "has seminar title" ;
+    rdfs:comment "The title of a seminar" ;
+    rdfs:domain :Seminar ;
+    rdfs:range xsd:string .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasSeminarTitle ;
+    owl:someValuesFrom xsd:string
+] .
+@prefix : <http://example.org/seminar#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A meeting for discussion or training" .
+
+:Location a owl:Class ;
+    rdfs:label "Location" ;
+    rdfs:comment "A place where a seminar takes place" .
+
+:takesPlaceAt a owl:ObjectProperty ;
+    rdfs:label "takes place at" ;
+    rdfs:comment "Relates a seminar to the location it takes place" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Location .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :takesPlaceAt ;
+    owl:someValuesFrom :Location
+] .
+
+:hasSeminar a owl:ObjectProperty ;
+    rdfs:label "has seminar" ;
+    rdfs:comment "Relates a location to a seminar that takes place at that location" ;
+    rdfs:domain :Location ;
+    rdfs:range :Seminar ;
+    owl:inverseOf :takesPlaceAt .
+
+:Location rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasSeminar ;
+    owl:someValuesFrom :Seminar
+] .
+
+:SeminarLocation a owl:Class ;
+    rdfs:label "Seminar Location" ;
+    rdfs:comment "A location where a seminar takes place" ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty :takesPlaceAt ;
+        owl:someValuesFrom :Location
+    ] , [
+        a owl:Restriction ;
+        owl:onProperty :hasSeminar ;
+        owl:someValuesFrom :Seminar
+    ] .
+
+:City a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A city where a seminar takes place" ;
+    rdfs:subClassOf :Location .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :takesPlaceAt ;
+    owl:someValuesFrom :City
+] .
+
+:hasCity a owl:ObjectProperty ;
+    rdfs:label "has city" ;
+    rdfs:comment "Relates a seminar to the city it takes place" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :City ;
+    rdfs:subPropertyOf :takesPlaceAt .
+
+:City rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasCity ;
+    owl:inverseOf :hasCity ;
+    owl:someValuesFrom :Seminar
+] .
+
+:Hospital a owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A hospital where a seminar takes place" ;
+    rdfs:subClassOf :Location .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :takesPlaceAt ;
+    owl:someValuesFrom :Hospital
+] .
+
+:hasHospital a owl:ObjectProperty ;
+    rdfs:label "has hospital" ;
+    rdfs:comment "Relates a seminar to the hospital it takes place" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Hospital ;
+    rdfs:subPropertyOf :takesPlaceAt .
+
+:Hospital rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasHospital ;
+    owl:inverseOf :hasHospital ;
+    owl:someValuesFrom :Seminar
+] .
+@prefix : <http://example.org/seminararticles#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A meeting for discussion or training" .
+
+:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A published article" .
+
+:SeminarArticle a owl:Class ;
+    rdfs:label "Seminar Article" ;
+    rdfs:comment "An article presented in a seminar" ;
+    rdfs:subClassOf :Article ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :presentedIn ;
+        owl:someValuesFrom :Seminar
+    ] .
+
+:presentedIn a owl:ObjectProperty ;
+    rdfs:label "presented in" ;
+    rdfs:comment "Relates an article to the seminar it is presented in" ;
+    rdfs:domain :Article ;
+    rdfs:range :Seminar ;
+    owl:inverseOf :presents .
+
+:presents a owl:ObjectProperty ;
+    rdfs:label "presents" ;
+    rdfs:comment "Relates a seminar to an article it presents" ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Article .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :presents ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+:Article rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :presentedIn ;
+    owl:someValuesFrom :Seminar
+] .
+
+:hasDate a owl:DatatypeProperty ;
+    rdfs:label "has date" ;
+    rdfs:comment "The date of a seminar" ;
+    rdfs:domain :Seminar ;
+    rdfs:range xsd:date .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:hasArticleTitle a owl:DatatypeProperty ;
+    rdfs:label "has article title" ;
+    rdfs:comment "The title of an article" ;
+    rdfs:domain :Article ;
+    rdfs:range xsd:string .
+
+:Article rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasArticleTitle ;
+    owl:someValuesFrom xsd:string
+] .
+
+:hasSeminarTitle a owl:DatatypeProperty ;
+    rdfs:label "has seminar title" ;
+    rdfs:comment "The title of a seminar" ;
+    rdfs:domain :Seminar ;
+    rdfs:range xsd:string .
+
+:Seminar rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasSeminarTitle ;
+    owl:someValuesFrom xsd:string
+] .

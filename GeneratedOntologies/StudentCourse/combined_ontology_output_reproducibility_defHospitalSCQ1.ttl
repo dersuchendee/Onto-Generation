@@ -1,0 +1,1291 @@
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Person
+
+:Person rdf:type owl:Class ;
+        rdfs:label "Person"@en ;
+        rdfs:comment "A human being."@en .
+
+# Class: :FieldOfStudy
+
+:FieldOfStudy rdf:type owl:Class ;
+              rdfs:label "Field of Study"@en ;
+              rdfs:comment "An academic discipline or field of study."@en .
+
+# Class: :MedicalField
+
+:MedicalField rdf:type owl:Class ;
+              rdfs:label "Medical Field"@en ;
+              rdfs:comment "The field of medical sciences."@en ;
+              rdfs:subClassOf :FieldOfStudy .
+
+# Class: :Degree
+
+:Degree rdf:type owl:Class ;
+        rdfs:label "Degree"@en ;
+        rdfs:comment "An academic degree or professional qualification."@en ;
+        rdfs:subClassOf
+          [ rdf:type owl:Restriction ;
+            owl:onProperty :hasFieldOfStudy ;
+            owl:someValuesFrom :FieldOfStudy
+          ] .
+
+# Class: :MedicalDegree
+
+:MedicalDegree rdf:type owl:Class ;
+               rdfs:label "Medical Degree"@en ;
+               rdfs:comment "A degree related to the medical field."@en ;
+               rdfs:subClassOf :Degree ,
+                  [ rdf:type owl:Restriction ;
+                    owl:onProperty :hasFieldOfStudy ;
+                    owl:someValuesFrom :MedicalField
+                  ] .
+
+### Object Properties
+
+# Object Property: :hasDegree
+
+:hasDegree rdf:type owl:ObjectProperty ;
+           rdfs:label "has degree"@en ;
+           rdfs:comment "Relates a person to a degree they have obtained."@en ;
+           rdfs:domain :Person ;
+           rdfs:range :Degree .
+
+# Object Property: :hasFieldOfStudy
+
+:hasFieldOfStudy rdf:type owl:ObjectProperty ;
+                 rdfs:label "has field of study"@en ;
+                 rdfs:comment "Specifies the field of study of the degree."@en ;
+                 rdfs:domain :Degree ;
+                 rdfs:range :FieldOfStudy .
+
+### Datatype Properties
+
+# Datatype Property: :degreeName
+
+:degreeName rdf:type owl:DatatypeProperty ;
+            rdfs:label "degree name"@en ;
+            rdfs:comment "The name or title of the degree."@en ;
+            rdfs:domain :Degree ;
+            rdfs:range xsd:string .
+
+# Datatype Property: :degreeDate
+
+:degreeDate rdf:type owl:DatatypeProperty ;
+            rdfs:label "degree date"@en ;
+            rdfs:comment "The date when the degree was obtained."@en ;
+            rdfs:domain :Degree ;
+            rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Person
+
+:Person rdf:type owl:Class ;
+        rdfs:label "Person"@en ;
+        rdfs:comment "An individual human being."@en ;
+        rdfs:subClassOf
+          [ rdf:type owl:Restriction ;
+            owl:onProperty :participatesIn ;
+            owl:someValuesFrom :StudyEvent
+          ] .
+
+# Class: :Degree
+
+:Degree rdf:type owl:Class ;
+        rdfs:label "Degree"@en ;
+        rdfs:comment "An academic degree or professional qualification."@en .
+
+# Class: :StudyEvent
+
+:StudyEvent rdf:type owl:Class ;
+            rdfs:label "Study Event"@en ;
+            rdfs:comment "An event where a person studies for a degree during a time interval."@en ;
+            rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :hasParticipant ;
+                owl:someValuesFrom :Person
+              ] ,
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :hasDegree ;
+                owl:someValuesFrom :Degree
+              ] ,
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :hasTimeInterval ;
+                owl:someValuesFrom :TimeInterval
+              ] .
+
+# Class: :TimeInterval
+
+:TimeInterval rdf:type owl:Class ;
+              rdfs:label "Time Interval"@en ;
+              rdfs:comment "A duration of time with a start and end date."@en .
+
+### Object Properties
+
+# Object Property: :participatesIn
+
+:participatesIn rdf:type owl:ObjectProperty ;
+                rdfs:label "participates in"@en ;
+                rdfs:comment "Relates a person to an event they participate in."@en ;
+                rdfs:domain :Person ;
+                rdfs:range :StudyEvent ;
+                owl:inverseOf :hasParticipant .
+
+# Object Property: :hasParticipant
+
+:hasParticipant rdf:type owl:ObjectProperty ;
+                rdfs:label "has participant"@en ;
+                rdfs:comment "Relates an event to its participant."@en ;
+                rdfs:domain :StudyEvent ;
+                rdfs:range :Person .
+
+# Object Property: :hasDegree
+
+:hasDegree rdf:type owl:ObjectProperty ;
+           rdfs:label "has degree"@en ;
+           rdfs:comment "Relates a study event to the degree being pursued."@en ;
+           rdfs:domain :StudyEvent ;
+           rdfs:range :Degree .
+
+# Object Property: :hasTimeInterval
+
+:hasTimeInterval rdf:type owl:ObjectProperty ;
+                 rdfs:label "has time interval"@en ;
+                 rdfs:comment "Relates an event to its time interval."@en ;
+                 rdfs:domain :StudyEvent ;
+                 rdfs:range :TimeInterval .
+
+### Datatype Properties
+
+# Datatype Property: :startDate
+
+:startDate rdf:type owl:DatatypeProperty ;
+           rdfs:label "start date"@en ;
+           rdfs:comment "The starting date of a time interval."@en ;
+           rdfs:domain :TimeInterval ;
+           rdfs:range xsd:dateTime .
+
+# Datatype Property: :endDate
+
+:endDate rdf:type owl:DatatypeProperty ;
+         rdfs:label "end date"@en ;
+         rdfs:comment "The ending date of a time interval."@en ;
+         rdfs:domain :TimeInterval ;
+         rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Person
+
+:Person rdf:type owl:Class ;
+        rdfs:label "Person"@en ;
+        rdfs:comment "An individual human being."@en .
+
+# Class: :Organization
+
+:Organization rdf:type owl:Class ;
+              rdfs:label "Organization"@en ;
+              rdfs:comment "An entity such as a company or institution that has a collective goal."@en .
+
+# Class: :Hospital
+
+:Hospital rdf:type owl:Class ;
+          rdfs:label "Hospital"@en ;
+          rdfs:comment "A health care institution providing patient treatment with specialized medical staff and equipment."@en ;
+          rdfs:subClassOf :Organization .
+
+# Class: :Employment
+
+:Employment rdf:type owl:Class ;
+            rdfs:label "Employment"@en ;
+            rdfs:comment "An engagement of a person in work at an organization starting from a specific date."@en ;
+            rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :hasEmployee ;
+                owl:someValuesFrom :Person
+              ] ,
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :hasEmployer ;
+                owl:someValuesFrom :Organization
+              ] ,
+              [ rdf:type owl:Restriction ;
+                owl:onProperty :employmentStartDate ;
+                owl:someValuesFrom xsd:dateTime
+              ] .
+
+### Object Properties
+
+# Object Property: :hasEmployee
+
+:hasEmployee rdf:type owl:ObjectProperty ;
+             rdfs:label "has employee"@en ;
+             rdfs:comment "Relates an employment to the person who is employed."@en ;
+             rdfs:domain :Employment ;
+             rdfs:range :Person .
+
+# Object Property: :hasEmployer
+
+:hasEmployer rdf:type owl:ObjectProperty ;
+             rdfs:label "has employer"@en ;
+             rdfs:comment "Relates an employment to the organization that employs."@en ;
+             rdfs:domain :Employment ;
+             rdfs:range :Organization .
+
+### Datatype Properties
+
+# Datatype Property: :employmentStartDate
+
+:employmentStartDate rdf:type owl:DatatypeProperty ;
+                     rdfs:label "employment start date"@en ;
+                     rdfs:comment "The date when the employment began."@en ;
+                     rdfs:domain :Employment ;
+                     rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Hospital
+
+:Hospital rdf:type owl:Class ;
+          rdfs:label "Hospital"@en ;
+          rdfs:comment "A health care institution providing patient treatment with specialized medical staff and equipment."@en ;
+          rdfs:subClassOf :Organization ,
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :isLocatedIn ;
+              owl:someValuesFrom :City
+            ] .
+
+# Class: :Organization
+
+:Organization rdf:type owl:Class ;
+              rdfs:label "Organization"@en ;
+              rdfs:comment "An entity such as a company or institution that has a collective goal."@en .
+
+# Class: :City
+
+:City rdf:type owl:Class ;
+      rdfs:label "City"@en ;
+      rdfs:comment "A large and permanent human settlement."@en .
+
+### Object Properties
+
+# Object Property: :isLocatedIn
+
+:isLocatedIn rdf:type owl:ObjectProperty ;
+             rdfs:label "is located in"@en ;
+             rdfs:comment "Relates an organization to the city it is located in."@en ;
+             rdfs:domain :Organization ;
+             rdfs:range :City .
+
+# Object Property: :hasPart
+
+:hasPart rdf:type owl:ObjectProperty ,
+                 owl:TransitiveProperty ;
+         rdfs:label "has part"@en ;
+         rdfs:comment "A transitive relation expressing parthood between any entities."@en ;
+         rdfs:domain owl:Thing ;
+         rdfs:range owl:Thing ;
+         owl:inverseOf :isPartOf .
+
+# Object Property: :isPartOf
+
+:isPartOf rdf:type owl:ObjectProperty ,
+                  owl:TransitiveProperty ;
+          rdfs:label "is part of"@en ;
+          rdfs:comment "A transitive relation expressing parthood between any entities."@en ;
+          rdfs:domain owl:Thing ;
+          rdfs:range owl:Thing ;
+          owl:inverseOf :hasPart .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Country
+
+:Country rdf:type owl:Class ;
+         rdfs:label "Country"@en ;
+         rdfs:comment "An independent nation or state."@en .
+
+# Class: :City
+
+:City rdf:type owl:Class ;
+      rdfs:label "City"@en ;
+      rdfs:comment "A large and permanent human settlement within a country."@en .
+
+### Object Properties
+
+# Object Property: :isLocatedIn
+
+:isLocatedIn rdf:type owl:ObjectProperty ;
+             rdfs:label "is located in"@en ;
+             rdfs:comment "Indicates the country in which a city is located."@en ;
+             rdfs:domain :City ;
+             rdfs:range :Country ;
+             rdfs:subPropertyOf :isPartOf .
+
+# Object Property: :hasCity
+
+:hasCity rdf:type owl:ObjectProperty ;
+         rdfs:label "has city"@en ;
+         rdfs:comment "Relates a country to the cities located within it."@en ;
+         rdfs:domain :Country ;
+         rdfs:range :City ;
+         rdfs:subPropertyOf :hasPart ;
+         owl:inverseOf :isLocatedIn .
+
+# Object Property: :hasPart
+
+:hasPart rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+         rdfs:label "has part"@en ;
+         rdfs:comment "A transitive relation expressing parthood between any entities."@en ;
+         rdfs:domain owl:Thing ;
+         rdfs:range owl:Thing ;
+         owl:inverseOf :isPartOf .
+
+# Object Property: :isPartOf
+
+:isPartOf rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+          rdfs:label "is part of"@en ;
+          rdfs:comment "A transitive relation expressing parthood between any entities."@en ;
+          rdfs:domain owl:Thing ;
+          rdfs:range owl:Thing ;
+          owl:inverseOf :hasPart .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Person
+
+:Person rdf:type owl:Class ;
+        rdfs:label "Person"@en ;
+        rdfs:comment "An individual human being."@en .
+
+# Class: :Organization
+
+:Organization rdf:type owl:Class ;
+              rdfs:label "Organization"@en ;
+              rdfs:comment "An entity such as a company or institution with a collective purpose."@en .
+
+# Class: :Union
+
+:Union rdf:type owl:Class ;
+        rdfs:label "Union"@en ;
+        rdfs:comment "An organization representing a group of workers."@en ;
+        rdfs:subClassOf :Organization .
+
+# Class: :TimeInterval
+
+:TimeInterval rdf:type owl:Class ;
+              rdfs:label "Time Interval"@en ;
+              rdfs:comment "A duration of time with a start and end date."@en .
+
+# Class: :UnionMembership
+
+:UnionMembership rdf:type owl:Class ;
+                 rdfs:label "Union Membership"@en ;
+                 rdfs:comment "An engagement of a person as a member of a union during a time interval."@en ;
+                 rdfs:subClassOf
+                   [ rdf:type owl:Restriction ;
+                     owl:onProperty :hasMember ;
+                     owl:someValuesFrom :Person
+                   ] ,
+                   [ rdf:type owl:Restriction ;
+                     owl:onProperty :hasUnion ;
+                     owl:someValuesFrom :Union
+                   ] ,
+                   [ rdf:type owl:Restriction ;
+                     owl:onProperty :hasTimeInterval ;
+                     owl:someValuesFrom :TimeInterval
+                   ] .
+
+### Object Properties
+
+# Object Property: :hasMember
+
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:label "has member"@en ;
+           rdfs:comment "Relates a union membership to the person who is a member."@en ;
+           rdfs:domain :UnionMembership ;
+           rdfs:range :Person ;
+           owl:inverseOf :participatesIn .
+
+# Object Property: :hasUnion
+
+:hasUnion rdf:type owl:ObjectProperty ;
+          rdfs:label "has union"@en ;
+          rdfs:comment "Relates a union membership to the union involved."@en ;
+          rdfs:domain :UnionMembership ;
+          rdfs:range :Union ;
+          owl:inverseOf :hasMembership .
+
+# Object Property: :hasTimeInterval
+
+:hasTimeInterval rdf:type owl:ObjectProperty ;
+                 rdfs:label "has time interval"@en ;
+                 rdfs:comment "Relates an event to its time interval."@en ;
+                 rdfs:domain :UnionMembership ;
+                 rdfs:range :TimeInterval .
+
+# Object Property: :participatesIn
+
+:participatesIn rdf:type owl:ObjectProperty ;
+                rdfs:label "participates in"@en ;
+                rdfs:comment "Relates a person to a union membership they participate in."@en ;
+                rdfs:domain :Person ;
+                rdfs:range :UnionMembership .
+
+# Object Property: :hasMembership
+
+:hasMembership rdf:type owl:ObjectProperty ;
+               rdfs:label "has membership"@en ;
+               rdfs:comment "Relates a union to its memberships."@en ;
+               rdfs:domain :Union ;
+               rdfs:range :UnionMembership .
+
+### Datatype Properties
+
+# Datatype Property: :startDate
+
+:startDate rdf:type owl:DatatypeProperty ;
+           rdfs:label "start date"@en ;
+           rdfs:comment "The starting date of a time interval."@en ;
+           rdfs:domain :TimeInterval ;
+           rdfs:range xsd:dateTime .
+
+# Datatype Property: :endDate
+
+:endDate rdf:type owl:DatatypeProperty ;
+         rdfs:label "end date"@en ;
+         rdfs:comment "The ending date of a time interval."@en ;
+         rdfs:domain :TimeInterval ;
+         rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Agent
+
+:Agent rdf:type owl:Class ;
+    rdfs:label "Agent"@en ;
+    rdfs:comment "An agentive object, either physical or social."@en .
+
+# Class: :Person
+
+:Person rdf:type owl:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "An individual human being."@en ;
+    rdfs:subClassOf :Agent .
+
+# Class: :Role
+
+:Role rdf:type owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A role that an agent can play."@en .
+
+# Class: :UnionRole
+
+:UnionRole rdf:type owl:Class ;
+    rdfs:label "Union Role"@en ;
+    rdfs:comment "A role within a union group."@en ;
+    rdfs:subClassOf :Role .
+
+# Class: :Union
+
+:Union rdf:type owl:Class ;
+    rdfs:label "Union"@en ;
+    rdfs:comment "An organization representing a group of workers."@en .
+
+# Class: :TimeInterval
+
+:TimeInterval rdf:type owl:Class ;
+    rdfs:label "Time Interval"@en ;
+    rdfs:comment "A period of time with a start and end date."@en .
+
+# Class: :UnionRoleAssignment
+
+:UnionRoleAssignment rdf:type owl:Class ;
+    rdfs:label "Union Role Assignment"@en ;
+    rdfs:comment "An assignment of a union role to an agent within a union, at a certain time."@en ;
+    rdfs:subClassOf
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasAgent ;
+          owl:someValuesFrom :Agent
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasRole ;
+          owl:someValuesFrom :UnionRole
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :inUnion ;
+          owl:someValuesFrom :Union
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :atTime ;
+          owl:someValuesFrom :TimeInterval
+        ] .
+
+### Object Properties
+
+# Object Property: :hasAgent
+
+:hasAgent rdf:type owl:ObjectProperty ;
+    rdfs:label "has agent"@en ;
+    rdfs:comment "Relates a union role assignment to the agent playing the role."@en ;
+    rdfs:domain :UnionRoleAssignment ;
+    rdfs:range :Agent .
+
+# Object Property: :hasRole
+
+:hasRole rdf:type owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:comment "Relates a union role assignment to the role assigned."@en ;
+    rdfs:domain :UnionRoleAssignment ;
+    rdfs:range :UnionRole .
+
+# Object Property: :inUnion
+
+:inUnion rdf:type owl:ObjectProperty ;
+    rdfs:label "in union"@en ;
+    rdfs:comment "Relates a union role assignment to the union."@en ;
+    rdfs:domain :UnionRoleAssignment ;
+    rdfs:range :Union .
+
+# Object Property: :atTime
+
+:atTime rdf:type owl:ObjectProperty ;
+    rdfs:label "at time"@en ;
+    rdfs:comment "Relates a union role assignment to the time interval."@en ;
+    rdfs:domain :UnionRoleAssignment ;
+    rdfs:range :TimeInterval .
+
+### Datatype Properties
+
+# Datatype Property: :startDate
+
+:startDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
+    rdfs:comment "The start date of a time interval."@en ;
+    rdfs:domain :TimeInterval ;
+    rdfs:range xsd:dateTime .
+
+# Datatype Property: :endDate
+
+:endDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "end date"@en ;
+    rdfs:comment "The end date of a time interval."@en ;
+    rdfs:domain :TimeInterval ;
+    rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Person
+
+:Person rdf:type owl:Class ;
+        rdfs:label "Person"@en ;
+        rdfs:comment "An individual human being."@en .
+
+# Class: :Employee
+
+:Employee rdf:type owl:Class ;
+          rdfs:label "Employee"@en ;
+          rdfs:comment "A person employed at an organization."@en ;
+          rdfs:subClassOf :Person .
+
+# Class: :Doctor
+
+:Doctor rdf:type owl:Class ;
+        rdfs:label "Doctor"@en ;
+        rdfs:comment "A medical professional qualified to practice medicine."@en ;
+        rdfs:subClassOf :Person .
+
+# Class: :SeniorDoctor
+
+:SeniorDoctor rdf:type owl:Class ;
+              rdfs:label "Senior Doctor"@en ;
+              rdfs:comment "A doctor with seniority or leadership responsibilities."@en ;
+              rdfs:subClassOf :Doctor .
+
+# Class: :EvaluationStatement
+
+:EvaluationStatement rdf:type owl:Class ;
+                     rdfs:label "Evaluation Statement"@en ;
+                     rdfs:comment "A written statement evaluating an employee."@en ;
+                     rdfs:subClassOf :Document ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :authoredBy ;
+                          owl:allValuesFrom :Doctor ;
+                          owl:cardinality "1"^^xsd:nonNegativeInteger
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :aboutEmployee ;
+                          owl:allValuesFrom :Employee ;
+                          owl:cardinality "1"^^xsd:nonNegativeInteger
+                        ] .
+
+# Class: :Document
+
+:Document rdf:type owl:Class ;
+          rdfs:label "Document"@en ;
+          rdfs:comment "A record of information in any medium."@en .
+
+### Object Properties
+
+# Object Property: :authoredBy
+
+:authoredBy rdf:type owl:ObjectProperty ;
+            rdfs:label "authored by"@en ;
+            rdfs:comment "Relates a document to the person who authored it."@en ;
+            rdfs:domain :Document ;
+            rdfs:range :Person .
+
+# Object Property: :aboutEmployee
+
+:aboutEmployee rdf:type owl:ObjectProperty ;
+               rdfs:label "about employee"@en ;
+               rdfs:comment "Relates a document to the employee it is about."@en ;
+               rdfs:domain :Document ;
+               rdfs:range :Employee .
+
+# Object Property: :evaluates
+
+:evaluates rdf:type owl:ObjectProperty ;
+           rdfs:label "evaluates"@en ;
+           rdfs:comment "A doctor evaluates an employee."@en ;
+           rdfs:domain :Doctor ;
+           rdfs:range :Employee ;
+           owl:inverseOf :isEvaluatedBy .
+
+# Object Property: :isEvaluatedBy
+
+:isEvaluatedBy rdf:type owl:ObjectProperty ;
+               rdfs:label "is evaluated by"@en ;
+               rdfs:comment "An employee is evaluated by a doctor."@en ;
+               rdfs:domain :Employee ;
+               rdfs:range :Doctor ;
+               owl:inverseOf :evaluates .
+
+### Datatype Properties
+
+# Datatype Property: :statementDate
+
+:statementDate rdf:type owl:DatatypeProperty ;
+               rdfs:label "statement date"@en ;
+               rdfs:comment "The date when the evaluation statement was written."@en ;
+               rdfs:domain :EvaluationStatement ;
+               rdfs:range xsd:dateTime .
+
+# Datatype Property: :statementText
+
+:statementText rdf:type owl:DatatypeProperty ;
+               rdfs:label "statement text"@en ;
+               rdfs:comment "The textual content of the evaluation statement."@en ;
+               rdfs:domain :EvaluationStatement ;
+               rdfs:range xsd:string .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Article
+
+:Article rdf:type owl:Class ;
+         rdfs:label "Article"@en ;
+         rdfs:comment "A written composition on a particular subject, typically appearing in a journal or collection."@en .
+
+# Class: :Collection
+
+:Collection rdf:type owl:Class ;
+            rdfs:label "Collection"@en ;
+            rdfs:comment "Any container for entities that share one or more common properties. E.g., 'stone objects', 'the nurses', 'the Louvre Egyptian collection'. A collection is a first-order entity, not a logical class."@en .
+
+# Class: :ArticleCollection
+
+:ArticleCollection rdf:type owl:Class ;
+                   rdfs:label "Article Collection"@en ;
+                   rdfs:comment "A collection of articles."@en ;
+                   rdfs:subClassOf :Collection ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasMember ;
+                         owl:allValuesFrom :Article
+                       ] .
+
+# Class: :Book
+
+:Book rdf:type owl:Class ;
+      rdfs:label "Book"@en ;
+      rdfs:comment "A written or printed work consisting of pages bound together, typically containing a collection of articles."@en ;
+      rdfs:subClassOf :ArticleCollection .
+
+# Class: :CD
+
+:CD rdf:type owl:Class ;
+    rdfs:label "CD"@en ;
+    rdfs:comment "A compact disc used to store digital data, often containing a collection of articles in electronic form."@en ;
+    rdfs:subClassOf :ArticleCollection .
+
+### Object Properties
+
+# Object Property: :hasMember
+
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:label "has member"@en ;
+           rdfs:comment "Relates a collection to an entity that is a member of the collection."@en ;
+           rdfs:domain :Collection ;
+           rdfs:range owl:Thing ;
+           owl:inverseOf :isMemberOf .
+
+# Object Property: :isMemberOf
+
+:isMemberOf rdf:type owl:ObjectProperty ;
+            rdfs:label "is member of"@en ;
+            rdfs:comment "Relates an entity to a collection it is a member of."@en ;
+            rdfs:domain owl:Thing ;
+            rdfs:range :Collection ;
+            owl:inverseOf :hasMember .
+
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Article
+
+:Article rdf:type owl:Class ;
+    rdfs:label "Article"@en ;
+    rdfs:comment "A written composition on a particular subject, typically appearing in a journal or collection."@en .
+
+# Class: :Collection
+
+:Collection rdf:type owl:Class ;
+    rdfs:label "Collection"@en ;
+    rdfs:comment "Any container for entities that share one or more common properties. E.g., 'stone objects', 'the nurses', 'the Louvre Egyptian collection'. A collection is a first-order entity, not a logical class."@en .
+
+# Class: :ArticleCollection
+
+:ArticleCollection rdf:type owl:Class ;
+    rdfs:label "Article Collection"@en ;
+    rdfs:comment "A collection of articles."@en ;
+    rdfs:subClassOf :Collection ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasMember ;
+          owl:allValuesFrom :Article
+        ] .
+
+# Class: :Book
+
+:Book rdf:type owl:Class ;
+    rdfs:label "Book"@en ;
+    rdfs:comment "A written or printed work consisting of pages bound together, typically containing a collection of articles."@en ;
+    rdfs:subClassOf :ArticleCollection .
+
+### Object Properties
+
+# Object Property: :hasMember
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "Relates a collection to an entity that is a member of the collection."@en ;
+    rdfs:domain :Collection ;
+    rdfs:range owl:Thing ;
+    owl:inverseOf :isMemberOf .
+
+# Object Property: :isMemberOf
+
+:isMemberOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is member of"@en ;
+    rdfs:comment "Relates an entity to a collection it is a member of."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Collection ;
+    owl:inverseOf :hasMember .
+
+### Datatype Properties
+
+# Datatype Property: :pageCount
+
+:pageCount rdf:type owl:DatatypeProperty ;
+    rdfs:label "page count"@en ;
+    rdfs:comment "The total number of pages in a book."@en ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:integer .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Publication
+
+:Publication rdf:type owl:Class ;
+    rdfs:label "Publication"@en ;
+    rdfs:comment "A work that has been published."@en ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :publicationDate ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange xsd:dateTime
+        ] .
+
+# Class: :Collection
+
+:Collection rdf:type owl:Class ;
+    rdfs:label "Collection"@en ;
+    rdfs:comment "Any container for entities that share one or more common properties."@en .
+
+# Class: :Article
+
+:Article rdf:type owl:Class ;
+    rdfs:label "Article"@en ;
+    rdfs:comment "A written composition on a particular subject, typically appearing in a journal or collection."@en .
+
+# Class: :ArticleCollection
+
+:ArticleCollection rdf:type owl:Class ;
+    rdfs:label "Article Collection"@en ;
+    rdfs:comment "A published collection of articles."@en ;
+    rdfs:subClassOf :Publication , :Collection ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasMember ;
+          owl:allValuesFrom :Article
+        ] .
+
+# Class: :Book
+
+:Book rdf:type owl:Class ;
+    rdfs:label "Book"@en ;
+    rdfs:comment "A written or printed work consisting of pages bound together, typically containing a collection of articles."@en ;
+    rdfs:subClassOf :ArticleCollection ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :pageCount ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange xsd:integer
+        ] .
+
+# Class: :CD
+
+:CD rdf:type owl:Class ;
+    rdfs:label "CD"@en ;
+    rdfs:comment "A compact disc used to store digital data, often containing a collection of articles in electronic form."@en ;
+    rdfs:subClassOf :ArticleCollection .
+
+### Object Properties
+
+# Object Property: :hasMember
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "Relates a collection to its members."@en ;
+    rdfs:domain :Collection ;
+    rdfs:range owl:Thing ;
+    owl:inverseOf :isMemberOf .
+
+# Object Property: :isMemberOf
+
+:isMemberOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is member of"@en ;
+    rdfs:comment "Relates an entity to a collection it is a member of."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Collection ;
+    owl:inverseOf :hasMember .
+
+# Object Property: :hasPart
+
+:hasPart rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:label "has part"@en ;
+    rdfs:comment "A transitive relation expressing parthood between entities."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing ;
+    owl:inverseOf :isPartOf .
+
+# Object Property: :isPartOf
+
+:isPartOf rdf:type owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:label "is part of"@en ;
+    rdfs:comment "A transitive relation expressing parthood between entities."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing ;
+    owl:inverseOf :hasPart .
+
+### Datatype Properties
+
+# Datatype Property: :publicationDate
+
+:publicationDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "publication date"@en ;
+    rdfs:comment "The date when the publication was published."@en ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:dateTime .
+
+# Datatype Property: :title
+
+:title rdf:type owl:DatatypeProperty ;
+    rdfs:label "title"@en ;
+    rdfs:comment "The title of a publication."@en ;
+    rdfs:domain :Publication ;
+    rdfs:range xsd:string .
+
+# Datatype Property: :pageCount
+
+:pageCount rdf:type owl:DatatypeProperty ;
+    rdfs:label "page count"@en ;
+    rdfs:comment "The total number of pages in a book."@en ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:integer .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Event
+
+:Event rdf:type owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "An occurrence taking place at a certain time and place."@en ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasTimeInterval ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onClass :TimeInterval
+        ] .
+
+# Class: :Seminar
+
+:Seminar rdf:type owl:Class ;
+    rdfs:label "Seminar"@en ;
+    rdfs:comment "An event where people discuss particular topics, often involving presentations."@en ;
+    rdfs:subClassOf :Event .
+
+# Class: :TimeInterval
+
+:TimeInterval rdf:type owl:Class ;
+    rdfs:label "Time Interval"@en ;
+    rdfs:comment "A duration of time with start and end dates."@en ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :startDate ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange xsd:dateTime
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :endDate ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange xsd:dateTime
+        ] .
+
+### Object Properties
+
+# Object Property: :hasTimeInterval
+
+:hasTimeInterval rdf:type owl:ObjectProperty ;
+    rdfs:label "has time interval"@en ;
+    rdfs:comment "Relates an event to its time interval."@en ;
+    rdfs:domain :Event ;
+    rdfs:range :TimeInterval .
+
+### Datatype Properties
+
+# Datatype Property: :startDate
+
+:startDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
+    rdfs:comment "The starting date of a time interval."@en ;
+    rdfs:domain :TimeInterval ;
+    rdfs:range xsd:dateTime .
+
+# Datatype Property: :endDate
+
+:endDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "end date"@en ;
+    rdfs:comment "The ending date of a time interval."@en ;
+    rdfs:domain :TimeInterval ;
+    rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Event
+
+:Event rdf:type owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "An occurrence taking place at a certain time and place."@en .
+
+# Class: :Article
+
+:Article rdf:type owl:Class ;
+    rdfs:label "Article"@en ;
+    rdfs:comment "A written composition on a particular subject, typically appearing in a journal or collection."@en .
+
+# Class: :Seminar
+
+:Seminar rdf:type owl:Class ;
+    rdfs:label "Seminar"@en ;
+    rdfs:comment "An event where articles are presented and discussed."@en ;
+    rdfs:subClassOf :Event ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasPresentedArticle ;
+          owl:someValuesFrom :Article
+        ] .
+
+### Object Properties
+
+# Object Property: :hasPresentedArticle
+
+:hasPresentedArticle rdf:type owl:ObjectProperty ;
+    rdfs:label "has presented article"@en ;
+    rdfs:comment "Relates a seminar to an article presented during the seminar."@en ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Article ;
+    owl:inverseOf :isPresentedIn .
+
+# Object Property: :isPresentedIn
+
+:isPresentedIn rdf:type owl:ObjectProperty ;
+    rdfs:label "is presented in"@en ;
+    rdfs:comment "Relates an article to a seminar where it was presented."@en ;
+    rdfs:domain :Article ;
+    rdfs:range :Seminar ;
+    owl:inverseOf :hasPresentedArticle .
+
+### Datatype Properties
+
+# Datatype Property: :title
+
+:title rdf:type owl:DatatypeProperty ;
+    rdfs:label "title"@en ;
+    rdfs:comment "The title of an article or seminar."@en ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf ( :Article :Seminar )
+                ] ;
+    rdfs:range xsd:string .
+
+# Datatype Property: :eventDate
+
+:eventDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "event date"@en ;
+    rdfs:comment "The date when an event takes place."@en ;
+    rdfs:domain :Event ;
+    rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:Event rdf:type owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "An occurrence happening at a specific time and place."@en ;
+    rdfs:subClassOf 
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :takesPlaceAt ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onClass :Place
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :eventDate ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onDataRange xsd:dateTime
+        ] .
+
+:Seminar rdf:type owl:Class ;
+    rdfs:label "Seminar"@en ;
+    rdfs:comment "An event where participants gather to discuss topics, often involving presentations."@en ;
+    rdfs:subClassOf :Event .
+
+:Organization rdf:type owl:Class ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "An entity such as a company or institution with a collective purpose."@en .
+
+:Hospital rdf:type owl:Class ;
+    rdfs:label "Hospital"@en ;
+    rdfs:comment "A healthcare institution providing patient treatment with specialized medical staff and equipment."@en ;
+    rdfs:subClassOf :Organization ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isLocatedIn ;
+          owl:someValuesFrom :Place
+        ] .
+
+:Place rdf:type owl:Class ;
+    rdfs:label "Place"@en ;
+    rdfs:comment "A physical location or area."@en .
+
+:City rdf:type owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:comment "A large and permanent human settlement."@en ;
+    rdfs:subClassOf :Place .
+
+### Object Properties
+
+:takesPlaceAt rdf:type owl:ObjectProperty ;
+    rdfs:label "takes place at"@en ;
+    rdfs:comment "Relates an event to the place where it occurs."@en ;
+    rdfs:domain :Event ;
+    rdfs:range :Place .
+
+:isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:label "is located in"@en ;
+    rdfs:comment "Relates an entity to a containing place."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Place .
+
+### Datatype Properties
+
+:eventDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "event date"@en ;
+    rdfs:comment "The date when an event takes place."@en ;
+    rdfs:domain :Event ;
+    rdfs:range xsd:dateTime .
+
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+# Class: :Event
+
+:Event rdf:type owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "An occurrence happening at a specific time and place."@en .
+
+# Class: :Article
+
+:Article rdf:type owl:Class ;
+    rdfs:label "Article"@en ;
+    rdfs:comment "A written composition on a particular subject."@en .
+
+# Class: :Seminar
+
+:Seminar rdf:type owl:Class ;
+    rdfs:label "Seminar"@en ;
+    rdfs:comment "An event where articles are presented and discussed."@en ;
+    rdfs:subClassOf :Event ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasPresentedArticle ;
+          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+          owl:onClass :Article
+        ] .
+
+### Object Properties
+
+# Object Property: :hasPresentedArticle
+
+:hasPresentedArticle rdf:type owl:ObjectProperty ;
+    rdfs:label "has presented article"@en ;
+    rdfs:comment "Relates a seminar to an article presented during the seminar."@en ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Article .
+
+# Object Property: :isPresentedAt
+
+:isPresentedAt rdf:type owl:ObjectProperty ;
+    rdfs:label "is presented at"@en ;
+    rdfs:comment "Relates an article to a seminar where it is presented."@en ;
+    rdfs:domain :Article ;
+    rdfs:range :Seminar ;
+    owl:inverseOf :hasPresentedArticle .
