@@ -1,0 +1,379 @@
+:Cl_TheatreFestival rdf:type owl:Class .
+
+:Cl_FestivalOccurrence rdf:type owl:Class .
+
+:hasFestivalOccurrence a owl:ObjectProperty ;
+  rdfs:domain :Cl_TheatreFestival ;
+  rdfs:range :Cl_FestivalOccurrence .
+
+:occurredOnDate a owl:DatatypeProperty ;
+  rdfs:domain :Cl_FestivalOccurrence ;
+  rdfs:range xsd:date .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Entity a owl:Class .
+
+:Cl_Thing a owl:Class ;
+  rdfs:subClassOf :Cl_Entity .
+
+:Cl_Occurrence a owl:Class ;
+  rdfs:subClassOf :Cl_Thing .
+
+:Cl_Event a owl:Class ;
+  rdfs:subClassOf :Cl_Occurrence .
+
+:Cl_Festival a owl:Class ;
+  rdfs:subClassOf :Cl_Event .
+
+:Cl_FestivalOccurrence a owl:Class ;
+  rdfs:subClassOf :Cl_Event .
+
+:Cl_Location a owl:Class ;
+  rdfs:subClassOf :Cl_Thing .
+
+:Cl_GeographicalEntity a owl:Class ;
+  rdfs:subClassOf :Cl_Location .
+
+:Cl_City a owl:Class ;
+  rdfs:subClassOf :Cl_GeographicalEntity .
+
+:festivalHasOccurrence a owl:ObjectProperty ;
+  rdfs:domain :Cl_Festival ;
+  rdfs:range :Cl_FestivalOccurrence .
+
+:cityHasOccurrence a owl:ObjectProperty ;
+  rdfs:domain :Cl_City ;
+  rdfs:range :Cl_FestivalOccurrence .
+
+:occurrenceDate a owl:DatatypeProperty ;
+  rdfs:domain :Cl_FestivalOccurrence ;
+  rdfs:range xsd:date .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Play rdf:type owl:Class .
+
+:Cl_Production rdf:type owl:Class .
+
+:Cl_TheatreFestival rdf:type owl:Class .
+
+:Cl_FestivalParticipation rdf:type owl:Class .
+
+:isProductionOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Play .
+
+:hasProductionParticipation rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_FestivalParticipation .
+
+:hasFestivalParticipation rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TheatreFestival ;
+    rdfs:range :Cl_FestivalParticipation .
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Location rdf:type owl:Class .
+
+:Cl_City rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Location .
+
+:Cl_Building rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Location .
+
+:Cl_Theatre rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Building .
+
+:locatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Building ;
+    rdfs:range :Cl_City .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+:Cl_GeographicalEntity a owl:Class .
+
+:Cl_Place a owl:Class ;
+    rdfs:subClassOf :Cl_GeographicalEntity .
+
+:Cl_City a owl:Class ;
+    rdfs:subClassOf :Cl_Place ;
+    owl:disjointWith :Cl_Country .
+
+:Cl_Country a owl:Class ;
+    rdfs:subClassOf :Cl_Place .
+
+:cityLocatedInCountry a rdf:Property , owl:ObjectProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range :Cl_Country .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Play a owl:Class .
+
+:Cl_Production a owl:Class .
+
+:basedOnPlay a owl:ObjectProperty ;
+  rdfs:domain :Cl_Production ;
+  rdfs:range :Cl_Play .
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+
+
+:Cl_Member rdf:type owl:Class .
+
+:Cl_Ensemble rdf:type owl:Class .
+
+:Cl_Time rdf:type owl:Class .
+
+:Cl_Membership rdf:type owl:Class .
+
+:memberInMembership rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range :Cl_Member .
+
+:ensembleInMembership rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range :Cl_Ensemble .
+
+:atTime rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range :Cl_Time .
+
+:Cl_Event rdf:type owl:Class .
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_Author rdf:type owl:Class ;
+   rdfs:subClassOf :Cl_Person .
+
+:Cl_Play rdf:type owl:Class .
+
+:Cl_WritingEvent rdf:type owl:Class ;
+   rdfs:subClassOf :Cl_Event .
+
+:Cl_TimePeriod rdf:type owl:Class .
+
+:hasAuthor rdf:type owl:ObjectProperty , owl:FunctionalProperty ;
+   rdfs:domain :Cl_WritingEvent ;
+   rdfs:range :Cl_Author .
+
+:hasPlay rdf:type owl:ObjectProperty , owl:FunctionalProperty ;
+   rdfs:domain :Cl_WritingEvent ;
+   rdfs:range :Cl_Play .
+
+:hasTimePeriod rdf:type owl:ObjectProperty ;
+   rdfs:domain :Cl_WritingEvent ;
+   rdfs:range :Cl_TimePeriod .
+
+:startYear rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+   rdfs:domain :Cl_TimePeriod ;
+   rdfs:range xsd:gYear .
+
+:endYear rdf:type owl:DatatypeProperty , owl:FunctionalProperty ;
+   rdfs:domain :Cl_TimePeriod ;
+   rdfs:range xsd:gYear .
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Play rdf:type owl:Class .
+:Cl_WritingEvent rdf:type owl:Class .
+
+:hasWritingEvent rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range :Cl_WritingEvent .
+
+:hasStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_WritingEvent ;
+    rdfs:range xsd:date .
+
+:hasEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_WritingEvent ;
+    rdfs:range xsd:date .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:numberOfActs a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:integer .
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Event rdf:type owl:Class .
+
+:Cl_Work rdf:type owl:Class .
+
+:Cl_PremierEvent rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Event .
+
+:Cl_Production rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Work .
+
+:Cl_Venue rdf:type owl:Class .
+
+:productionOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_PremierEvent ;
+    rdfs:range :Cl_Production .
+
+:venueOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_PremierEvent ;
+    rdfs:range :Cl_Venue .
+
+:premierDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_PremierEvent ;
+    rdfs:range xsd:date .
+
+:Cl_Newspaper rdf:type owl:Class .
+:Cl_Production rdf:type owl:Class .
+:Cl_Review rdf:type owl:Class .
+
+:hasReview rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_Newspaper ;
+  rdfs:range :Cl_Review .
+
+:isReviewedIn rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_Production ;
+  rdfs:range :Cl_Review .
+
+:starRating rdf:type owl:DatatypeProperty ;
+  rdfs:domain :Cl_Review ;
+  rdfs:range xsd:integer .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_Actor rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Person .
+
+:Cl_Place rdf:type owl:Class .
+
+:Cl_Theatre rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Place .
+
+:Cl_Relationship rdf:type owl:Class .
+
+:Cl_Employment rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Relationship .
+
+:Cl_ActorEmployment rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Employment .
+
+:Cl_Person owl:disjointWith :Cl_Place .
+
+:employment_actor rdf:type owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain :Cl_ActorEmployment ;
+    rdfs:range :Cl_Actor .
+
+:employment_theatre rdf:type owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain :Cl_ActorEmployment ;
+    rdfs:range :Cl_Theatre .
+
+:employment_start_date rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_ActorEmployment ;
+    rdfs:range xsd:date .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Person a owl:Class .
+:Cl_Role a owl:Class .
+:Cl_Production a owl:Class .
+:Cl_TimePoint a owl:Class .
+:Cl_RoleAssignment a owl:Class .
+
+# Object Properties
+:assignedRoleAssignment a owl:ObjectProperty ;
+   rdfs:domain :Cl_Person ;
+   rdfs:range :Cl_RoleAssignment .
+
+:roleAssignmentOfRole a owl:ObjectProperty ;
+   rdfs:domain :Cl_Role ;
+   rdfs:range :Cl_RoleAssignment .
+
+:roleAssignmentInProduction a owl:ObjectProperty ;
+   rdfs:domain :Cl_Production ;
+   rdfs:range :Cl_RoleAssignment .
+
+:roleAssignmentAtTimePoint a owl:ObjectProperty ;
+   rdfs:domain :Cl_TimePoint ;
+   rdfs:range :Cl_RoleAssignment .
+
+# Short hierarchies
+:Cl_Actor a owl:Class ;
+   rdfs:subClassOf :Cl_Person .
+
+# Data Properties (if needed)
+# (None specified for this competency question)
+
+# Restrictions (if needed)
+# (None specified for this competency question)
+
+# Short notes
+# (Additional comments are not included per the instructions)
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Production rdf:type owl:Class .
+:Cl_Premier rdf:type owl:Class .
+
+# Object Property
+:hasPremier rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Premier .
+
+# Restriction on Cl_Production for exactly one premier
+:Cl_Production rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasPremier ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .

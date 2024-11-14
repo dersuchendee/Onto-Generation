@@ -1,0 +1,818 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Person a owl:Class .
+:Cl_Instrument a owl:Class .
+:Cl_Band a owl:Class .
+:Cl_Album a owl:Class .
+:Cl_Song a owl:Class .
+:Cl_Musician a owl:Class .
+:Cl_Instrumentalist a owl:Class .
+
+:Cl_PersonInstrument a owl:Class .
+
+:Cl_Musician rdfs:subClassOf :Cl_Person .
+:Cl_Instrumentalist rdfs:subClassOf :Cl_Musician .
+
+:plays a owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Instrument .
+
+:performedBy a owl:ObjectProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_Musician .
+
+:partOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_Album .
+
+:memberOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Band .
+
+:instrument a owl:ObjectProperty ;
+    rdfs:domain :Cl_Instrumentalist ;
+    rdfs:range :Cl_Instrument .
+
+:personInstrument a owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_PersonInstrument .
+
+:instrumentPerson a owl:ObjectProperty ;
+    rdfs:domain :Cl_Instrument ;
+    rdfs:range :Cl_PersonInstrument .
+
+:name a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range xsd:string .
+
+:instrumentName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Instrument ;
+    rdfs:range xsd:string .
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Musician a owl:Class .
+:Cl_Band a owl:Class .
+:Cl_Membership a owl:Class .
+
+:Cl_Membership rdfs:subClassOf :Cl_Event .
+
+:Cl_Musician rdfs:subClassOf owl:Thing .
+:Cl_Band rdfs:subClassOf owl:Thing .
+
+:hasMember a owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Membership .
+
+:isMemberOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Musician ;
+    rdfs:range :Cl_Membership ;
+    owl:inverseOf :hasMember .
+
+:memberOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range :Cl_Band .
+
+:member a owl:ObjectProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range :Cl_Musician .
+
+:startDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range xsd:date .
+
+:endDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Membership ;
+    rdfs:range xsd:date .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Person rdf:type owl:Class .
+:Cl_Band rdf:type owl:Class .
+:Cl_Role rdf:type owl:Class .
+:Cl_TimePeriod rdf:type owl:Class .
+:Cl_MemberRole rdf:type owl:Class ;  # Pivot class
+  rdfs:subClassOf :Cl_Role .
+
+# Hierarchies
+:Cl_Musician rdf:type owl:Class ;
+  rdfs:subClassOf :Cl_Person .
+:Cl_Vocalist rdf:type owl:Class ;
+  rdfs:subClassOf :Cl_Musician .
+:Cl_Instrumentalist rdf:type owl:Class ;
+  rdfs:subClassOf :Cl_Musician .
+
+# Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_Band ;
+  rdfs:range :Cl_Person .
+:hasRole rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_Person ;
+  rdfs:range :Cl_MemberRole .
+:memberOf rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_Person ;
+  rdfs:range :Cl_Band .
+:atTime rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_MemberRole ;
+  rdfs:range :Cl_TimePeriod .
+:playsInstrument rdf:type owl:ObjectProperty ;
+  rdfs:domain :Cl_Instrumentalist ;
+  rdfs:range xsd:string .
+
+# Data Properties
+:startDate rdf:type owl:DatatypeProperty ;
+  rdfs:domain :Cl_TimePeriod ;
+  rdfs:range xsd:date .
+:endDate rdf:type owl:DatatypeProperty ;
+  rdfs:domain :Cl_TimePeriod ;
+  rdfs:range xsd:date .
+:roleName rdf:type owl:DatatypeProperty ;
+  rdfs:domain :Cl_Role ;
+  rdfs:range xsd:string .
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Album a owl:Class .
+:Cl_Musician a owl:Class .
+:Cl_Band a owl:Class .
+:Cl_MusicProduction a owl:Class .
+:Cl_Recording a owl:Class .
+
+:Cl_AlbumRecording a owl:Class ;
+    rdfs:subClassOf :Cl_Recording ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasAlbum ;
+                         owl:someValuesFrom :Cl_Album ] .
+
+:hasAlbum a owl:ObjectProperty ;
+    rdfs:domain :Cl_Recording ;
+    rdfs:range :Cl_Album .
+
+:hasBand a owl:ObjectProperty ;
+    rdfs:domain :Cl_Musician ;
+    rdfs:range :Cl_Band .
+
+:hasMusician a owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Musician .
+
+:hasRecording a owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Recording .
+
+:recordingPeriod a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Recording ;
+    rdfs:range xsd:date .
+
+:releaseDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:date .
+
+
+
+
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Album a owl:Class .
+:Cl_Track a owl:Class .
+
+# Pivot class for album-track relationship
+:Cl_AlbumTrack a owl:Class .
+
+# Hierarchy
+:Cl_AlbumTrack rdfs:subClassOf :Cl_Album .
+
+# Object properties
+:hasTrack a owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Track .
+
+:trackOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Track ;
+    rdfs:range :Cl_Album .
+
+:albumTrack a owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_AlbumTrack .
+
+# Data properties
+:trackCount a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:integer .
+
+:trackNumber a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Track ;
+    rdfs:range xsd:integer .
+
+# Restrictions
+:Cl_Album rdfs:subClassOf [ rdf:type owl:Restriction ; owl:onProperty :hasTrack ; owl:someValuesFrom :Cl_Track ] .
+
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_MusicAlbum a owl:Class .
+:Cl_MusicBand a owl:Class .
+:Cl_Musician a owl:Class .
+:Cl_AlbumRelease a owl:Class .
+
+:Cl_MusicAlbum rdfs:subClassOf :Cl_Artwork .
+:Cl_MusicBand rdfs:subClassOf :Cl_Group .
+:Cl_Musician rdfs:subClassOf :Cl_Person .
+
+:Cl_AlbumRelease rdfs:subClassOf :Cl_Event .
+
+:hasReleaseDate a owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicAlbum ;
+    rdfs:range :Cl_AlbumRelease .
+
+:releaseDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_AlbumRelease ;
+    rdfs:range xsd:date .
+
+:hasAlbum a owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicBand ;
+    rdfs:range :Cl_MusicAlbum .
+
+:hasBand a owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicAlbum ;
+    rdfs:range :Cl_MusicBand .
+
+:performedBy a owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicAlbum ;
+    rdfs:range :Cl_Musician .
+
+:Cl_AlbumRelease owl:equivalentClass [ rdf:type owl:Restriction ;
+    owl:onProperty :releaseDate ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger ] .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Song a owl:Class .
+:Cl_Track a owl:Class .
+:Cl_Album a owl:Class .
+:Cl_Band a owl:Class .
+:Cl_Musician a owl:Class .
+:Cl_Instrument a owl:Class .
+:Cl_Performance a owl:Class .
+:Cl_Venue a owl:Class .
+:Cl_Date a owl:Class .
+
+# Pivot Class
+:Cl_TrackRecording a owl:Class ;
+    rdfs:subClassOf :Cl_Track .
+
+# Hierarchies
+:Cl_Musician rdfs:subClassOf :Cl_Person .
+:Cl_Instrument rdfs:subClassOf :Cl_Entity .
+:Cl_Venue rdfs:subClassOf :Cl_Location .
+:Cl_Date rdfs:subClassOf :Cl_Time .
+
+# Object Properties
+:hasSong a owl:ObjectProperty ;
+    rdfs:domain :Cl_TrackRecording ;
+    rdfs:range :Cl_Song .
+:isTrackOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Track ;
+    rdfs:range :Cl_Album .
+:performedBy a owl:ObjectProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_Band .
+:performedAt a owl:ObjectProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range :Cl_Venue .
+:performedOn a owl:ObjectProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range :Cl_Date .
+:plays a owl:ObjectProperty ;
+    rdfs:domain :Cl_Musician ;
+    rdfs:range :Cl_Instrument .
+
+# Data Properties
+:trackName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Track ;
+    rdfs:range xsd:string .
+:songName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range xsd:string .
+:albumName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:string .
+:bandName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range xsd:string .
+:musicianName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Musician ;
+    rdfs:range xsd:string .
+:instrumentName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Instrument ;
+    rdfs:range xsd:string .
+:venueName a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Venue ;
+    rdfs:range xsd:string .
+:date a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Date ;
+    rdfs:range xsd:date .
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Song a owl:Class .
+:Cl_Composition a owl:Class .
+:Cl_SongComposition a owl:Class ;
+    rdfs:subClassOf :Cl_Composition .
+
+:composedOn a owl:Property ;
+    rdfs:domain :Cl_SongComposition ;
+    rdfs:range xsd:date .
+
+:hasComposition a owl:Property ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_SongComposition .
+
+:isCompositionOf a owl:Property ;
+    rdfs:domain :Cl_SongComposition ;
+    rdfs:range :Cl_Song ;
+    owl:inverseOf :hasComposition .
+
+:Cl_Album a owl:Class .
+:Cl_Track a owl:Class ;
+    rdfs:subClassOf :Cl_Song .
+
+:hasTrack a owl:Property ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Track .
+
+:isTrackOf a owl:Property ;
+    rdfs:domain :Cl_Track ;
+    rdfs:range :Cl_Album ;
+    owl:inverseOf :hasTrack .
+
+
+
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Critic a owl:Class .
+:Cl_Record a owl:Class .
+:Cl_Review a owl:Class .
+
+# Hierarchies
+:Cl_MusicCritic a owl:Class ; rdfs:subClassOf :Cl_Critic .
+:Cl_MusicRecord a owl:Class ; rdfs:subClassOf :Cl_Record .
+
+# Object Properties
+:reviewedBy a owl:ObjectProperty ; rdfs:domain :Cl_Record ; rdfs:range :Cl_Review .
+:givenBy a owl:ObjectProperty ; rdfs:domain :Cl_Review ; rdfs:range :Cl_Critic .
+:about a owl:ObjectProperty ; rdfs:domain :Cl_Review ; rdfs:range :Cl_Record .
+
+# Data Properties
+:reviewText a owl:DatatypeProperty ; rdfs:domain :Cl_Review ; rdfs:range xsd:string .
+:reviewDate a owl:DatatypeProperty ; rdfs:domain :Cl_Review ; rdfs:range xsd:date .
+
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Performance rdf:type owl:Class .
+:Cl_Band rdf:type owl:Class .
+:Cl_Location rdf:type owl:Class .
+:Cl_Album rdf:type owl:Class .
+:Cl_Song rdf:type owl:Class .
+:Cl_Musician rdf:type owl:Class .
+:Cl_PerformanceEvent rdf:type owl:Class .
+
+# Hierarchies
+:Cl_Musician rdfs:subClassOf :Cl_Band .
+
+# Object Properties
+:hasPerformance rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Performance .
+:performedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range :Cl_Location .
+:hasAlbum rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Album .
+:hasSong rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Song .
+:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range :Cl_Musician .
+
+# Data Properties
+:performanceDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_PerformanceEvent ;
+    rdfs:range xsd:date .
+
+# Reification
+:Cl_PerformanceEvent rdf:type owl:Class .
+:performanceEvent rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range :Cl_PerformanceEvent .
+:hasPerformanceEvent rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_PerformanceEvent .
+:performanceEventDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_PerformanceEvent ;
+    rdfs:range xsd:date .
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Song a owl:Class .
+:Cl_Performance a owl:Class .
+:Cl_PlayedSong a owl:Class .
+
+:Cl_PlayedSong rdfs:subClassOf :Cl_Performance .
+
+:hasSong a owl:ObjectProperty ;
+    rdfs:domain :Cl_PlayedSong ;
+    rdfs:range :Cl_Song .
+
+:performanceDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range xsd:dateTime .
+
+:performanceLocation a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range xsd:string .
+
+:playedIn a owl:ObjectProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_PlayedSong ;
+    owl:inverseOf :hasSong .
+
+:playedOn a owl:DatatypeProperty ;
+    rdfs:domain :Cl_PlayedSong ;
+    rdfs:range xsd:dateTime .
+
+:Cl_PlayedSong owl:equivalentClass [ rdf:type owl:Restriction ;  owl:onProperty :hasSong ;  owl:allValuesFrom :Cl_Song ] ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;  owl:onProperty :playedOn ;  owl:allValuesFrom xsd:dateTime ] .
+
+
+
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Classes
+:Cl_Performance rdf:type owl:Class .
+:Cl_Band rdf:type owl:Class .
+:Cl_Musician rdf:type owl:Class .
+:Cl_Album rdf:type owl:Class .
+:Cl_Song rdf:type owl:Class .
+:Cl_Location rdf:type owl:Class .
+:Cl_Event rdf:type owl:Class .
+
+# Pivot Class for Reification
+:Cl_PerformanceEvent rdf:type owl:Class ;
+                     rdfs:subClassOf :Cl_Event .
+
+# Hierarchies
+:Cl_Musician rdfs:subClassOf :Cl_BandMember .
+:Cl_BandMember rdf:type owl:Class .
+
+# Object Properties
+:performs rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_Band ;
+          rdfs:range :Cl_Performance .
+
+:hasPerformanceEvent rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Cl_Band ;
+                     rdfs:range :Cl_PerformanceEvent .
+
+:performedAt rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_PerformanceEvent ;
+             rdfs:range :Cl_Location .
+
+:performedOn rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_PerformanceEvent ;
+             rdfs:range xsd:date .
+
+:features rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_Performance ;
+          rdfs:range :Cl_Song .
+
+:locatedAt rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Event ;
+           rdfs:range :Cl_Location .
+
+:hasBandMember rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Band ;
+               rdfs:range :Cl_Musician .
+
+# Data Properties
+:performanceDate rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Cl_PerformanceEvent ;
+                 rdfs:range xsd:date .
+
+:albumName rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Cl_Album ;
+           rdfs:range xsd:string .
+
+:songName rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Cl_Song ;
+          rdfs:range xsd:string .
+
+:locationName rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Cl_Location ;
+              rdfs:range xsd:string .
+
+
+
+
+
+
+
+
+
+
+
+:Cl_City a owl:Class .
+:Cl_Region a owl:Class .
+:Cl_Location a owl:Class .
+:Cl_Country a owl:Class .
+:Cl_US a owl:Class ;
+    rdfs:subClassOf :Cl_Country .
+:Cl_Portland a owl:Class ;
+    rdfs:subClassOf :Cl_City .
+:Cl_Oregon a owl:Class ;
+    rdfs:subClassOf :Cl_Region .
+
+:Cl_Region rdfs:subClassOf :Cl_Location .
+:Cl_City rdfs:subClassOf :Cl_Location .
+
+:locatedIn a owl:ObjectProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range :Cl_Region .
+:partOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Region ;
+    rdfs:range :Cl_Country .
+:cityName a owl:DataProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range xsd:string .
+:regionName a owl:DataProperty ;
+    rdfs:domain :Cl_Region ;
+    rdfs:range xsd:string .
+
+:Cl_Portland rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :locatedIn ;
+    owl:someValuesFrom :Cl_Oregon
+] .
+:Cl_Oregon rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :partOf ;
+    owl:someValuesFrom :Cl_US
+] .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_City a owl:Class .
+:Cl_Region a owl:Class .
+:Cl_Location a owl:Class .
+:Cl_Country a owl:Class .
+:Cl_US a owl:Class ;
+    rdfs:subClassOf :Cl_Country .
+:Cl_Portland a owl:Class ;
+    rdfs:subClassOf :Cl_City .
+:Cl_Oregon a owl:Class ;
+    rdfs:subClassOf :Cl_Region .
+
+:Cl_Region rdfs:subClassOf :Cl_Location .
+:Cl_City rdfs:subClassOf :Cl_Location .
+
+:locatedIn a owl:ObjectProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range :Cl_Region .
+:partOf a owl:ObjectProperty ;
+    rdfs:domain :Cl_Region ;
+    rdfs:range :Cl_Country .
+:cityName a owl:DataProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range xsd:string .
+:regionName a owl:DataProperty ;
+    rdfs:domain :Cl_Region ;
+    rdfs:range xsd:string .
+
+:Cl_Portland rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :locatedIn ;
+    owl:someValuesFrom :Cl_Oregon
+] .
+:Cl_Oregon rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :partOf ;
+    owl:someValuesFrom :Cl_US
+] .
+
+
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Region a owl:Class .
+:Cl_Country a owl:Class .
+:Cl_Location a owl:Class .
+
+:Cl_Region_Location a owl:Class ;
+    rdfs:subClassOf :Cl_Location ;
+    owl:property :hasRegion ;
+    owl:property :hasCountry .
+
+:hasRegion a owl:ObjectProperty ;
+    rdfs:domain :Cl_Location ;
+    rdfs:range :Cl_Region .
+
+:hasCountry a owl:ObjectProperty ;
+    rdfs:domain :Cl_Location ;
+    rdfs:range :Cl_Country .
+
+:isLocatedIn a owl:ObjectProperty ;
+    rdfs:domain :Cl_Region ;
+    rdfs:range :Cl_Country ;
+    owl:inverseOf :hasRegion .
+
+
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+:Cl_Record rdf:type owl:Class .
+:Cl_Track rdf:type owl:Class .
+:Cl_Album rdf:type owl:Class .
+
+:Cl_Record rdfs:subClassOf :Cl_Album .
+
+:containsTrack rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Record ;
+    rdfs:range :Cl_Track .
+
+:hasAtLeastOneTrack rdf:type owl:Restriction ;
+    owl:onProperty :containsTrack ;
+    owl:minCardinality "1"^^xsd:int ;
+    owl:onClass :Cl_Record .
+
+:Cl_Record owl:equivalentClass :hasAtLeastOneTrack .
