@@ -1,1 +1,4 @@
-# Onto-Generation-2.0
+# Onto-Generation
+
+## Generated Ontologies
+link to the generated ontology folder
