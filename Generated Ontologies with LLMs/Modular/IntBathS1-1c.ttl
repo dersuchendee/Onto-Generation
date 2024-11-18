@@ -1,0 +1,50 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Person rdf:type owl:Class .
+:Cl_Bathroom rdf:type owl:Class .
+:Cl_Mirror rdf:type owl:Class .
+:Cl_ElectricToothbrush rdf:type owl:Class .
+:Cl_BathroomActivity rdf:type owl:Class .
+
+### Reification (Pivot Class)
+:Cl_BrushingTeeth rdf:type owl:Class ;
+                  rdfs:subClassOf :Cl_BathroomActivity .
+
+### Object Properties
+:op_isIn rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range :Cl_Bathroom .
+
+:op_isFacing rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_Person ;
+             rdfs:range :Cl_Mirror .
+
+:op_hasInHand rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Person ;
+              rdfs:range :Cl_ElectricToothbrush .
+
+:op_isDoing rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_Person ;
+            rdfs:range :Cl_BathroomActivity .
+
+### Data Properties
+:dp_recognizesActivity rdf:type owl:DataProperty ;
+                       rdfs:domain :Cl_BathroomActivity ;
+                       rdfs:range xsd:boolean .
+
+### Restrictions
+:Cl_BrushingTeeth owl:equivalentClass [
+  rdf:type owl:Restriction ;
+  owl:onProperty :op_isDoing ;
+  owl:someValuesFrom :Cl_BathroomActivity
+] ;
+rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :op_hasInHand ;
+  owl:someValuesFrom :Cl_ElectricToothbrush
+] .

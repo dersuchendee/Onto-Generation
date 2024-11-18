@@ -1,0 +1,23 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Event rdf:type owl:Class .
+:Cl_Movie rdf:type owl:Class ; rdfs:subClassOf :Cl_Event .
+:Cl_Cinema rdf:type owl:Class .
+
+### Reification (Pivot Class)
+:Cl_MovieScreening rdf:type owl:Class .
+
+### Object Properties
+:hasGenre rdf:type owl:ObjectProperty ; rdfs:domain :Cl_Movie ; rdfs:range :Cl_Genre .
+:hasActor rdf:type owl:ObjectProperty ; rdfs:domain :Cl_Movie ; rdfs:range :Cl_Actor .
+:screenedAt rdf:type owl:ObjectProperty ; rdfs:domain :Cl_MovieScreening ; rdfs:range :Cl_Cinema .
+:featuresMovie rdf:type owl:ObjectProperty ; rdfs:domain :Cl_MovieScreening ; rdfs:range :Cl_Movie .
+
+### Data Properties
+:hasTitle rdf:type owl:DatatypeProperty ; rdfs:domain :Cl_Movie ; rdfs:range xsd:string .
+:hasScreeningTime rdf:type owl:DatatypeProperty ; rdfs:domain :Cl_MovieScreening ; rdfs:range xsd:dateTime .

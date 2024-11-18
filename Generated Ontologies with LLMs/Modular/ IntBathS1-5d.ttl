@@ -1,0 +1,54 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_User rdf:type owl:Class .
+:Cl_Mirror rdf:type owl:Class .
+:Cl_Bathroom rdf:type owl:Class .
+:Cl_Weather rdf:type owl:Class .
+:Cl_Loudspeaker rdf:type owl:Class .
+:Cl_Graphics rdf:type owl:Class .
+
+### Reification (Pivot) Classes
+:Cl_UserLocationInteraction rdf:type owl:Class .
+
+### Object Properties
+:hasLocation rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_Bathroom .
+
+:displays rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Mirror ;
+    rdfs:range :Cl_Weather .
+
+:hasOutput rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Weather ;
+    rdfs:range :Cl_Graphics .
+
+:hasAudioOutput rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Weather ;
+    rdfs:range :Cl_Loudspeaker .
+
+:interactsWith rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UserLocationInteraction ;
+    rdfs:range :Cl_User .
+
+:interactionLocation rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UserLocationInteraction ;
+    rdfs:range :Cl_Bathroom .
+
+:interactionOutput rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UserLocationInteraction ;
+    rdfs:range :Cl_Weather .
+
+### Data Properties
+:isStanding rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_UserLocationInteraction ;
+    rdfs:range xsd:boolean .
+
+:isWalking rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_UserLocationInteraction ;
+    rdfs:range xsd:boolean .

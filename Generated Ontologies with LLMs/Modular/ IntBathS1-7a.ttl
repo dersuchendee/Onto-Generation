@@ -1,0 +1,45 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_User rdf:type owl:Class .
+:Cl_Calendar rdf:type owl:Class .
+:Cl_Booking rdf:type owl:Class .
+:Cl_Meeting rdf:type owl:Class ; rdfs:subClassOf :Cl_Booking .
+:Cl_TimePeriod rdf:type owl:Class .
+
+### Reification (Pivot Class)
+:Cl_CalendarBooking rdf:type owl:Class .
+
+### Object Properties
+:hasCalendar rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_Calendar .
+
+:containsBooking rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Calendar ;
+    rdfs:range :Cl_Booking .
+
+:bookingDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_CalendarBooking ;
+    rdfs:range :Cl_TimePeriod .
+
+:hasBooking rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Calendar ;
+    rdfs:range :Cl_CalendarBooking .
+
+:refersToBooking rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_CalendarBooking ;
+    rdfs:range :Cl_Booking .
+
+### Data Properties
+:startTime rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Booking ;
+    rdfs:range xsd:dateTime .
+
+:endTime rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Booking ;
+    rdfs:range xsd:dateTime .

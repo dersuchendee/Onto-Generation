@@ -1,0 +1,92 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Pivot Classes
+:Cl_EventSuggestion
+
+### Classes
+:Cl_User
+:Cl_Event
+:Cl_WeatherCondition
+:Cl_Calendar
+:Cl_Movie
+:Cl_TimePeriod
+:Cl_Preference
+
+### Object Properties
+:hasWeatherCondition a owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_WeatherCondition .
+
+:hasFreeTime a owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_Calendar .
+
+:hasPreference a owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_Preference .
+
+:isSuitableFor a owl:ObjectProperty ;
+    rdfs:domain :Cl_Event ;
+    rdfs:range :Cl_TimePeriod .
+
+:prefersEventType a owl:ObjectProperty ;
+    rdfs:domain :Cl_Preference ;
+    rdfs:range :Cl_Event .
+
+:hasEvent a owl:ObjectProperty ;
+    rdfs:domain :Cl_EventSuggestion ;
+    rdfs:range :Cl_Event .
+
+:hasSuggestedTime a owl:ObjectProperty ;
+    rdfs:domain :Cl_EventSuggestion ;
+    rdfs:range :Cl_TimePeriod .
+
+:hasUserPreference a owl:ObjectProperty ;
+    rdfs:domain :Cl_EventSuggestion ;
+    rdfs:range :Cl_Preference .
+
+:hasWeatherDuringEvent a owl:ObjectProperty ;
+    rdfs:domain :Cl_EventSuggestion ;
+    rdfs:range :Cl_WeatherCondition .
+
+### Data Properties
+:isRaining a owl:DatatypeProperty ;
+    rdfs:domain :Cl_WeatherCondition ;
+    rdfs:range xsd:boolean .
+
+:isEvening a owl:DatatypeProperty ;
+    rdfs:domain :Cl_TimePeriod ;
+    rdfs:range xsd:boolean .
+
+:likesMovies a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Preference ;
+    rdfs:range xsd:boolean .
+
+### Restrictions
+:Cl_EventSuggestion owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasEvent ;
+    owl:someValuesFrom :Cl_Movie
+] ;
+    owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasSuggestedTime ;
+    owl:someValuesFrom [
+        rdf:type owl:Class ;
+        owl:unionOf (:Cl_TimePeriod)
+    ]
+] ;
+    owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasUserPreference ;
+    owl:someValuesFrom :Cl_Preference
+] ;
+    owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasWeatherDuringEvent ;
+    owl:someValuesFrom :Cl_WeatherCondition
+] .

@@ -1,0 +1,76 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Event rdf:type owl:Class .
+:Cl_TicketOption rdf:type owl:Class .
+:Cl_ShowTime rdf:type owl:Class .
+:Cl_Seat rdf:type owl:Class .
+:Cl_Theatre rdf:type owl:Class .
+:Cl_Payment rdf:type owl:Class .
+:Cl_CreditCard rdf:type owl:Class .
+
+### Reification (Pivot Classes)
+:Cl_TicketSelection rdf:type owl:Class .
+
+### Object Properties
+:hasTicketOption rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Event ;
+    rdfs:range :Cl_TicketOption .
+
+:hasShowTime rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TicketOption ;
+    rdfs:range :Cl_ShowTime .
+
+:hasSeat rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TicketOption ;
+    rdfs:range :Cl_Seat .
+
+:locatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Seat ;
+    rdfs:range :Cl_Theatre .
+
+:hasPaymentMethod rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Payment ;
+    rdfs:range :Cl_CreditCard .
+
+### Reification Object Properties
+:selectsTicketOption rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TicketSelection ;
+    rdfs:range :Cl_TicketOption .
+
+:selectsShowTime rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TicketSelection ;
+    rdfs:range :Cl_ShowTime .
+
+:selectsSeat rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TicketSelection ;
+    rdfs:range :Cl_Seat .
+
+:paysWith rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TicketSelection ;
+    rdfs:range :Cl_CreditCard .
+
+### Data Properties
+:ticketPrice rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_TicketOption ;
+    rdfs:range xsd:decimal .
+
+:seatNumber rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Seat ;
+    rdfs:range xsd:string .
+
+:creditCardNumber rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_CreditCard ;
+    rdfs:range xsd:string .
+
+:paymentAmount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Payment ;
+    rdfs:range xsd:decimal .
+
+:showDateTime rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_ShowTime ;
+    rdfs:range xsd:dateTime .

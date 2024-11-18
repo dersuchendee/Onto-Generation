@@ -1,0 +1,43 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_User rdf:type owl:Class .
+:Cl_Location rdf:type owl:Class .
+:Cl_WeatherDisplay rdf:type owl:Class .
+:Cl_Weather rdf:type owl:Class .
+:Cl_MorningRoutine rdf:type owl:Class .
+
+### Object Properties
+:hasLocation rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_Location .
+
+:displaysWeather rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_WeatherDisplay ;
+    rdfs:range :Cl_Weather .
+
+:partOfMorningRoutine rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_WeatherDisplay ;
+    rdfs:range :Cl_MorningRoutine .
+
+### Data Properties
+:locatedIn rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Location ;
+    rdfs:range xsd:string .
+
+### Restrictions
+:Cl_User owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasLocation ;
+    owl:someValuesFrom :Cl_Location
+] .
+
+:Cl_Location owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :locatedIn ;
+    owl:allValuesFrom xsd:string
+] .

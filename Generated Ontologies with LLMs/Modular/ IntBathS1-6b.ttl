@@ -1,0 +1,46 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Pivot Class
+:Cl_UserPreference
+
+### Classes
+:Cl_User rdf:type owl:Class .
+:Cl_WeatherCondition rdf:type owl:Class .
+:Cl_Activity rdf:type owl:Class .
+:Cl_Movie rdf:type owl:Class .
+:Cl_MovieGenre rdf:type owl:Class .
+
+### Object Properties
+:prefers rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_UserPreference .
+
+:hasWeatherCondition rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UserPreference ;
+    rdfs:range :Cl_WeatherCondition .
+
+:hasActivity rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UserPreference ;
+    rdfs:range :Cl_Activity .
+
+:hasPreferredGenre rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UserPreference ;
+    rdfs:range :Cl_MovieGenre .
+
+### Data Properties
+:isRaining rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_WeatherCondition ;
+    rdfs:range xsd:boolean .
+
+:isActionMovie rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_MovieGenre ;
+    rdfs:range xsd:boolean .
+
+### Individuals
+:GoingToMovies rdf:type :Cl_Activity .
+:Action rdf:type :Cl_MovieGenre .
+:Rain rdf:type :Cl_WeatherCondition .
