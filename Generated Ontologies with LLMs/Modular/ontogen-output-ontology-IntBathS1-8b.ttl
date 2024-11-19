@@ -1,0 +1,144 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:SuitableEventOntology rdf:type owl:Ontology ;
+                       rdfs:label "Suitable Event Ontology"@en ;
+                       owl:imports agentrole: ,
+                                   collectionentity: ,
+                                   partof: .
+
+### Classes
+
+:User rdf:type owl:Class ;
+      rdfs:label "User"@en ;
+      rdfs:subClassOf agentrole:Agent ;
+      rdfs:comment "An individual who may have preferences and a calendar."@en .
+
+:Preference rdf:type owl:Class ;
+            rdfs:label "Preference"@en ;
+            rdfs:comment "A user's preference for certain types of events."@en .
+
+:Calendar rdf:type owl:Class ;
+          rdfs:label "Calendar"@en ;
+          rdfs:comment "A user's calendar containing free time slots."@en .
+
+:Event rdf:type owl:Class ;
+       rdfs:label "Event"@en ;
+       rdfs:comment "An occurrence that a user can attend."@en .
+
+:WeatherCondition rdf:type owl:Class ;
+                  rdfs:label "Weather Condition"@en ;
+                  rdfs:comment "The weather condition at a certain time and location."@en .
+
+:TimePeriod rdf:type owl:Class ;
+            rdfs:label "Time Period"@en ;
+            rdfs:comment "A specific period of time."@en .
+
+### Object Properties
+
+:hasPreference rdf:type owl:ObjectProperty ;
+               rdfs:label "has preference"@en ;
+               rdfs:domain :User ;
+               rdfs:range :Preference ;
+               rdfs:comment "A relation between a user and their preferences."@en .
+
+:hasCalendar rdf:type owl:ObjectProperty ;
+             rdfs:label "has calendar"@en ;
+             rdfs:domain :User ;
+             rdfs:range :Calendar ;
+             rdfs:comment "A relation between a user and their calendar."@en .
+
+:hasFreeTimeSlot rdf:type owl:ObjectProperty ;
+                 rdfs:label "has free time slot"@en ;
+                 rdfs:domain :Calendar ;
+                 rdfs:range :TimePeriod ;
+                 rdfs:comment "A relation between a calendar and its free time slots."@en .
+
+:isSuitableFor rdf:type owl:ObjectProperty ;
+               rdfs:label "is suitable for"@en ;
+               rdfs:domain :Event ;
+               rdfs:range :User ;
+               rdfs:comment "A relation between an event and a user for whom the event is suitable."@en .
+
+:occursDuring rdf:type owl:ObjectProperty ;
+              rdfs:label "occurs during"@en ;
+              rdfs:domain :Event ;
+              rdfs:range :TimePeriod ;
+              rdfs:comment "A relation between an event and the time period during which it occurs."@en .
+
+:hasWeatherCondition rdf:type owl:ObjectProperty ;
+                      rdfs:label "has weather condition"@en ;
+                      rdfs:domain :TimePeriod ;
+                      rdfs:range :WeatherCondition ;
+                      rdfs:comment "A relation between a time period and the weather condition during that time."@en .
+
+### Restrictions
+
+:Event rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :occursDuring ;
+  owl:someValuesFrom :TimePeriod ;
+  rdfs:comment "Every event must occur during some time period."@en
+] .
+
+:User rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :hasPreference ;
+  owl:someValuesFrom :Preference ;
+  rdfs:comment "Every user has some preferences."@en
+] .
+
+:User rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :hasCalendar ;
+  owl:someValuesFrom :Calendar ;
+  rdfs:comment "Every user has a calendar."@en
+] .
+
+:Calendar rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :hasFreeTimeSlot ;
+  owl:someValuesFrom :TimePeriod ;
+  rdfs:comment "Every calendar has some free time slots."@en
+] .
+
+### Individuals
+
+:RainyWeather rdf:type :WeatherCondition ;
+              rdfs:label "Rainy Weather"@en ;
+              rdfs:comment "Weather condition characterized by rainfall."@en .
+
+:MovieEvent rdf:type :Event ;
+            rdfs:label "Movie Event"@en ;
+            rdfs:comment "An event where a movie is shown."@en .
+
+:EveningTimePeriod rdf:type :TimePeriod ;
+                   rdfs:label "Evening Time Period"@en ;
+                   rdfs:comment "A time period that covers an evening."@en .
+
+### Example Usage
+
+:JohnDoe rdf:type :User ;
+         rdfs:label "John Doe"@en ;
+         :hasPreference :MoviePreference ;
+         :hasCalendar :JohnsCalendar .
+
+:MoviePreference rdf:type :Preference ;
+                 rdfs:label "Movie Preference"@en ;
+                 rdfs:comment "A preference for watching movies."@en .
+
+:JohnsCalendar rdf:type :Calendar ;
+               rdfs:label "John's Calendar"@en ;
+               :hasFreeTimeSlot :EveningTimePeriod .
+
+:EveningTimePeriod :hasWeatherCondition :RainyWeather .
+
+:MovieEvent :occursDuring :EveningTimePeriod ;
+            :isSuitableFor :JohnDoe .

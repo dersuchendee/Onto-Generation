@@ -1,0 +1,73 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:Event rdf:type owl:Class ;
+       rdfs:label "Event" ;
+       rdfs:comment "A happening at a specific place and time." .
+
+:DayOfWeek rdf:type owl:Class ;
+           rdfs:label "Day of the Week" ;
+           rdfs:comment "Days of the week (Monday, Tuesday, ...)." .
+
+:TimeOfDay rdf:type owl:Class ;
+           rdfs:label "Time of Day" ;
+           rdfs:comment "A specific time of day, usually expressed in hours and minutes." .
+
+:Morning rdf:type owl:Class ;
+         rdfs:subClassOf :TimeOfDay ;
+         rdfs:label "Morning" ;
+         rdfs:comment "The time of the day between 6 AM and 10 AM." .
+
+### Object Properties
+
+:occursOn rdf:type owl:ObjectProperty ;
+          rdfs:domain :Event ;
+          rdfs:range :DayOfWeek ;
+          rdfs:label "occurs on" ;
+          rdfs:comment "The day of the week on which an event occurs." .
+
+:hasTime rdf:type owl:ObjectProperty ;
+         rdfs:domain :Event ;
+         rdfs:range :TimeOfDay ;
+         rdfs:label "has time" ;
+         rdfs:comment "The time at which an event occurs." .
+
+### Individuals
+
+:Thursday rdf:type :DayOfWeek ;
+          rdfs:label "Thursday" .
+
+:MorningTime rdf:type :Morning ;
+             rdfs:label "Morning Time" ;
+             owl:equivalentClass [ rdf:type owl:Class ;
+                                   owl:oneOf (:Morning)
+                                 ] .
+
+### Restrictions
+
+:Event rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :occursOn ;
+                         owl:someValuesFrom :DayOfWeek
+                       ] .
+
+:Event rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasTime ;
+                         owl:someValuesFrom :TimeOfDay
+                       ] .
+
+:Morning rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTime ;
+                           owl:allValuesFrom [ rdf:type owl:Class ;
+                                               owl:withRestrictions ( [ xsd:minInclusive "06:00:00"^^xsd:time ] 
+                                                                      [ xsd:maxInclusive "10:00:00"^^xsd:time ] )
+                                             ]
+                         ] .

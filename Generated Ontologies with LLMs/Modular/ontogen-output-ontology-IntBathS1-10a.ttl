@@ -1,0 +1,88 @@
+@prefix : <http://example.org/ontology/ticketing#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://example.org/ontology/ticketing>
+    rdf:type owl:Ontology ;
+    owl:versionInfo "1.0" ;
+    rdfs:comment "An ontology for representing ticketing options for events."@en .
+
+### Classes
+
+:EventCategory rdf:type owl:Class ;
+    rdfs:label "Event Category"@en ;
+    rdfs:comment "A category that an event can belong to, such as movies, concerts, etc."@en .
+
+:Event rdf:type owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "An event for which tickets can be ordered."@en ;
+    rdfs:subClassOf :EventCategory .
+
+:TicketOption rdf:type owl:Class ;
+    rdfs:label "Ticket Option"@en ;
+    rdfs:comment "A purchasable option for an event, which can include seat selection, time of show, etc."@en .
+
+:Seat rdf:type owl:Class ;
+    rdfs:label "Seat"@en ;
+    rdfs:comment "A seat that can be selected for an event."@en .
+
+:ShowTime rdf:type owl:Class ;
+    rdfs:label "Show Time"@en ;
+    rdfs:comment "A specific time at which an event is scheduled to occur."@en .
+
+:Payment rdf:type owl:Class ;
+    rdfs:label "Payment"@en ;
+    rdfs:comment "A payment made by a user, typically by credit card, for a ticket option."@en .
+
+### Object Properties
+
+:hasTicketOption rdf:type owl:ObjectProperty ;
+    rdfs:label "has ticket option"@en ;
+    rdfs:comment "Relates an event to its available ticket options."@en ;
+    rdfs:domain :Event ;
+    rdfs:range :TicketOption .
+
+:hasSeat rdf:type owl:ObjectProperty ;
+    rdfs:label "has seat"@en ;
+    rdfs:comment "Relates a ticket option to a seat that can be selected."@en ;
+    rdfs:domain :TicketOption ;
+    rdfs:range :Seat .
+
+:hasShowTime rdf:type owl:ObjectProperty ;
+    rdfs:label "has show time"@en ;
+    rdfs:comment "Relates a ticket option to a show time that can be selected."@en ;
+    rdfs:domain :TicketOption ;
+    rdfs:range :ShowTime .
+
+:madePayment rdf:type owl:ObjectProperty ;
+    rdfs:label "made payment"@en ;
+    rdfs:comment "Relates a user to a payment they have made for a ticket option."@en ;
+    rdfs:domain foaf:Person ;
+    rdfs:range :Payment .
+
+### Restrictions
+
+:Event rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasTicketOption ;
+    owl:someValuesFrom :TicketOption ;
+    rdfs:label "Event must have at least one ticket option"@en
+] .
+
+:TicketOption rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasSeat ;
+    owl:someValuesFrom :Seat ;
+    rdfs:label "Ticket option must include at least one seat selection"@en
+] .
+
+:TicketOption rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasShowTime ;
+    owl:someValuesFrom :ShowTime ;
+    rdfs:label "Ticket option must include at least one show time selection"@en
+] .

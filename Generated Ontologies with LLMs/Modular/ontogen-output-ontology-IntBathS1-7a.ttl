@@ -1,0 +1,89 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://example.org/ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing user calendar bookings within specific time periods."@en .
+
+### Classes
+
+:Calendar
+    rdf:type owl:Class ;
+    rdfs:label "Calendar"@en ;
+    rdfs:comment "A system for organizing and planning events over time."@en .
+
+:Event
+    rdf:type owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "An occurrence at a specific place and time, with a beginning and an end."@en .
+
+:TimePeriod
+    rdf:type owl:Class ;
+    rdfs:label "Time Period"@en ;
+    rdfs:comment "A specific interval of time with a start and an end."@en .
+
+### Object Properties
+
+:containsEvent
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "contains event"@en ;
+    rdfs:comment "A relationship between a calendar and events that it includes."@en ;
+    rdfs:domain :Calendar ;
+    rdfs:range :Event .
+
+:hasTimePeriod
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has time period"@en ;
+    rdfs:comment "A relationship between an event and the time period it occurs in."@en ;
+    rdfs:domain :Event ;
+    rdfs:range :TimePeriod .
+
+### Datatype Properties
+
+:startTime
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "start time"@en ;
+    rdfs:comment "The starting time of an event or time period."@en ;
+    rdfs:domain :TimePeriod ;
+    rdfs:range xsd:dateTime .
+
+:endTime
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "end time"@en ;
+    rdfs:comment "The ending time of an event or time period."@en ;
+    rdfs:domain :TimePeriod ;
+    rdfs:range xsd:dateTime .
+
+### Restrictions
+
+:Event
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasTimePeriod ;
+        owl:someValuesFrom :TimePeriod
+    ] .
+
+:Calendar
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :containsEvent ;
+        owl:someValuesFrom :Event
+    ] .
+
+### Individuals
+
+:myCalendar rdf:type :Calendar .
+
+:meetingAtNoon rdf:type :Event ;
+    :hasTimePeriod [
+        rdf:type :TimePeriod ;
+        :startTime "2023-04-01T12:00:00Z"^^xsd:dateTime ;
+        :endTime "2023-04-01T13:00:00Z"^^xsd:dateTime
+    ] .
+
+:myCalendar :containsEvent :meetingAtNoon .

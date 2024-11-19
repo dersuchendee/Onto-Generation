@@ -1,0 +1,137 @@
+@prefix : <http://example.org/ontology/weather#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+
+<http://example.org/ontology/weather>
+    a owl:Ontology ;
+    rdfs:label "Weather Service Ontology"@en ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:WeatherService
+    a owl:Class ;
+    rdfs:label "Weather Service"@en ;
+    rdfs:comment "A service that provides weather information."@en .
+
+:Location
+    a owl:Class ;
+    rdfs:label "Location"@en ;
+    rdfs:comment "A geographical location for which the weather service provides information."@en .
+
+:Forecast
+    a owl:Class ;
+    rdfs:label "Forecast"@en ;
+    rdfs:comment "A weather forecast for a specific location and time period."@en .
+
+:Temperature
+    a owl:Class ;
+    rdfs:label "Temperature"@en ;
+    rdfs:comment "Temperature information within a weather forecast."@en .
+
+:Wind
+    a owl:Class ;
+    rdfs:label "Wind"@en ;
+    rdfs:comment "Wind information within a weather forecast."@en .
+
+:Precipitation
+    a owl:Class ;
+    rdfs:label "Precipitation"@en ;
+    rdfs:comment "Precipitation information within a weather forecast."@en .
+
+### Object Properties
+
+:providesForecastFor
+    a owl:ObjectProperty ;
+    rdfs:label "provides forecast for"@en ;
+    rdfs:comment "The relationship between a weather service and the location it provides forecasts for."@en ;
+    rdfs:domain :WeatherService ;
+    rdfs:range :Location .
+
+:hasForecast
+    a owl:ObjectProperty ;
+    rdfs:label "has forecast"@en ;
+    rdfs:comment "The relationship between a location and its weather forecast."@en ;
+    rdfs:domain :Location ;
+    rdfs:range :Forecast .
+
+:hasTemperature
+    a owl:ObjectProperty ;
+    rdfs:label "has temperature"@en ;
+    rdfs:comment "The relationship between a forecast and its temperature information."@en ;
+    rdfs:domain :Forecast ;
+    rdfs:range :Temperature .
+
+:hasWind
+    a owl:ObjectProperty ;
+    rdfs:label "has wind"@en ;
+    rdfs:comment "The relationship between a forecast and its wind information."@en ;
+    rdfs:domain :Forecast ;
+    rdfs:range :Wind .
+
+:hasPrecipitation
+    a owl:ObjectProperty ;
+    rdfs:label "has precipitation"@en ;
+    rdfs:comment "The relationship between a forecast and its precipitation information."@en ;
+    rdfs:domain :Forecast ;
+    rdfs:range :Precipitation .
+
+### Datatype Properties
+
+:hasValue
+    a owl:DatatypeProperty ;
+    rdfs:label "has value"@en ;
+    rdfs:comment "A generic property for the value of a measurement."@en ;
+    rdfs:range xsd:float .
+
+:hasUnit
+    a owl:DatatypeProperty ;
+    rdfs:label "has unit"@en ;
+    rdfs:comment "The unit of a measurement."@en ;
+    rdfs:range xsd:string .
+
+:hasTimePeriod
+    a owl:DatatypeProperty ;
+    rdfs:label "has time period"@en ;
+    rdfs:comment "The time period for which a forecast is applicable."@en ;
+    rdfs:range xsd:string .
+
+### Individuals
+
+:YrNoWeatherService
+    a :WeatherService ;
+    rdfs:label "Yr.no Weather Service"@en ;
+    :providesForecastFor :Berlin .
+
+:Berlin
+    a :Location ;
+    rdfs:label "Berlin"@en ;
+    :hasForecast :BerlinForecast .
+
+:BerlinForecast
+    a :Forecast ;
+    rdfs:label "3-Day Forecast for Berlin"@en ;
+    :hasTimePeriod "3 days"@en ;
+    :hasTemperature :BerlinTemperature ;
+    :hasWind :BerlinWind ;
+    :hasPrecipitation :BerlinPrecipitation .
+
+:BerlinTemperature
+    a :Temperature ;
+    rdfs:label "Temperature in Berlin"@en ;
+    :hasValue "10.5"^^xsd:float ;
+    :hasUnit "Celsius" .
+
+:BerlinWind
+    a :Wind ;
+    rdfs:label "Wind in Berlin"@en ;
+    :hasValue "5.0"^^xsd:float ;
+    :hasUnit "km/h" .
+
+:BerlinPrecipitation
+    a :Precipitation ;
+    rdfs:label "Precipitation in Berlin"@en ;
+    :hasValue "0.0"^^xsd:float ;
+    :hasUnit "mm" .

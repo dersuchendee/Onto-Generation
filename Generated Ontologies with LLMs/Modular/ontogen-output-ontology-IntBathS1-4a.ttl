@@ -1,0 +1,110 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix : <http://example.org/ontology/weather#> .
+
+<http://example.org/ontology/weather>
+    rdf:type owl:Ontology ;
+    rdfs:label "Weather Service Ontology" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:WeatherService
+    rdf:type owl:Class ;
+    rdfs:label "Weather Service" ;
+    rdfs:comment "An online platform that provides weather-related information." .
+
+:Location
+    rdf:type owl:Class ;
+    rdfs:label "Location" ;
+    rdfs:comment "A geographical area for which weather information is provided." .
+
+:WeatherForecast
+    rdf:type owl:Class ;
+    rdfs:label "Weather Forecast" ;
+    rdfs:comment "A weather prediction for a specific location over a defined time period." .
+
+:UserPreference
+    rdf:type owl:Class ;
+    rdfs:label "User Preference" ;
+    rdfs:comment "A user's preferred settings for a weather service." .
+
+### Object Properties
+
+:providesForecastFor
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "provides forecast for" ;
+    rdfs:domain :WeatherService ;
+    rdfs:range :Location ;
+    rdfs:comment "A relationship between a weather service and the location it provides forecasts for." .
+
+:hasForecast
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has forecast" ;
+    rdfs:domain :WeatherService ;
+    rdfs:range :WeatherForecast ;
+    rdfs:comment "A relationship between a weather service and the weather forecasts it offers." .
+
+:hasUserPreference
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has user preference" ;
+    rdfs:domain :WeatherService ;
+    rdfs:range :UserPreference ;
+    rdfs:comment "A relationship between a weather service and the user preferences it accommodates." .
+
+:isPreferredBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "is preferred by" ;
+    rdfs:domain :WeatherService ;
+    rdfs:range agentrole:Agent ;
+    rdfs:comment "A relationship between a weather service and the users who prefer it." .
+
+### Individuals
+
+:YrNoWeatherService
+    rdf:type :WeatherService ;
+    rdfs:label "Yr.no Weather Service" ;
+    rdfs:comment "The Yr.no online weather service providing forecasts for various locations." .
+
+:Berlin
+    rdf:type :Location ;
+    rdfs:label "Berlin" ;
+    rdfs:comment "The capital city of Germany, for which weather forecasts are provided." .
+
+:ThreeDayForecast
+    rdf:type :WeatherForecast ;
+    rdfs:label "3-Day Weather Forecast" ;
+    rdfs:comment "A weather forecast covering a three-day period." .
+
+:UserPreferredConfiguration
+    rdf:type :UserPreference ;
+    rdfs:label "User's Preferred Configuration" ;
+    rdfs:comment "A user's preferred configuration for a weather service, including location and forecast period." .
+
+### Restrictions
+
+:WeatherService
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :providesForecastFor ;
+        owl:someValuesFrom :Location
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasForecast ;
+        owl:someValuesFrom :WeatherForecast
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasUserPreference ;
+        owl:someValuesFrom :UserPreference
+    ] .
+
+### Facts
+
+:YrNoWeatherService :providesForecastFor :Berlin .
+:YrNoWeatherService :hasForecast :ThreeDayForecast .
+:YrNoWeatherService :hasUserPreference :UserPreferredConfiguration .

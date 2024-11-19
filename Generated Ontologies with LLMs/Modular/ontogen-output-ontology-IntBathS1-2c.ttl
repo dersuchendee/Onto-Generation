@@ -1,0 +1,81 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology to represent the concept of abstract time according to a user's definition."@en ;
+    rdfs:label "Abstract Time Ontology"@en .
+
+### Classes
+
+:AbstractTime
+    rdf:type owl:Class ;
+    rdfs:label "Abstract time concept"@en ;
+    rdfs:comment "A time concept that is defined abstractly, e.g., morning, afternoon, etc."@en .
+
+:Morning
+    rdf:type owl:Class ;
+    rdfs:subClassOf :AbstractTime ;
+    rdfs:label "Morning"@en ;
+    rdfs:comment "The time of day between 6 AM and 10 AM according to the user's definition."@en .
+
+:User
+    rdf:type owl:Class ;
+    rdfs:label "User"@en ;
+    rdfs:comment "An individual who interacts with the system and has preferences or definitions for abstract time concepts."@en .
+
+### Object Properties
+
+:hasAbstractTimeDefinition
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :User ;
+    rdfs:range :AbstractTime ;
+    rdfs:label "has abstract time definition"@en ;
+    rdfs:comment "Associates a user with their definition of an abstract time concept."@en .
+
+### Datatype Properties
+
+:hasStartTime
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AbstractTime ;
+    rdfs:range xsd:time ;
+    rdfs:label "has start time"@en ;
+    rdfs:comment "Indicates the starting time for an abstract time concept."@en .
+
+:hasEndTime
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :AbstractTime ;
+    rdfs:range xsd:time ;
+    rdfs:label "has end time"@en ;
+    rdfs:comment "Indicates the ending time for an abstract time concept."@en .
+
+### Individuals
+
+:User1234
+    rdf:type :User ;
+    rdfs:label "User 1234"@en ;
+    :hasAbstractTimeDefinition :Morning1234 .
+
+:Morning1234
+    rdf:type :Morning ;
+    rdfs:label "User 1234's Morning"@en ;
+    :hasStartTime "06:00:00"^^xsd:time ;
+    :hasEndTime "10:00:00"^^xsd:time .
+
+### Restrictions
+
+:Morning
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasStartTime ;
+        owl:hasValue "06:00:00"^^xsd:time
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasEndTime ;
+        owl:hasValue "10:00:00"^^xsd:time
+    ] .

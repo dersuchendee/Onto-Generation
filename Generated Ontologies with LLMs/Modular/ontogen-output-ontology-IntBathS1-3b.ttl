@@ -1,0 +1,104 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+
+:WeatherDisplaySystem rdf:type owl:Class ;
+                      rdfs:subClassOf agentrole:Agent ;
+                      rdfs:label "Weather Display System" ;
+                      rdfs:comment "A system capable of displaying weather information." .
+
+:User rdf:type owl:Class ;
+      rdfs:subClassOf agentrole:Agent ;
+      rdfs:label "User" ;
+      rdfs:comment "An individual who uses the weather display system." .
+
+:Location rdf:type owl:Class ;
+          rdfs:label "Location" ;
+          rdfs:comment "A geographical location, such as a city or region." .
+
+:WeatherInformation rdf:type owl:Class ;
+                    rdfs:label "Weather Information" ;
+                    rdfs:comment "Information about the weather conditions at a specific location." .
+
+:DisplayAction rdf:type owl:Class ;
+               rdfs:label "Display Action" ;
+               rdfs:comment "The action of displaying weather information on a device." .
+
+:hasLocation rdf:type owl:ObjectProperty ;
+             rdfs:domain :WeatherDisplaySystem ;
+             rdfs:range :Location ;
+             rdfs:label "has location" ;
+             rdfs:comment "The geographical location associated with the weather display system." .
+
+:displays rdf:type owl:ObjectProperty ;
+          rdfs:domain :WeatherDisplaySystem ;
+          rdfs:range :WeatherInformation ;
+          rdfs:label "displays" ;
+          rdfs:comment "The weather information that the system displays." .
+
+:prefers rdf:type owl:ObjectProperty ;
+         rdfs:domain :User ;
+         rdfs:range :DisplayAction ;
+         rdfs:label "prefers" ;
+         rdfs:comment "The display action preferred by the user." .
+
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :DisplayAction ;
+             rdfs:range :WeatherDisplaySystem ;
+             rdfs:label "performed by" ;
+             rdfs:comment "The system that performs the display action." .
+
+:atTime rdf:type owl:DatatypeProperty ;
+        rdfs:domain :DisplayAction ;
+        rdfs:range xsd:time ;
+        rdfs:label "at time" ;
+        rdfs:comment "The specific time at which the display action is preferred to be performed." .
+
+:UserPreference rdf:type owl:Class ;
+                rdfs:subClassOf [
+                  rdf:type owl:Restriction ;
+                  owl:onProperty :prefers ;
+                  owl:someValuesFrom :DisplayAction
+                ] ;
+                rdfs:label "User Preference" ;
+                rdfs:comment "A user preference for a display action to be performed by the weather display system." .
+
+:MorningRoutine rdf:type owl:Class ;
+                rdfs:subClassOf :DisplayAction ;
+                rdfs:label "Morning Routine" ;
+                rdfs:comment "A display action that is part of the user's morning routine." .
+
+:hasUser rdf:type owl:ObjectProperty ;
+         rdfs:domain :WeatherDisplaySystem ;
+         rdfs:range :User ;
+         rdfs:label "has user" ;
+         rdfs:comment "The user associated with the weather display system." .
+
+# Instances
+:Berlin rdf:type :Location ;
+        rdfs:label "Berlin" ;
+        rdfs:comment "The capital city of Germany, representing a specific geographical location for weather information." .
+
+:DisplayWeatherInMorning rdf:type :MorningRoutine ;
+                         rdfs:label "Display Weather in Morning" ;
+                         rdfs:comment "The action of displaying weather information in the morning as part of the user's routine." .
+
+:UserJohn rdf:type :User ;
+          rdfs:label "User John" ;
+          rdfs:comment "An example user named John who lives in Berlin and prefers to see the local weather in the morning." .
+
+:JohnsWeatherDisplaySystem rdf:type :WeatherDisplaySystem ;
+                           :hasLocation :Berlin ;
+                           :hasUser :UserJohn ;
+                           rdfs:label "John's Weather Display System" ;
+                           rdfs:comment "The weather display system used by John to display Berlin's weather in the morning." .
+
+:UserJohn :prefers :DisplayWeatherInMorning .
+
+:DisplayWeatherInMorning :performedBy :JohnsWeatherDisplaySystem ;
+                         :atTime "07:00:00"^^xsd:time .

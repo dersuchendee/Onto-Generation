@@ -1,0 +1,60 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:FilmEvent rdf:type owl:Class ;
+           rdfs:label "Film Event" ;
+           rdfs:comment "A class representing events where films are shown." .
+
+:ActionFilm rdf:type owl:Class ;
+            rdfs:subClassOf :FilmEvent ;
+            rdfs:label "Action Film" ;
+            rdfs:comment "A subclass of Film Event that is specific to action genre films." .
+
+:Cinema rdf:type owl:Class ;
+        rdfs:label "Cinema" ;
+        rdfs:comment "A class representing a cinema where film events take place." .
+
+### Object Properties
+
+:hasStartTime rdf:type owl:ObjectProperty ;
+              rdfs:domain :FilmEvent ;
+              rdfs:range xsd:dateTime ;
+              rdfs:label "has start time" ;
+              rdfs:comment "The property that indicates the start time of a film event." .
+
+:hasEndTime rdf:type owl:ObjectProperty ;
+            rdfs:domain :FilmEvent ;
+            rdfs:range xsd:dateTime ;
+            rdfs:label "has end time" ;
+            rdfs:comment "The property that indicates the end time of a film event." .
+
+:takesPlaceAt rdf:type owl:ObjectProperty ;
+              rdfs:domain :FilmEvent ;
+              rdfs:range :Cinema ;
+              rdfs:label "takes place at" ;
+              rdfs:comment "The property that associates a film event with a cinema where it takes place." .
+
+### Individuals
+
+:CinemaOne rdf:type :Cinema ;
+           rdfs:label "CinemaOne" ;
+           rdfs:comment "An individual representing the CinemaOne venue." .
+
+:XMenPreview rdf:type :ActionFilm ;
+             rdfs:label "X-men Sneak Preview" ;
+             :hasStartTime "2023-04-01T20:00:00"^^xsd:dateTime ;
+             :takesPlaceAt :CinemaOne ;
+             rdfs:comment "An individual representing the sneak preview event of the action film 'X-men'." .
+
+### Assumptions for end time (not provided in the scenario)
+
+:XMenPreview :hasEndTime "2023-04-01T22:00:00"^^xsd:dateTime .
