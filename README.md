@@ -3,7 +3,7 @@ This repository contains supplementary materials for submission #120 to EKAW 202
 
 Title: Improving Ontology Generation using Large Language Models
 
-![alt text](Images/expDiagram.svg)
+![alt text](Images/digram.png)
 
 
 This work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, dataset for evaluation and some details that could not be fit in the page count : )
