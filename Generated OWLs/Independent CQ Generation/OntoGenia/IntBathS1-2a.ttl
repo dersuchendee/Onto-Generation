@@ -1,0 +1,93 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:Activity rdf:type owl:Class ;
+          rdfs:label "Activity" ;
+          rdfs:comment "A class representing activities performed by an agent." .
+
+:BrushingTeeth rdf:type owl:Class ;
+               rdfs:subClassOf :Activity ;
+               rdfs:label "Brushing Teeth" ;
+               rdfs:comment "The activity of cleaning one's teeth with a toothbrush and toothpaste." .
+
+:Morning rdf:type owl:Class ;
+         rdfs:subClassOf time:TemporalEntity ;
+         rdfs:label "Morning" ;
+         rdfs:comment "A time interval that represents morning according to the user's definition, typically between 6 and 10 AM." .
+
+:Bathroom rdf:type owl:Class ;
+          rdfs:label "Bathroom" ;
+          rdfs:comment "A room containing a bath or shower and typically also a washbasin and a toilet." .
+
+:Agent rdf:type owl:Class ;
+        rdfs:label "Agent" ;
+        rdfs:comment "A class representing agents, which can be individuals or collective entities capable of performing activities." .
+
+### Object Properties
+
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Activity ;
+             rdfs:range :Agent ;
+             rdfs:label "performed by" ;
+             rdfs:comment "Relates an activity to the agent who performed it." .
+
+:performedIn rdf:type owl:ObjectProperty ;
+             rdfs:domain :Activity ;
+             rdfs:range :Bathroom ;
+             rdfs:label "performed in" ;
+             rdfs:comment "Relates an activity to the location where it was performed." .
+
+:performedDuring rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Activity ;
+                 rdfs:range :Morning ;
+                 rdfs:label "performed during" ;
+                 rdfs:comment "Relates an activity to the time interval during which it was performed." .
+
+:previousActivity rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Activity ;
+                  rdfs:range :Activity ;
+                  rdfs:label "previous activity" ;
+                  rdfs:comment "Relates an activity to the activity that was performed immediately before it." .
+
+### Individuals
+
+:BrushingTeethInstance rdf:type :BrushingTeeth ;
+                       :performedBy :User ;
+                       :performedIn :BathroomInstance ;
+                       :performedDuring :ThursdayMorning .
+
+:User rdf:type :Agent ;
+      rdfs:label "User" ;
+      rdfs:comment "The individual who is performing activities." .
+
+:BathroomInstance rdf:type :Bathroom ;
+                  rdfs:label "User's Bathroom" ;
+                  rdfs:comment "The specific bathroom where the user was brushing their teeth." .
+
+:ThursdayMorning rdf:type :Morning ;
+                 rdfs:label "Thursday Morning" ;
+                 rdfs:comment "The morning time interval on a Thursday, typically between 6 and 10 AM according to the user." .
+
+### Restrictions
+
+:BrushingTeeth rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty :performedDuring ;
+                                  owl:someValuesFrom :Morning ] .
+
+:Morning rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty time:hasBeginning ;
+                           owl:someValuesFrom [ rdf:type time:Instant ;
+                                                time:inXSDDateTime "06:00:00"^^xsd:time ] ] ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty time:hasEnd ;
+                           owl:someValuesFrom [ rdf:type time:Instant ;
+                                                time:inXSDDateTime "10:00:00"^^xsd:time ] ] .

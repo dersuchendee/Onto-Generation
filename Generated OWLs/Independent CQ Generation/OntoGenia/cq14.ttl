@@ -1,0 +1,85 @@
+@prefix : <http://example.org/ontology/recycling#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://example.org/ontology/recycling>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Recycling based on Material Composition" ;
+    rdfs:comment "This ontology is designed to represent the chemical composition of materials for the purpose of recycling." .
+
+### Classes
+
+:Material
+    rdf:type owl:Class ;
+    rdfs:label "Material" ;
+    rdfs:comment "A class representing any material that can be recycled." .
+
+:ChemicalElement
+    rdf:type owl:Class ;
+    rdfs:label "Chemical Element" ;
+    rdfs:comment "A class representing chemical elements that can be part of a material's composition." .
+
+:Compound
+    rdf:type owl:Class ;
+    rdfs:label "Compound" ;
+    rdfs:comment "A class representing chemical compounds that can be part of a material's composition." .
+
+### Object Properties
+
+:hasChemicalComposition
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has chemical composition" ;
+    rdfs:comment "An object property linking a material to its chemical composition." ;
+    rdfs:domain :Material ;
+    rdfs:range :ChemicalComposition .
+
+:consistsOfElement
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "consists of element" ;
+    rdfs:comment "An object property linking a chemical composition to a chemical element." ;
+    rdfs:domain :ChemicalComposition ;
+    rdfs:range :ChemicalElement .
+
+:consistsOfCompound
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "consists of compound" ;
+    rdfs:comment "An object property linking a chemical composition to a chemical compound." ;
+    rdfs:domain :ChemicalComposition ;
+    rdfs:range :Compound .
+
+### Datatype Properties
+
+:hasPercentage
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has percentage" ;
+    rdfs:comment "A datatype property representing the percentage of a chemical element or compound in a material's composition." ;
+    rdfs:domain [ rdf:type owl:Class ; owl:unionOf (:ChemicalElement :Compound) ] ;
+    rdfs:range xsd:float .
+
+### Restrictions and Subclasses
+
+:ChemicalComposition
+    rdf:type owl:Class ;
+    rdfs:label "Chemical Composition" ;
+    rdfs:comment "A class representing the chemical composition of a material, which includes chemical elements and compounds." ;
+    owl:equivalentClass [ rdf:type owl:Class ; owl:unionOf (:ChemicalElement :Compound) ] .
+
+### Individuals (Examples)
+
+:Material_Aluminum
+    rdf:type :Material ;
+    rdfs:label "Aluminum Material" ;
+    :hasChemicalComposition :Composition_Aluminum .
+
+:Composition_Aluminum
+    rdf:type :ChemicalComposition ;
+    rdfs:label "Chemical Composition of Aluminum" ;
+    :consistsOfElement :Element_Al .
+
+:Element_Al
+    rdf:type :ChemicalElement ;
+    rdfs:label "Aluminum Element" ;
+    :hasPercentage "100.0"^^xsd:float .

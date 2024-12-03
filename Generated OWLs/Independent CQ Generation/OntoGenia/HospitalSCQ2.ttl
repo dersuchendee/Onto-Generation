@@ -1,0 +1,104 @@
+@prefix : <http://www.example.org/ontology/hospital#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://www.example.org/ontology/hospital>
+    rdf:type owl:Ontology ;
+    rdfs:label "Hospital Ontology" ;
+    rdfs:comment "An ontology for representing entities and relationships within a hospital setting." .
+
+### Classes
+
+:Person rdf:type owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual human being." .
+
+:Degree rdf:type owl:Class ;
+    rdfs:label "Degree" ;
+    rdfs:comment "An academic degree obtained by an individual." .
+
+:StudyPeriod rdf:type owl:Class ;
+    rdfs:label "Study Period" ;
+    rdfs:comment "A period of time during which a person studies for a specific degree." .
+
+### Object Properties
+
+:hasDegree rdf:type owl:ObjectProperty ;
+    rdfs:label "has degree" ;
+    rdfs:comment "A relationship between a person and a degree they have obtained." ;
+    rdfs:domain :Person ;
+    rdfs:range :Degree .
+
+:studiedDuring rdf:type owl:ObjectProperty ;
+    rdfs:label "studied during" ;
+    rdfs:comment "A relationship between a person and the study period for a specific degree." ;
+    rdfs:domain :Person ;
+    rdfs:range :StudyPeriod .
+
+:degreeObtained rdf:type owl:ObjectProperty ;
+    rdfs:label "degree obtained" ;
+    rdfs:comment "A relationship between a study period and the degree obtained during that period." ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range :Degree .
+
+### Datatype Properties
+
+:hasStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "has start date" ;
+    rdfs:comment "The start date of a study period." ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range xsd:date .
+
+:hasEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "has end date" ;
+    rdfs:comment "The end date of a study period." ;
+    rdfs:domain :StudyPeriod ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:PasqualeDiGennaro rdf:type :Person ;
+    rdfs:label "Pasquale Di Gennaro" ;
+    :studiedDuring :NursingAssistantStudy, :CertifiedNurseStudy .
+
+:NursingAssistantDegree rdf:type :Degree ;
+    rdfs:label "Nursing Assistant Degree" .
+
+:CertifiedNurseDegree rdf:type :Degree ;
+    rdfs:label "Certified Nurse Degree" .
+
+:NursingAssistantStudy rdf:type :StudyPeriod ;
+    rdfs:label "Study period for Nursing Assistant" ;
+    :degreeObtained :NursingAssistantDegree ;
+    :hasStartDate "XXXX-XX-XX"^^xsd:date ; # The exact start date is not provided in the scenario
+    :hasEndDate "XXXX-XX-XX"^^xsd:date . # The exact end date is not provided in the scenario
+
+:CertifiedNurseStudy rdf:type :StudyPeriod ;
+    rdfs:label "Study period for Certified Nurse" ;
+    :degreeObtained :CertifiedNurseDegree ;
+    :hasStartDate "XXXX-XX-XX"^^xsd:date ; # The exact start date is not provided in the scenario
+    :hasEndDate "2001-05-XX"^^xsd:date . # The exact end date is May 2001, day is not provided
+
+### Restrictions
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :studiedDuring ;
+  owl:someValuesFrom :StudyPeriod
+] rdfs:subClassOf :Person .
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :degreeObtained ;
+  owl:someValuesFrom :Degree
+] rdfs:subClassOf :StudyPeriod .
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :hasStartDate ;
+  owl:allValuesFrom xsd:date
+] rdfs:subClassOf :StudyPeriod .
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :hasEndDate ;
+  owl:allValuesFrom xsd:date
+] rdfs:subClassOf :StudyPeriod .

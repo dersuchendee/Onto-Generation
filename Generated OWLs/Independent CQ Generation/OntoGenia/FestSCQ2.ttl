@@ -1,0 +1,90 @@
+@prefix : <http://www.example.org/theatre_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://www.example.org/theatre_ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about theatre festivals and productions."@en .
+
+### Classes
+
+:City rdf:type owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A city where events such as theatre festivals can take place."@en .
+
+:TheatreFestival rdf:type owl:Class ;
+    rdfs:label "Theatre Festival" ;
+    rdfs:comment "A festival that features theatre productions."@en .
+
+:Production rdf:type owl:Class ;
+    rdfs:label "Production" ;
+    rdfs:comment "A theatre production which is a performance of a particular play."@en .
+
+:Play rdf:type owl:Class ;
+    rdfs:label "Play" ;
+    rdfs:comment "A play that is performed in a theatre production."@en .
+
+### Object Properties
+
+:tookPlaceIn rdf:type owl:ObjectProperty ;
+    rdfs:label "took place in" ;
+    rdfs:comment "The city in which a theatre festival took place."@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range :City .
+
+:featuredProduction rdf:type owl:ObjectProperty ;
+    rdfs:label "featured production" ;
+    rdfs:comment "A production that is featured in a theatre festival."@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range :Production .
+
+:isProductionOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is production of" ;
+    rdfs:comment "The play that is performed in a production."@en ;
+    rdfs:domain :Production ;
+    rdfs:range :Play .
+
+### Individuals
+
+:Rome rdf:type :City ;
+    rdfs:label "Rome" ;
+    rdfs:comment "The capital city of Italy."@en .
+
+:RomaLovesShakespeare rdf:type :TheatreFestival ;
+    rdfs:label "Roma Loves Shakespeare" ;
+    rdfs:comment "A theatre festival dedicated to the works of William Shakespeare that took place in Rome."@en ;
+    :tookPlaceIn :Rome .
+
+:TheMerchantOfVenice rdf:type :Play ;
+    rdfs:label "The Merchant of Venice" ;
+    rdfs:comment "A play by William Shakespeare."@en .
+
+:ProductionFromPisa rdf:type :Production ;
+    rdfs:label "Production from Pisa" ;
+    rdfs:comment "A production of 'The Merchant of Venice' from a theatre in Pisa."@en ;
+    :isProductionOf :TheMerchantOfVenice .
+
+:ProductionFromVenice rdf:type :Production ;
+    rdfs:label "Production from Venice" ;
+    rdfs:comment "A production of 'The Merchant of Venice' from a theatre institute in Venice."@en ;
+    :isProductionOf :TheMerchantOfVenice .
+
+### Restrictions
+
+:TheatreFestival rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :tookPlaceIn ;
+    owl:someValuesFrom :City
+] .
+
+:Production rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :isProductionOf ;
+    owl:someValuesFrom :Play
+] .
+
+### End of Ontology

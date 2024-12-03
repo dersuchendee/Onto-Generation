@@ -1,0 +1,108 @@
+@prefix : <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<http://example.org/ontology/theatre>
+    a owl:Ontology ;
+    rdfs:label "Theatre Ontology" ;
+    dct:description "An ontology for representing theatre productions, festivals, and their premieres." .
+
+### Classes
+
+:Production
+    a owl:Class ;
+    rdfs:label "Production" ;
+    rdfs:comment "A theatrical production, which could be a play, musical, or other form of theatre." .
+
+:Festival
+    a owl:Class ;
+    rdfs:label "Festival" ;
+    rdfs:comment "A festival event that hosts multiple theatre productions." .
+
+:Premiere
+    a owl:Class ;
+    rdfs:label "Premiere" ;
+    rdfs:comment "The first public performance of a production." .
+
+:City
+    a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A city where theatre festivals and productions may take place." .
+
+### Object Properties
+
+:hasPremiere
+    a owl:ObjectProperty ;
+    rdfs:label "has premiere" ;
+    rdfs:domain :Production ;
+    rdfs:range :Premiere ;
+    rdfs:comment "Associates a production with its premiere." ;
+    owl:inverseOf :isPremiereOf .
+
+:isPremiereOf
+    a owl:ObjectProperty ;
+    rdfs:label "is premiere of" ;
+    rdfs:domain :Premiere ;
+    rdfs:range :Production ;
+    rdfs:comment "Associates a premiere with its production." .
+
+:takesPlaceIn
+    a owl:ObjectProperty ;
+    rdfs:label "takes place in" ;
+    rdfs:domain [:Production, :Festival] ;
+    rdfs:range :City ;
+    rdfs:comment "Associates a production or festival with the city it takes place in." .
+
+### Datatype Properties
+
+:premiereDate
+    a owl:DatatypeProperty ;
+    rdfs:label "premiere date" ;
+    rdfs:domain :Premiere ;
+    rdfs:range xsd:dateTime ;
+    rdfs:comment "The date and time when the premiere of a production takes place." .
+
+### Restrictions
+
+:Production
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasPremiere ;
+        owl:cardinality "1"^^xsd:nonNegativeInteger ;
+        rdfs:label "A production has exactly one premiere." ;
+        rdfs:comment "Ensures that each production is associated with exactly one premiere."
+    ] .
+
+### Individuals (Example Individuals, not part of the ontology definition)
+
+:RomaLovesShakespeare
+    a :Festival ;
+    :takesPlaceIn :Rome .
+
+:TheMerchantOfVenice_Pisa
+    a :Production ;
+    :hasPremiere :PremiereOfMerchant_Pisa ;
+    :takesPlaceIn :Rome .
+
+:TheMerchantOfVenice_Venice
+    a :Production ;
+    :hasPremiere :PremiereOfMerchant_Venice ;
+    :takesPlaceIn :Rome .
+
+:PremiereOfMerchant_Pisa
+    a :Premiere ;
+    :premiereDate "2007-01-01T20:00:00Z"^^xsd:dateTime ;
+    :isPremiereOf :TheMerchantOfVenice_Pisa .
+
+:PremiereOfMerchant_Venice
+    a :Premiere ;
+    :premiereDate "2007-01-02T20:00:00Z"^^xsd:dateTime ;
+    :isPremiereOf :TheMerchantOfVenice_Venice .
+
+:Rome
+    a :City ;
+    rdfs:label "Rome" .
+
+### End of Ontology Definition

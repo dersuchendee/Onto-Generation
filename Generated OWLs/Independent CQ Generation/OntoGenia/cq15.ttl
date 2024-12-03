@@ -1,0 +1,54 @@
+@prefix : <http://www.example.org/circular_value_network#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix cpannotationschema: <http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#> .
+
+<http://www.example.org/circular_value_network>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Circular Value Network" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:Actor rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor" ;
+    rdfs:comment "An agent involved in a process within the circular value network." .
+
+:Process rdf:type owl:Class ;
+    rdfs:label "Process" ;
+    rdfs:comment "A process that outlines work done by different actors in the circular value network." .
+
+### Object Properties
+
+:involvesActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :Actor ;
+    rdfs:label "involves actor" ;
+    rdfs:comment "Relates a process to the actors involved in it." .
+
+:participatesIn rdf:type owl:ObjectProperty ;
+    owl:inverseOf :involvesActor ;
+    rdfs:domain :Actor ;
+    rdfs:range :Process ;
+    rdfs:label "participates in" ;
+    rdfs:comment "Relates an actor to the processes they are involved in." .
+
+### Restrictions
+
+:Process rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :involvesActor ;
+    owl:someValuesFrom :Actor
+] .
+
+:Actor rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :participatesIn ;
+    owl:someValuesFrom :Process
+] .

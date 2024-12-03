@@ -1,0 +1,149 @@
+@prefix : <http://www.hospitalontology.org/ontologies/hospital.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.hospitalontology.org/ontologies/hospital.owl>
+    rdf:type owl:Ontology ;
+    rdfs:label "Hospital Ontology" ;
+    owl:imports agentrole: ;
+    owl:imports collectionentity: .
+
+### Classes
+
+:Hospital
+    rdf:type owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A facility that provides medical care and treatment to patients." .
+
+:Employee
+    rdf:type owl:Class ;
+    rdfs:label "Employee" ;
+    rdfs:comment "An individual who works part-time or full-time under a contract of employment, whether oral or written, express or implied, and has recognized rights and duties." .
+
+:Nurse
+    rdf:type owl:Class ;
+    rdfs:subClassOf :Employee ;
+    rdfs:label "Nurse" ;
+    rdfs:comment "A healthcare professional who is trained to care for people who are sick or injured." .
+
+:Union
+    rdf:type owl:Class ;
+    rdfs:label "Union" ;
+    rdfs:comment "An organization that represents the collective interests of employees, bargaining with employers over such issues as wages, benefits, and working conditions." .
+
+:UnionMembership
+    rdf:type owl:Class ;
+    rdfs:subClassOf collectionentity:Collection ;
+    rdfs:label "Union Membership" ;
+    rdfs:comment "A collection entity representing the membership of employees in a specific union." .
+
+:Evaluation
+    rdf:type owl:Class ;
+    rdfs:label "Evaluation" ;
+    rdfs:comment "A written statement assessing the performance of an employee." .
+
+:ArticleCollection
+    rdf:type owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of research articles, usually available in a library, that can be in various formats such as books or electronic media." .
+
+### Object Properties
+
+:employedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range :Hospital ;
+    rdfs:label "employed at" ;
+    rdfs:comment "A relationship between an employee and a hospital where the employee is employed." .
+
+:hasUnionMembership
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range :UnionMembership ;
+    rdfs:label "has union membership" ;
+    rdfs:comment "A relationship between an employee and the union membership they are part of." .
+
+:representsUnion
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range :Union ;
+    rdfs:label "represents union" ;
+    rdfs:comment "A relationship where an employee represents a union, typically as a union representative." .
+
+:evaluates
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range :Evaluation ;
+    rdfs:label "evaluates" ;
+    rdfs:comment "A relationship where an employee, typically a senior doctor, evaluates other employees." .
+
+:hasArticle
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range :Evaluation ;
+    rdfs:label "has article" ;
+    rdfs:comment "A relationship between an article collection and an article that is part of the collection." .
+
+### Datatype Properties
+
+:hasDegree
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range xsd:string ;
+    rdfs:label "has degree" ;
+    rdfs:comment "A property that indicates the degree an employee has obtained." .
+
+:employedSince
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range xsd:date ;
+    rdfs:label "employed since" ;
+    rdfs:comment "A property that indicates the date since an employee has been employed at a hospital." .
+
+:unionRepresentativeSince
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range xsd:date ;
+    rdfs:label "union representative since" ;
+    rdfs:comment "A property that indicates the date since an employee has been a union representative." .
+
+:hasPageCount
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :ArticleCollection ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has page count" ;
+    rdfs:comment "A property that indicates the number of pages in an article collection." .
+
+### Restrictions
+
+:UnionMembership
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty collectionentity:hasMember ;
+        owl:someValuesFrom :Employee ;
+        rdfs:label "has member" ;
+        rdfs:comment "A restriction indicating that a union membership has at least one employee as a member."
+    ] .
+
+:Nurse
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasDegree ;
+        owl:someValuesFrom xsd:string ;
+        rdfs:label "has degree" ;
+        rdfs:comment "A restriction indicating that a nurse has at least one degree."
+    ] .
+
+:ArticleCollection
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasArticle ;
+        owl:someValuesFrom :Evaluation ;
+        rdfs:label "has article" ;
+        rdfs:comment "A restriction indicating that an article collection contains at least one article."
+    ] .

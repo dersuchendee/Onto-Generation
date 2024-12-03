@@ -1,0 +1,57 @@
+@prefix : <http://www.example.org/circular_value_network#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+
+<http://www.example.org/circular_value_network>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology representing the actors and their roles within a circular value network."@en ;
+    rdfs:label "Circular Value Network Ontology"@en .
+
+### Classes
+
+:Actor rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor"@en ;
+    rdfs:comment "An agent involved in a process within the circular value network."@en .
+
+:Process rdf:type owl:Class ;
+    rdfs:label "Process"@en ;
+    rdfs:comment "A process that outlines work done by different actors in the circular value network."@en .
+
+:Role rdf:type owl:Class ;
+    rdfs:subClassOf objectrole:Role ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A role that an actor can play in a process within the circular value network."@en .
+
+### Object Properties
+
+:involvesActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Process ;
+    rdfs:range :Actor ;
+    rdfs:label "involves actor"@en ;
+    rdfs:comment "Associates a process with an actor involved in it."@en .
+
+:playsRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Role ;
+    rdfs:label "plays role"@en ;
+    rdfs:comment "Associates an actor with the role they play in the circular value network."@en .
+
+### Restrictions
+
+:Process rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :involvesActor ;
+    owl:someValuesFrom :Actor
+] .
+
+:Actor rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :playsRole ;
+    owl:someValuesFrom :Role
+] .

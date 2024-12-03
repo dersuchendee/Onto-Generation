@@ -1,0 +1,93 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ce: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.example.org/ontology/music> rdf:type owl:Ontology ;
+                                       rdfs:comment "An ontology for representing information about music albums and tracks." .
+
+### Classes
+
+:MusicGroup rdf:type owl:Class ;
+            rdfs:label "Music Group" ;
+            rdfs:comment "A group of individuals who perform music together." .
+
+:MusicAlbum rdf:type owl:Class ;
+            rdfs:label "Music Album" ;
+            rdfs:comment "A collection of music tracks released together as a single item." ;
+            rdfs:subClassOf ce:Collection .
+
+:MusicTrack rdf:type owl:Class ;
+            rdfs:label "Music Track" ;
+            rdfs:comment "A single piece of music or song." ;
+            rdfs:subClassOf ce:Collection .
+
+:Person rdf:type owl:Class ;
+        rdfs:label "Person" ;
+        rdfs:comment "A human being." .
+
+### Object Properties
+
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:label "has member" ;
+           rdfs:comment "A relation between a collection and its members." ;
+           rdfs:domain ce:Collection ;
+           rdfs:range owl:Thing .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:label "has track" ;
+          rdfs:comment "A relation between a music album and its tracks." ;
+          rdfs:domain :MusicAlbum ;
+          rdfs:range :MusicTrack ;
+          owl:equivalentProperty ce:hasMember .
+
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:label "performed by" ;
+             rdfs:comment "A relation between a music track and the music group that performed it." ;
+             rdfs:domain :MusicTrack ;
+             rdfs:range :MusicGroup .
+
+:memberOf rdf:type owl:ObjectProperty ;
+          rdfs:label "member of" ;
+          rdfs:comment "A relation between a person and a music group to which they belong." ;
+          rdfs:domain :Person ;
+          rdfs:range :MusicGroup .
+
+### Datatype Properties
+
+:trackCount rdf:type owl:DatatypeProperty ;
+            rdfs:label "track count" ;
+            rdfs:comment "The number of tracks in a music album." ;
+            rdfs:domain :MusicAlbum ;
+            rdfs:range xsd:nonNegativeInteger .
+
+### Restrictions
+
+:MusicAlbum rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTrack ;
+                              owl:someValuesFrom :MusicTrack ] .
+
+:MusicAlbum rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :trackCount ;
+                              owl:qualifiedCardinality "28"^^xsd:nonNegativeInteger ;
+                              owl:onClass :MusicTrack ] .
+
+### Individuals
+
+:RedHotChiliPeppers rdf:type :MusicGroup ;
+                     rdfs:label "Red Hot Chili Peppers" .
+
+:StadiumArcadium rdf:type :MusicAlbum ;
+                  rdfs:label "Stadium Arcadium" ;
+                  :trackCount "28"^^xsd:nonNegativeInteger .
+
+:HumpDeBump rdf:type :MusicTrack ;
+            rdfs:label "Hump de Bump" ;
+            :performedBy :RedHotChiliPeppers .
+
+### Example of a track belonging to an album
+
+:StadiumArcadium :hasTrack :HumpDeBump .

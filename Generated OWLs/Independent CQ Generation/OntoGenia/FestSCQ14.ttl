@@ -1,0 +1,149 @@
+@prefix : <http://www.example.org/theatre_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://www.example.org/theatre_ontology>
+    rdf:type owl:Ontology ;
+    rdfs:label "Theatre Ontology"@en ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:Person rdf:type owl:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:subClassOf agentrole:Agent .
+
+:Production rdf:type owl:Class ;
+    rdfs:label "Theatre Production"@en .
+
+:Role rdf:type owl:Class ;
+    rdfs:label "Role in a production"@en ;
+    rdfs:subClassOf agentrole:Role .
+
+:Performance rdf:type owl:Class ;
+    rdfs:label "Performance of a production"@en ;
+    rdfs:subClassOf :Production .
+
+:TimeIndexedRole rdf:type owl:Class ;
+    rdfs:label "Time-indexed role"@en ;
+    owl:equivalentClass [ 
+        rdf:type owl:Class ;
+        owl:intersectionOf ( 
+            :Role 
+            [ 
+                rdf:type owl:Restriction ;
+                owl:onProperty time:hasTime ;
+                owl:someValuesFrom time:Instant 
+            ]
+        )
+    ] .
+
+### Object Properties
+
+:hasRole rdf:type owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:domain :Person ;
+    rdfs:range :Role .
+
+:performedIn rdf:type owl:ObjectProperty ;
+    rdfs:label "performed in"@en ;
+    rdfs:domain :Role ;
+    rdfs:range :Performance .
+
+:hasPerformance rdf:type owl:ObjectProperty ;
+    rdfs:label "has performance"@en ;
+    rdfs:domain :Production ;
+    rdfs:range :Performance .
+
+:hasTimeIndexedRole rdf:type owl:ObjectProperty ;
+    rdfs:label "has time-indexed role"@en ;
+    rdfs:domain :Person ;
+    rdfs:range :TimeIndexedRole .
+
+:hasActor rdf:type owl:ObjectProperty ;
+    rdfs:label "has actor"@en ;
+    rdfs:domain :Role ;
+    rdfs:range :Person .
+
+:hasTime rdf:type owl:ObjectProperty ;
+    rdfs:label "has time"@en ;
+    rdfs:domain :TimeIndexedRole ;
+    rdfs:range time:Instant .
+
+### Datatype Properties
+
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:label "has name"@en ;
+    rdfs:domain :Person ;
+    rdfs:range xsd:string .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+    rdfs:label "has title"@en ;
+    rdfs:domain :Production ;
+    rdfs:range xsd:string .
+
+:hasDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "has date"@en ;
+    rdfs:domain :Performance ;
+    rdfs:range xsd:dateTime .
+
+### Individuals
+
+:MerchantOfVenice rdf:type :Production ;
+    :hasTitle "The Merchant of Venice"@en .
+
+:FabioBianchi rdf:type :Person ;
+    :hasName "Fabio Bianchi"@en .
+
+:DukeOfVenice rdf:type :Role ;
+    :hasActor :FabioBianchi ;
+    :performedIn :MerchantOfVenice .
+
+:Servant rdf:type :Role ;
+    :hasActor :FabioBianchi ;
+    :performedIn :MerchantOfVenice .
+
+:FabioDukeOfVenice rdf:type :TimeIndexedRole ;
+    :hasRole :DukeOfVenice ;
+    :hasTime [ 
+        rdf:type time:Instant ;
+        time:inXSDDateTime "2009-09-07T20:00:00Z"^^xsd:dateTime 
+    ] .
+
+:FabioServant rdf:type :TimeIndexedRole ;
+    :hasRole :Servant ;
+    :hasTime [ 
+        rdf:type time:Instant ;
+        time:inXSDDateTime "2009-09-07T20:00:00Z"^^xsd:dateTime 
+    ] .
+
+### Restrictions
+
+:Role rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasActor ;
+    owl:someValuesFrom :Person
+] .
+
+:Performance rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasDate ;
+    owl:someValuesFrom xsd:dateTime
+] .
+
+:Person rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasRole ;
+    owl:someValuesFrom :Role
+] .
+
+:Person rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasTimeIndexedRole ;
+    owl:someValuesFrom :TimeIndexedRole
+] .

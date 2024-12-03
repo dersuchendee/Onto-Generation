@@ -1,0 +1,93 @@
+@prefix : <http://www.example.org/circular_value_network.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.example.org/circular_value_network.owl> rdf:type owl:Ontology ;
+                                                  rdfs:comment "An ontology representing the actors and their roles within a circular value network."@en .
+
+### Classes
+
+:Actor rdf:type owl:Class ;
+       rdfs:subClassOf agentrole:Agent ;
+       rdfs:label "Actor"@en ;
+       rdfs:comment "An agent involved in the circular value network, working towards a common goal."@en .
+
+:ValueNetwork rdf:type owl:Class ;
+               rdfs:subClassOf collectionentity:Collection ;
+               rdfs:label "Value Network"@en ;
+               rdfs:comment "A collection of actors working together towards a common goal within a circular value network."@en .
+
+:ValueProposition rdf:type owl:Class ;
+                   rdfs:label "Value Proposition"@en ;
+                   rdfs:comment "The beneficial outcomes that the actors involved in the network aim to achieve."@en .
+
+:Competency rdf:type owl:Class ;
+             rdfs:label "Competency"@en ;
+             rdfs:comment "A skill or capability used by an actor within the circular value network."@en .
+
+:Resource rdf:type owl:Class ;
+           rdfs:label "Resource"@en ;
+           rdfs:comment "A physical or informational asset used by an actor within the circular value network."@en .
+
+:Output rdf:type owl:Class ;
+         rdfs:label "Output"@en ;
+         rdfs:comment "The result of the circular value network's activities, including the value proposition and secondary values."@en .
+
+### Object Properties
+
+:hasActor rdf:type owl:ObjectProperty ;
+          rdfs:domain :ValueNetwork ;
+          rdfs:range :Actor ;
+          rdfs:label "has actor"@en ;
+          rdfs:comment "Relates a value network to its actors."@en .
+
+:aimsToAchieve rdf:type owl:ObjectProperty ;
+               rdfs:domain :ValueNetwork ;
+               rdfs:range :ValueProposition ;
+               rdfs:label "aims to achieve"@en ;
+               rdfs:comment "Relates a value network to the value proposition it aims to achieve."@en .
+
+:usesCompetency rdf:type owl:ObjectProperty ;
+                rdfs:domain :Actor ;
+                rdfs:range :Competency ;
+                rdfs:label "uses competency"@en ;
+                rdfs:comment "Relates an actor to the competencies they use within the circular value network."@en .
+
+:usesResource rdf:type owl:ObjectProperty ;
+              rdfs:domain :Actor ;
+              rdfs:range :Resource ;
+              rdfs:label "uses resource"@en ;
+              rdfs:comment "Relates an actor to the resources they use within the circular value network."@en .
+
+:producesOutput rdf:type owl:ObjectProperty ;
+                rdfs:domain :ValueNetwork ;
+                rdfs:range :Output ;
+                rdfs:label "produces output"@en ;
+                rdfs:comment "Relates a value network to the outputs it produces."@en .
+
+### Restrictions
+
+:ValueNetwork rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasActor ;
+                                owl:someValuesFrom :Actor ] .
+
+:Actor rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :usesCompetency ;
+                         owl:someValuesFrom :Competency ] .
+
+:Actor rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :usesResource ;
+                         owl:someValuesFrom :Resource ] .
+
+:ValueNetwork rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty :aimsToAchieve ;
+                                owl:someValuesFrom :ValueProposition ] .
+
+:ValueNetwork rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty :producesOutput ;
+                                owl:someValuesFrom :Output ] .

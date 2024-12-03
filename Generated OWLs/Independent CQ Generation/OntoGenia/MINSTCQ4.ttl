@@ -1,0 +1,96 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <http://www.example.org/ontology/musical_instruments#> .
+
+<http://www.example.org/ontology/musical_instruments>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing knowledge about musical instruments, their invention, and properties relevant to musicology."@en .
+
+### Classes
+
+:MusicalInstrument
+    rdf:type owl:Class ;
+    rdfs:label "Musical Instrument"@en ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+:Invention
+    rdf:type owl:Class ;
+    rdfs:label "Invention"@en ;
+    rdfs:comment "An event representing the creation of a new musical instrument or a significant improvement to an existing one."@en .
+
+:TimePeriod
+    rdf:type owl:Class ;
+    rdfs:label "Time Period"@en ;
+    rdfs:comment "A span of time during which an event occurs or an entity exists."@en .
+
+### Object Properties
+
+:wasInventedDuring
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "was invented during"@en ;
+    rdfs:comment "Associates a musical instrument with the time period during which it was invented."@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :TimePeriod .
+
+:hasInvention
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has invention"@en ;
+    rdfs:comment "Associates a time period with an invention event related to a musical instrument."@en ;
+    rdfs:domain :TimePeriod ;
+    rdfs:range :Invention ;
+    owl:inverseOf :wasInventedDuring .
+
+### Datatype Properties
+
+:hasYear
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has year"@en ;
+    rdfs:comment "Denotes the year when an invention event occurred."@en ;
+    rdfs:domain :Invention ;
+    rdfs:range xsd:gYear .
+
+### Individuals and Facts
+
+:BaroquePeriod
+    rdf:type :TimePeriod ;
+    rdfs:label "Baroque Period"@en ;
+    rdfs:comment "The period of Western art music composed from approximately 1600 to 1750."@en .
+
+:ClassicalPeriod
+    rdf:type :TimePeriod ;
+    rdfs:label "Classical Period"@en ;
+    rdfs:comment "The period of Western art music composed from approximately 1750 to 1820."@en .
+
+:InventionOfClarinet
+    rdf:type :Invention ;
+    rdfs:label "Invention of the Clarinet"@en ;
+    :hasYear "1700"^^xsd:gYear .
+
+:Clarinet
+    rdf:type :MusicalInstrument ;
+    rdfs:label "Clarinet"@en ;
+    rdfs:comment "A woodwind instrument with a single-reed mouthpiece."@en ;
+    :wasInventedDuring :BaroquePeriod .
+
+### Restrictions
+
+:MusicalInstrument
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :wasInventedDuring ;
+        owl:someValuesFrom :TimePeriod
+    ] .
+
+:TimePeriod
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasInvention ;
+        owl:someValuesFrom :Invention
+    ] .
+
+### End of Ontology
+
+# Note: The individuals and facts are examples to illustrate the use of the ontology.
+# In a real-world scenario, these would be populated with actual data.

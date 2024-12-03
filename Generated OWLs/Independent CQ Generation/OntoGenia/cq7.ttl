@@ -1,0 +1,87 @@
+@prefix : <http://www.example.org/ontology/circular_value_network#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.example.org/ontology/circular_value_network>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Circular Value Network Competencies" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl> .
+
+### Classes
+
+:Competency
+    rdf:type owl:Class ;
+    rdfs:label "Competency" ;
+    rdfs:comment "A skill or ability that an actor possesses to perform specific work within a circular value network." .
+
+:Work
+    rdf:type owl:Class ;
+    rdfs:label "Work" ;
+    rdfs:comment "A piece of work or task that is performed by an actor within a circular value network." .
+
+:Actor
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor" ;
+    rdfs:comment "An individual or organization that performs work within a circular value network." .
+
+### Object Properties
+
+:hasCompetency
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has competency" ;
+    rdfs:comment "A relation between an actor and a competency that the actor holds." ;
+    rdfs:domain :Actor ;
+    rdfs:range :Competency .
+
+:performsWork
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "performs work" ;
+    rdfs:comment "A relation between an actor and the work they perform within a circular value network." ;
+    rdfs:domain :Actor ;
+    rdfs:range :Work .
+
+:requiredForWork
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "required for work" ;
+    rdfs:comment "A relation between a competency and the work for which it is required." ;
+    rdfs:domain :Competency ;
+    rdfs:range :Work .
+
+### Restrictions
+
+:Actor
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasCompetency ;
+        owl:someValuesFrom :Competency
+    ] .
+
+:Work
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :requiredForWork ;
+        owl:someValuesFrom :Competency
+    ] .
+
+### Individuals
+
+# Example individuals can be added here to instantiate the ontology with real-world data.
+# For example:
+# :Actor_JohnDoe rdf:type :Actor ;
+#                rdfs:label "John Doe" ;
+#                :hasCompetency :Competency_Leadership .
+
+# :Competency_Leadership rdf:type :Competency ;
+#                        rdfs:label "Leadership" ;
+#                        :requiredForWork :Work_ManageTeam .
+
+# :Work_ManageTeam rdf:type :Work ;
+#                  rdfs:label "Manage Team" ;
+#                  :performsWork :Actor_JohnDoe .

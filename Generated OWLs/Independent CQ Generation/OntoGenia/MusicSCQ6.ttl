@@ -1,0 +1,108 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://www.example.org/ontology/music>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about music albums, their release dates, and associated artists."@en .
+
+### Classes
+
+:MusicGroup rdf:type owl:Class ;
+    rdfs:label "Music Group"@en ;
+    rdfs:comment "A group of individuals who perform music together."@en .
+
+:MusicAlbum rdf:type owl:Class ;
+    rdfs:label "Music Album"@en ;
+    rdfs:comment "A collection of music tracks released as a single item."@en .
+
+:MusicTrack rdf:type owl:Class ;
+    rdfs:label "Music Track"@en ;
+    rdfs:comment "A single piece of music or song."@en .
+
+:Artist rdf:type owl:Class ;
+    rdfs:label "Artist"@en ;
+    rdfs:comment "An individual who performs music or contributes to a musical performance."@en .
+
+:Performance rdf:type owl:Class ;
+    rdfs:label "Live Performance"@en ;
+    rdfs:comment "A live rendition of music by artists."@en .
+
+### Object Properties
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "A relationship between a music group and its members."@en ;
+    rdfs:domain :MusicGroup ;
+    rdfs:range :Artist .
+
+:releasedAlbum rdf:type owl:ObjectProperty ;
+    rdfs:label "released album"@en ;
+    rdfs:comment "A relationship between an artist or music group and an album they have released."@en ;
+    rdfs:domain [ owl:unionOf (:MusicGroup :Artist) ] ;
+    rdfs:range :MusicAlbum .
+
+:containsTrack rdf:type owl:ObjectProperty ;
+    rdfs:label "contains track"@en ;
+    rdfs:comment "A relationship between a music album and a track it contains."@en ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range :MusicTrack .
+
+:performedIn rdf:type owl:ObjectProperty ;
+    rdfs:label "performed in"@en ;
+    rdfs:comment "A relationship between artists or music groups and a live performance."@en ;
+    rdfs:domain [ owl:unionOf (:MusicGroup :Artist) ] ;
+    rdfs:range :Performance .
+
+### Datatype Properties
+
+:releaseDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "release date"@en ;
+    rdfs:comment "The date on which an album was released."@en ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range xsd:date .
+
+:performanceDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "performance date"@en ;
+    rdfs:comment "The date on which a live performance took place."@en ;
+    rdfs:domain :Performance ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:RedHotChiliPeppers rdf:type :MusicGroup ;
+    rdfs:label "Red Hot Chili Peppers"@en .
+
+:AnthonyKiedis rdf:type :Artist ;
+    rdfs:label "Anthony Kiedis"@en .
+
+:Flea rdf:type :Artist ;
+    rdfs:label "Flea"@en .
+
+:JohnFrusciante rdf:type :Artist ;
+    rdfs:label "John Frusciante"@en .
+
+:ChadSmith rdf:type :Artist ;
+    rdfs:label "Chad Smith"@en .
+
+:StadiumArcadium rdf:type :MusicAlbum ;
+    rdfs:label "Stadium Arcadium"@en ;
+    :releaseDate "2006-05-05"^^xsd:date .
+
+:HumpDeBump rdf:type :MusicTrack ;
+    rdfs:label "Hump de Bump"@en .
+
+:PortlandPerformance rdf:type :Performance ;
+    rdfs:label "Live Performance in Portland, Oregon"@en ;
+    :performanceDate "2006-08-11"^^xsd:date .
+
+### Relationships
+
+:RedHotChiliPeppers :hasMember :AnthonyKiedis, :Flea, :JohnFrusciante, :ChadSmith .
+:RedHotChiliPeppers :releasedAlbum :StadiumArcadium .
+:StadiumArcadium :containsTrack :HumpDeBump .
+:RedHotChiliPeppers :performedIn :PortlandPerformance .

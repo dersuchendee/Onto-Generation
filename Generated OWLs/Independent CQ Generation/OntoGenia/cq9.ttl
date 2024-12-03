@@ -1,0 +1,100 @@
+@prefix : <http://www.example.org/cvn_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:CVN a owl:Class ;
+    rdfs:label "Circular Value Network" ;
+    rdfs:comment "A network where actors engage in a circular economy, exchanging value in the form of goods, services, or information." .
+
+:Process a owl:Class ;
+    rdfs:label "Process" ;
+    rdfs:comment "A series of actions or steps taken in order to achieve a particular end in a CVN." .
+
+:Actor a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor" ;
+    rdfs:comment "An agent playing a role in a CVN, performing processes or activities." .
+
+:usesProcess a owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Process ;
+    rdfs:label "uses process" ;
+    rdfs:comment "Relates an actor to a process that they perform within a CVN." .
+
+:isProcessOf a owl:ObjectProperty ;
+    owl:inverseOf :usesProcess ;
+    rdfs:domain :Process ;
+    rdfs:range :CVN ;
+    rdfs:label "is process of" ;
+    rdfs:comment "Relates a process to the CVN in which it is used." .
+
+:participatesIn a owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :CVN ;
+    rdfs:label "participates in" ;
+    rdfs:comment "Relates an actor to a CVN in which they are involved." .
+
+:hasParticipant a owl:ObjectProperty ;
+    owl:inverseOf :participatesIn ;
+    rdfs:domain :CVN ;
+    rdfs:range :Actor ;
+    rdfs:label "has participant" ;
+    rdfs:comment "Relates a CVN to an actor that participates in it." .
+
+:includesProcess a owl:ObjectProperty ;
+    rdfs:domain :CVN ;
+    rdfs:range :Process ;
+    rdfs:label "includes process" ;
+    rdfs:comment "Relates a CVN to a process that is part of it." .
+
+:isIncludedIn a owl:ObjectProperty ;
+    owl:inverseOf :includesProcess ;
+    rdfs:domain :Process ;
+    rdfs:range :CVN ;
+    rdfs:label "is included in" ;
+    rdfs:comment "Relates a process to the CVN that includes it." .
+
+### Restrictions
+
+:CVN rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :includesProcess ;
+    owl:someValuesFrom :Process
+] .
+
+:Actor rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :usesProcess ;
+    owl:someValuesFrom :Process
+] .
+
+:Process rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :isProcessOf ;
+    owl:someValuesFrom :CVN
+] .
+
+### Individuals (Example Instances)
+
+:CVN1 a :CVN ;
+    rdfs:label "Circular Value Network 1" .
+
+:ProcessA a :Process ;
+    rdfs:label "Process A" .
+
+:ActorX a :Actor ;
+    rdfs:label "Actor X" .
+
+### Relationships (Example Instances)
+
+:ActorX :usesProcess :ProcessA .
+:ProcessA :isProcessOf :CVN1 .
+:CVN1 :includesProcess :ProcessA .
+:ActorX :participatesIn :CVN1 .
+:CVN1 :hasParticipant :ActorX .

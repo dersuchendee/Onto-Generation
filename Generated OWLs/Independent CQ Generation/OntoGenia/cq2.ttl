@@ -1,0 +1,73 @@
+@prefix : <http://www.example.org/ontology/construction#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:ConstructionUseCase a owl:Ontology ;
+                     rdfs:label "Ontology for Construction Use Case and Circular Value Flow"@en .
+
+# Classes
+
+:Actor a owl:Class ;
+       rdfs:subClassOf agentrole:Agent ;
+       rdfs:label "Actor in a construction use case"@en ;
+       rdfs:comment "An individual or group that performs actions within a construction project."@en .
+
+:Role a owl:Class ;
+      rdfs:subClassOf objectrole:Role ;
+      rdfs:label "Role"@en ;
+      rdfs:comment "A function or position that an actor can hold in a construction project."@en .
+
+:MaterialFlow a owl:Class ;
+               rdfs:label "Material Flow"@en ;
+               rdfs:comment "The movement of materials within a construction project."@en .
+
+# Object Properties
+
+:hasRole a owl:ObjectProperty ;
+          rdfs:domain :Actor ;
+          rdfs:range :Role ;
+          rdfs:label "has role"@en ;
+          rdfs:comment "The relationship between an actor and the roles they play in the construction use case."@en .
+
+:involvedInMaterialFlow a owl:ObjectProperty ;
+                        rdfs:domain :Actor ;
+                        rdfs:range :MaterialFlow ;
+                        rdfs:label "involved in material flow"@en ;
+                        rdfs:comment "The relationship between an actor and the material flows they are involved in within the construction use case."@en .
+
+:roleInMaterialFlow a owl:ObjectProperty ;
+                     rdfs:domain :Role ;
+                     rdfs:range :MaterialFlow ;
+                     rdfs:label "role in material flow"@en ;
+                     rdfs:comment "The relationship between a role and the material flows that the role is associated with in the construction use case."@en .
+
+# Restrictions
+
+:Actor owl:equivalentClass [
+  a owl:Class ;
+  owl:intersectionOf ([
+    a owl:Restriction ;
+    owl:onProperty :hasRole ;
+    owl:someValuesFrom :Role
+  ] [
+    a owl:Restriction ;
+    owl:onProperty :involvedInMaterialFlow ;
+    owl:someValuesFrom :MaterialFlow
+  ])
+] .
+
+:Role owl:equivalentClass [
+  a owl:Class ;
+  owl:intersectionOf ([
+    a owl:Restriction ;
+    owl:onProperty :roleInMaterialFlow ;
+    owl:someValuesFrom :MaterialFlow
+  ])
+] .

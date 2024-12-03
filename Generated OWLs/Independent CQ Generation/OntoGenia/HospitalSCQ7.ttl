@@ -1,0 +1,102 @@
+@prefix : <http://www.semanticweb.org/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://www.semanticweb.org/hospital>
+    rdf:type owl:Ontology ;
+    owl:imports agentrole: .
+
+### Classes
+
+:Hospital
+    rdf:type owl:Class ;
+    rdfs:label "Hospital" .
+
+:Person
+    rdf:type owl:Class ;
+    rdfs:label "Person" .
+
+:Union
+    rdf:type owl:Class ;
+    rdfs:label "Union" .
+
+:Role
+    rdf:type owl:Class ;
+    rdfs:label "Role" ;
+    owl:equivalentClass agentrole:Role .
+
+:UnionRepresentativeRole
+    rdf:type owl:Class ;
+    rdfs:label "Union Representative Role" ;
+    rdfs:subClassOf :Role .
+
+:Employment
+    rdf:type owl:Class ;
+    rdfs:label "Employment" .
+
+### Object Properties
+
+:hasRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has role" ;
+    rdfs:domain :Person ;
+    rdfs:range :Role .
+
+:memberOfUnion
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "member of union" ;
+    rdfs:domain :Person ;
+    rdfs:range :Union .
+
+:employedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "employed at" ;
+    rdfs:domain :Person ;
+    rdfs:range :Hospital .
+
+:hasUnionRepresentative
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has union representative" ;
+    rdfs:domain :Union ;
+    rdfs:range :UnionRepresentativeRole .
+
+:roleActiveDuring
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "role active during" ;
+    rdfs:domain :Role ;
+    rdfs:range time:Interval .
+
+### Individuals
+
+:PasqualeDiGennaro
+    rdf:type :Person ;
+    rdfs:label "Pasquale Di Gennaro" .
+
+:OspedaleRiunitoDelleTreValli
+    rdf:type :Hospital ;
+    rdfs:label "Ospedale Riunito delle Tre Valli" .
+
+:UnionOfMaleNurses
+    rdf:type :Union ;
+    rdfs:label "Union of Male Nurses" .
+
+:PasqualeUnionRepresentativeRole
+    rdf:type :UnionRepresentativeRole ;
+    rdfs:label "Pasquale's Union Representative Role" ;
+    :roleActiveDuring [
+        rdf:type time:Interval ;
+        time:hasBeginning "2002-01-01T00:00:00Z"^^xsd:dateTime ;
+        time:hasEnd "2008-12-31T23:59:59Z"^^xsd:dateTime ;
+    ] .
+
+### Relationships
+
+:PasqualeDiGennaro :hasRole :PasqualeUnionRepresentativeRole .
+:PasqualeDiGennaro :memberOfUnion :UnionOfMaleNurses .
+:PasqualeDiGennaro :employedAt :OspedaleRiunitoDelleTreValli .
+:UnionOfMaleNurses :hasUnionRepresentative :PasqualeUnionRepresentativeRole .

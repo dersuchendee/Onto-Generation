@@ -1,0 +1,116 @@
+@prefix : <http://www.semanticweb.org/sophia-music-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://www.semanticweb.org/sophia-music-ontology>
+    rdf:type owl:Ontology ;
+    rdfs:label "Sophia's Music Ontology"@en ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> ,
+                <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl> ,
+                <http://www.ontologydesignpatterns.org/cp/owl/partof.owl> .
+
+### Classes
+
+:MusicalInstrument
+    rdf:type owl:Class ;
+    rdfs:label "Musical Instrument"@en ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+:InstrumentFamily
+    rdf:type owl:Class ;
+    rdfs:label "Instrument Family"@en ;
+    rdfs:comment "A grouping of musical instruments based on common playing and construction characteristics."@en .
+
+:PhysicalRealization
+    rdf:type owl:Class ;
+    rdfs:label "Physical Realization"@en ;
+    rdfs:comment "The physical embodiment of a musical instrument."@en .
+
+### Object Properties
+
+:belongsToFamily
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "belongs to family"@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :InstrumentFamily ;
+    rdfs:comment "Associates a musical instrument with its corresponding instrument family."@en .
+
+:hasPhysicalRealization
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has physical realization"@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :PhysicalRealization ;
+    rdfs:comment "Associates a musical instrument with its physical embodiment."@en .
+
+### Datatype Properties
+
+:hasTimbre
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has timbre"@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range xsd:string ;
+    rdfs:comment "The quality of a musical note or sound that distinguishes different types of musical instruments."@en .
+
+:hasPitchRange
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has pitch range"@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range xsd:string ;
+    rdfs:comment "The range of pitches that a musical instrument can produce."@en .
+
+:hasDynamicRange
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has dynamic range"@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range xsd:string ;
+    rdfs:comment "The range of loudness that a musical instrument can produce."@en .
+
+:hasNotation
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has notation"@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range xsd:string ;
+    rdfs:comment "The system of symbols used to represent the sounds of a musical instrument."@en .
+
+### Restrictions
+
+:MusicalInstrument
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasPhysicalRealization ;
+        owl:someValuesFrom :PhysicalRealization
+    ] .
+
+:PhysicalRealization
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty partof:isPartOf ;
+        owl:someValuesFrom :MusicalInstrument
+    ] .
+
+### Individuals
+
+:Violin
+    rdf:type :MusicalInstrument ;
+    :belongsToFamily :StringFamily ;
+    :hasTimbre "Warm, bright" ;
+    :hasPitchRange "G3 - A7" ;
+    :hasDynamicRange "ppp - fff" ;
+    :hasNotation "Treble clef" ;
+    :hasPhysicalRealization :ViolinPhysical .
+
+:StringFamily
+    rdf:type :InstrumentFamily ;
+    rdfs:label "String Family"@en .
+
+:ViolinPhysical
+    rdf:type :PhysicalRealization ;
+    partof:isPartOf :Violin ;
+    rdfs:label "Physical Violin"@en .

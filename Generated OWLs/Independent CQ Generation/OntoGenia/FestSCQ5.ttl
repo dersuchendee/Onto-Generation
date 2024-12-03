@@ -1,0 +1,59 @@
+@prefix : <http://www.example.org/theatre_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://www.example.org/theatre_ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing cities and their corresponding countries, particularly in the context of theatre productions."@en ;
+    rdfs:label "Theatre Production Ontology"@en .
+
+### Classes
+
+:City rdf:type owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:comment "A city is an urban area with a particular administrative, legal, or historical status."@en .
+
+:Country rdf:type owl:Class ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A country is a distinct territorial body or political entity. It is often referred to as the land of an individual's birth, residence, or citizenship."@en .
+
+### Object Properties
+
+:isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:label "is located in"@en ;
+    rdfs:comment "An object property that links a city to the country it is located in."@en ;
+    rdfs:domain :City ;
+    rdfs:range :Country .
+
+### Individuals
+
+:Italy rdf:type :Country ;
+    rdfs:label "Italy"@en .
+
+:Rome rdf:type :City ;
+    rdfs:label "Rome"@en ;
+    :isLocatedIn :Italy .
+
+:Pisa rdf:type :City ;
+    rdfs:label "Pisa"@en ;
+    :isLocatedIn :Italy .
+
+:Venice rdf:type :City ;
+    rdfs:label "Venice"@en ;
+    :isLocatedIn :Italy .
+
+### Restrictions
+
+:City owl:equivalentClass [
+    rdf:type owl:Class ;
+    owl:oneOf (:Rome :Pisa :Venice)
+] .
+
+### Axioms
+
+[ rdf:type owl:AllDifferent ;
+    owl:distinctMembers (:Italy :Rome :Pisa :Venice)
+] .

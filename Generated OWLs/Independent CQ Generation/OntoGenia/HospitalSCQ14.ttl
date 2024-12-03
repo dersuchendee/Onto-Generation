@@ -1,0 +1,40 @@
+@prefix : <http://www.ontologydesignpatterns.org/ont/hospital.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:Hospital a owl:Class ;
+          rdfs:label "Hospital" ;
+          rdfs:comment "A health care institution providing patient treatment with specialized medical and nursing staff and medical equipment." .
+
+:Seminar a owl:Class ;
+         rdfs:label "Seminar" ;
+         rdfs:comment "A meeting for discussion or training." .
+
+:City a owl:Class ;
+      rdfs:label "City" ;
+      rdfs:comment "A large human settlement." .
+
+:hasLocation a owl:ObjectProperty ;
+              rdfs:label "has location" ;
+              rdfs:comment "An object property that links an event to its location." ;
+              rdfs:domain :Seminar ;
+              rdfs:range :City .
+
+:NoceraInferiore a :City ;
+                  rdfs:label "Nocera Inferiore" ;
+                  rdfs:comment "A city in Italy where Ospedale Riunito delle Tre Valli is located." .
+
+:OspedaleRiunitoDelleTreValli a :Hospital ;
+                                rdfs:label "Ospedale Riunito delle Tre Valli" ;
+                                rdfs:comment "A hospital located in Nocera Inferiore, Italy." .
+
+:SeminarOnNewArticles a :Seminar ;
+                       rdfs:label "Seminar on New Articles" ;
+                       rdfs:comment "A seminar held in December 2008 at Ospedale Riunito delle Tre Valli." ;
+                       :hasLocation :NoceraInferiore .

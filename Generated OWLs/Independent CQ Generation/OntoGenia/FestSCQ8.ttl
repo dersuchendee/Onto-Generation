@@ -1,0 +1,56 @@
+@prefix : <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<http://example.org/ontology/theatre>
+    a owl:Ontology ;
+    rdfs:label "Theatre Ontology" ;
+    rdfs:comment "An ontology for representing plays and their authors in the context of theatre productions." .
+
+### Classes
+
+:Play
+    a owl:Class ;
+    rdfs:label "Play" ;
+    rdfs:comment "A dramatic composition or piece; drama." .
+
+:Author
+    a owl:Class ;
+    rdfs:label "Author" ;
+    rdfs:comment "An individual who writes plays or other literary works." .
+
+### Object Properties
+
+:hasAuthor
+    a owl:ObjectProperty ;
+    rdfs:label "has author" ;
+    rdfs:comment "A relationship between a play and its author." ;
+    rdfs:domain :Play ;
+    rdfs:range :Author .
+
+### Individuals
+
+:WilliamShakespeare
+    a :Author ;
+    rdfs:label "William Shakespeare" ;
+    rdfs:comment "An English playwright, widely regarded as the greatest writer in the English language and the world's pre-eminent dramatist." .
+
+:TheMerchantOfVenice
+    a :Play ;
+    rdfs:label "The Merchant of Venice" ;
+    rdfs:comment "A 16th-century play written by William Shakespeare in which a merchant in Venice must default on a large loan provided by a Jewish moneylender." ;
+    :hasAuthor :WilliamShakespeare .
+
+:Othello
+    a :Play ;
+    rdfs:label "Othello" ;
+    rdfs:comment "A tragedy by William Shakespeare, believed to have been written in 1603. It is based on the story 'Un Capitano Moro' by Cinthio." ;
+    :hasAuthor :WilliamShakespeare .
+
+:AMidsummerNightsDream
+    a :Play ;
+    rdfs:label "A Midsummer Night's Dream" ;
+    rdfs:comment "A comedy written by William Shakespeare in 1595/96. It portrays the events surrounding the marriage of Theseus, the Duke of Athens, to Hippolyta." ;
+    :hasAuthor :WilliamShakespeare .

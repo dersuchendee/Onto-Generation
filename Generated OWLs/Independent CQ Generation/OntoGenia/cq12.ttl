@@ -1,0 +1,95 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:Product rdf:type owl:Class ;
+         rdfs:label "Product" ;
+         rdfs:comment "A product which can be a physical object that may be resold, refurbished, or enter into a take-back system after dismantling." .
+
+:Material rdf:type owl:Class ;
+          rdfs:label "Material" ;
+          rdfs:comment "Material that can be used to make up a product." .
+
+:Actor rdf:type owl:Class ;
+       rdfs:label "Actor" ;
+       rdfs:comment "An actor such as a building owner or manufacturer involved in the process of reselling, refurbishing, or taking back products." .
+
+### Object Properties
+
+:consistsOf rdf:type owl:ObjectProperty ;
+            rdfs:label "consists of" ;
+            rdfs:comment "A relation between a product and the materials it consists of." ;
+            rdfs:domain :Product ;
+            rdfs:range :Material .
+
+:producedBy rdf:type owl:ObjectProperty ;
+            rdfs:label "produced by" ;
+            rdfs:comment "A relation between a product and the actor who produced it." ;
+            rdfs:domain :Product ;
+            rdfs:range :Actor .
+
+:hasProduct rdf:type owl:ObjectProperty ;
+            rdfs:label "has product" ;
+            rdfs:comment "A relation between an actor and the products they can resell, refurbish, or take back." ;
+            rdfs:domain :Actor ;
+            rdfs:range :Product .
+
+### Restrictions
+
+:Product rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :consistsOf ;
+                           owl:someValuesFrom :Material ] .
+
+:Actor rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasProduct ;
+                         owl:someValuesFrom :Product ] .
+
+### Individuals (Example Instances)
+
+:Wood rdf:type :Material ;
+      rdfs:label "Wood" ;
+      rdfs:comment "Wood used as a material for products." .
+
+:Steel rdf:type :Material ;
+       rdfs:label "Steel" ;
+       rdfs:comment "Steel used as a material for products." .
+
+:Table rdf:type :Product ;
+       rdfs:label "Table" ;
+       rdfs:comment "A table made of various materials." ;
+       :consistsOf :Wood, :Steel .
+
+:Chair rdf:type :Product ;
+       rdfs:label "Chair" ;
+       rdfs:comment "A chair made of various materials." ;
+       :consistsOf :Wood .
+
+:ManufacturerA rdf:type :Actor ;
+               rdfs:label "Manufacturer A" ;
+               rdfs:comment "An actor who manufactures products." ;
+               :hasProduct :Table, :Chair .
+
+### PartOf Pattern Integration
+
+partof:hasPart rdf:type owl:ObjectProperty ;
+               rdfs:label "has part" ;
+               rdfs:comment "A transitive relation expressing parthood between any entities." .
+
+partof:isPartOf rdf:type owl:ObjectProperty ;
+                rdfs:label "is part of" ;
+                rdfs:comment "A transitive relation expressing parthood between any entities." .
+
+:Leg rdf:type :Material ;
+     rdfs:label "Leg" ;
+     rdfs:comment "A leg that is part of some furniture products." .
+
+:Table partof:hasPart :Leg .
+:Leg partof:isPartOf :Table .

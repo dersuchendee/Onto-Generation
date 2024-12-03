@@ -1,0 +1,112 @@
+@prefix : <http://www.ontologydesignpatterns.org/cp/owl/semanticscenario.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A class representing a seminar event." .
+
+:hasDate a owl:DatatypeProperty ;
+    rdfs:label "has date" ;
+    rdfs:comment "A property to associate an event with a specific date." ;
+    rdfs:domain :Seminar ;
+    rdfs:range xsd:date .
+
+:Hospital a owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A class representing a hospital." .
+
+:heldIn a owl:ObjectProperty ;
+    rdfs:label "held in" ;
+    rdfs:comment "A property to associate a seminar with the hospital where it takes place." ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Hospital .
+
+:Employee a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Employee" ;
+    rdfs:comment "A class representing an employee of a hospital." .
+
+:Union a owl:Class ;
+    rdfs:label "Union" ;
+    rdfs:comment "A class representing a union within a hospital." .
+
+:unionRepresentativeOf a owl:ObjectProperty ;
+    rdfs:label "union representative of" ;
+    rdfs:comment "A property to associate an employee with the union they represent." ;
+    rdfs:domain :Employee ;
+    rdfs:range :Union .
+
+:hasUnion a owl:ObjectProperty ;
+    rdfs:label "has union" ;
+    rdfs:comment "A property to associate a hospital with the unions organizing its staff." ;
+    rdfs:domain :Hospital ;
+    rdfs:range :Union .
+
+:ArticleCollection a owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A class representing a collection of research articles." ;
+    rdfs:subClassOf collectionentity:Collection .
+
+:hasArticleCollection a owl:ObjectProperty ;
+    rdfs:label "has article collection" ;
+    rdfs:comment "A property to associate a hospital with its article collections." ;
+    rdfs:domain :Hospital ;
+    rdfs:range :ArticleCollection .
+
+:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A class representing a research article." .
+
+:partOfCollection a owl:ObjectProperty ;
+    rdfs:label "part of collection" ;
+    rdfs:comment "A property to associate an article with the collection it is part of." ;
+    rdfs:domain :Article ;
+    rdfs:range :ArticleCollection ;
+    owl:inverseOf collectionentity:hasMember .
+
+:Evaluation a owl:Class ;
+    rdfs:label "Evaluation" ;
+    rdfs:comment "A class representing an evaluation of an employee." .
+
+:evaluates a owl:ObjectProperty ;
+    rdfs:label "evaluates" ;
+    rdfs:comment "A property to associate an evaluation with the employee it evaluates." ;
+    rdfs:domain :Evaluation ;
+    rdfs:range :Employee .
+
+:hasEvaluation a owl:ObjectProperty ;
+    rdfs:label "has evaluation" ;
+    rdfs:comment "A property to associate an employee with their evaluations." ;
+    rdfs:domain :Employee ;
+    rdfs:range :Evaluation .
+
+:Nurse a owl:Class ;
+    rdfs:subClassOf :Employee ;
+    rdfs:label "Nurse" ;
+    rdfs:comment "A class representing a nurse." .
+
+:Doctor a owl:Class ;
+    rdfs:subClassOf :Employee ;
+    rdfs:label "Doctor" ;
+    rdfs:comment "A class representing a doctor." .
+
+:reads a owl:ObjectProperty ;
+    rdfs:label "reads" ;
+    rdfs:comment "A property to associate an employee with the articles they read." ;
+    rdfs:domain [:Nurse, :Doctor] ;
+    rdfs:range :Article .
+
+:presentedIn a owl:ObjectProperty ;
+    rdfs:label "presented in" ;
+    rdfs:comment "A property to associate an article with the seminar where it is presented." ;
+    rdfs:domain :Article ;
+    rdfs:range :Seminar .
+
+### Individuals and data properties can be added to instantiate the ontology with specific seminars, hospitals, articles, etc.

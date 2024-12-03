@@ -1,0 +1,169 @@
+@prefix : <http://www.example.org/theatre_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://www.example.org/theatre_ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing theatre productions, ensembles, and their members over time."@en .
+
+### Classes
+
+:Person rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Person"@en .
+
+:TheatreProduction rdf:type owl:Class ;
+    rdfs:label "Theatre Production"@en .
+
+:Role rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Role ;
+    rdfs:label "Role in a theatre production"@en .
+
+:Ensemble rdf:type owl:Class ;
+    rdfs:subClassOf collectionentity:Collection ;
+    rdfs:label "Ensemble"@en .
+
+:Performance rdf:type owl:Class ;
+    rdfs:label "Performance of a theatre production"@en .
+
+:Play rdf:type owl:Class ;
+    rdfs:label "Play"@en .
+
+### Object Properties
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Ensemble ;
+    rdfs:range :Person ;
+    rdfs:label "has member"@en ;
+    owl:inverseOf collectionentity:isMemberOf .
+
+:performsRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Person ;
+    rdfs:range :Role ;
+    rdfs:label "performs role"@en .
+
+:hasRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Ensemble ;
+    rdfs:range :Role ;
+    rdfs:label "has role"@en .
+
+:participatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Ensemble ;
+    rdfs:range :TheatreProduction ;
+    rdfs:label "participated in"@en .
+
+:performedDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :Performance ;
+    rdfs:range time:Interval ;
+    rdfs:label "performed during"@en .
+
+:hasPerformance rdf:type owl:ObjectProperty ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range :Performance ;
+    rdfs:label "has performance"@en .
+
+:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Performance ;
+    rdfs:range :Ensemble ;
+    rdfs:label "performed by"@en .
+
+:isBasedOn rdf:type owl:ObjectProperty ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range :Play ;
+    rdfs:label "is based on"@en .
+
+### Datatype Properties
+
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "has name"@en .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Play ;
+    rdfs:range xsd:string ;
+    rdfs:label "has title"@en .
+
+:hasActCount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Play ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has act count"@en .
+
+:writtenBy rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Play ;
+    rdfs:range xsd:string ;
+    rdfs:label "written by"@en .
+
+:hasPremiereDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range xsd:date ;
+    rdfs:label "has premiere date"@en .
+
+:hasReviewRating rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has review rating"@en .
+
+### Restrictions
+
+:Ensemble
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasMember ;
+        owl:someValuesFrom :Person
+    ] .
+
+:Performance
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :performedDuring ;
+        owl:someValuesFrom time:Interval
+    ] .
+
+:Person
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :performsRole ;
+        owl:someValuesFrom :Role
+    ] .
+
+:TheatreProduction
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasPerformance ;
+        owl:someValuesFrom :Performance
+    ] .
+
+### Individuals
+
+:MerchantOfVenice rdf:type :Play ;
+    :hasTitle "The Merchant of Venice"@en ;
+    :hasActCount 5 ;
+    :writtenBy "William Shakespeare"@en .
+
+:RomaLovesShakespeare rdf:type :TheatreProduction ;
+    :isBasedOn :MerchantOfVenice ;
+    :hasPremiereDate "2007-01-01"^^xsd:date ;
+    :hasReviewRating 5 .
+
+:GrandTheatreProduction rdf:type :TheatreProduction ;
+    :isBasedOn :MerchantOfVenice ;
+    :hasPremiereDate "2009-09-07"^^xsd:date ;
+    :hasReviewRating 5 .
+
+:FabioBianchi rdf:type :Person ;
+    :hasName "Fabio Bianchi"@en .
+
+:ArnoldSchwarzenegger rdf:type :Person ;
+    :hasName "Arnold Schwarzenegger"@en .
+
+### Additional Axioms
+
+# Axioms for temporal aspects, roles, and other complex relationships can be added here.
+# For example, to represent that Fabio Bianchi plays the Duke of Venice and a servant in the Grand Theatre Production during a specific time interval.

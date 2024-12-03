@@ -1,0 +1,197 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://www.example.org/ontology/music>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology describing the members of a band at certain points in time."@en .
+
+### Classes
+
+:Band
+    rdf:type owl:Class ;
+    rdfs:label "Band" ;
+    rdfs:comment "A musical group playing together."@en .
+
+:Musician
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Musician" ;
+    rdfs:comment "An individual who plays a musical instrument or is musically talented."@en .
+
+:Instrument
+    rdf:type owl:Class ;
+    rdfs:label "Instrument" ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+:Role
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Role ;
+    rdfs:label "Role" ;
+    rdfs:comment "A function or part performed by a musician in a band."@en .
+
+:Membership
+    rdf:type owl:Class ;
+    rdfs:label "Membership" ;
+    rdfs:comment "A relationship class for representing the membership of a musician in a band at a certain time."@en .
+
+### Object Properties
+
+:hasMember
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Band ;
+    rdfs:range :Musician ;
+    rdfs:label "has member" ;
+    rdfs:comment "A property linking a band to its members."@en .
+
+:playsInstrument
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Musician ;
+    rdfs:range :Instrument ;
+    rdfs:label "plays instrument" ;
+    rdfs:comment "A property linking a musician to the instrument they play."@en .
+
+:hasRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Musician ;
+    rdfs:range :Role ;
+    rdfs:label "has role" ;
+    rdfs:comment "A property linking a musician to their role in the band."@en .
+
+:memberOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Musician ;
+    rdfs:range :Membership ;
+    owl:inverseOf :hasMember ;
+    rdfs:label "member of" ;
+    rdfs:comment "A property linking a musician to their membership in a band."@en .
+
+:membershipInBand
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Membership ;
+    rdfs:range :Band ;
+    rdfs:label "membership in band" ;
+    rdfs:comment "A property linking a membership to the band."@en .
+
+:membershipTime
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Membership ;
+    rdfs:range time:Interval ;
+    rdfs:label "membership time" ;
+    rdfs:comment "A property linking a membership to the time interval of the membership."@en .
+
+### Datatype Properties
+
+:hasName
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Musician ;
+    rdfs:range xsd:string ;
+    rdfs:label "has name" ;
+    rdfs:comment "A property linking a musician to their name."@en .
+
+### Individuals
+
+:RedHotChiliPeppers rdf:type :Band ;
+    rdfs:label "Red Hot Chili Peppers" .
+
+:AnthonyKiedis rdf:type :Musician ;
+    :hasName "Anthony Kiedis" ;
+    :playsInstrument :Vocals ;
+    :memberOf :MembershipAnthonyKiedis .
+
+:Flea rdf:type :Musician ;
+    :hasName "Flea" ;
+    :playsInstrument :Bass ;
+    :playsInstrument :Trumpet ;
+    :playsInstrument :Keyboards ;
+    :playsInstrument :Vocals ;
+    :memberOf :MembershipFlea .
+
+:JohnFrusciante rdf:type :Musician ;
+    :hasName "John Frusciante" ;
+    :playsInstrument :Guitar ;
+    :memberOf :MembershipJohnFrusciante .
+
+:ChadSmith rdf:type :Musician ;
+    :hasName "Chad Smith" ;
+    :playsInstrument :Drums ;
+    :memberOf :MembershipChadSmith .
+
+:Vocals rdf:type :Instrument ;
+    rdfs:label "Vocals" .
+
+:Bass rdf:type :Instrument ;
+    rdfs:label "Bass" .
+
+:Trumpet rdf:type :Instrument ;
+    rdfs:label "Trumpet" .
+
+:Keyboards rdf:type :Instrument ;
+    rdfs:label "Keyboards" .
+
+:Guitar rdf:type :Instrument ;
+    rdfs:label "Guitar" .
+
+:Drums rdf:type :Instrument ;
+    rdfs:label "Drums" .
+
+:MembershipAnthonyKiedis rdf:type :Membership ;
+    :membershipInBand :RedHotChiliPeppers ;
+    :membershipTime :MembershipTimeAnthonyKiedis .
+
+:MembershipFlea rdf:type :Membership ;
+    :membershipInBand :RedHotChiliPeppers ;
+    :membershipTime :MembershipTimeFlea .
+
+:MembershipJohnFrusciante rdf:type :Membership ;
+    :membershipInBand :RedHotChiliPeppers ;
+    :membershipTime :MembershipTimeJohnFrusciante .
+
+:MembershipChadSmith rdf:type :Membership ;
+    :membershipInBand :RedHotChiliPeppers ;
+    :membershipTime :MembershipTimeChadSmith .
+
+:MembershipTimeAnthonyKiedis rdf:type time:Interval ;
+    rdfs:label "Anthony Kiedis's membership time in RHCP" .
+
+:MembershipTimeFlea rdf:type time:Interval ;
+    rdfs:label "Flea's membership time in RHCP" .
+
+:MembershipTimeJohnFrusciante rdf:type time:Interval ;
+    rdfs:label "John Frusciante's membership time in RHCP" .
+
+:MembershipTimeChadSmith rdf:type time:Interval ;
+    rdfs:label "Chad Smith's membership time in RHCP" .
+
+### Restrictions
+
+:Band
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasMember ;
+        owl:someValuesFrom :Musician
+    ] .
+
+:Musician
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :playsInstrument ;
+        owl:someValuesFrom :Instrument
+    ] .
+
+:Membership
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :membershipInBand ;
+        owl:someValuesFrom :Band
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :membershipTime ;
+        owl:someValuesFrom time:Interval
+    ] .

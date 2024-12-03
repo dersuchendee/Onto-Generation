@@ -1,0 +1,100 @@
+@prefix : <http://www.ontologydesignpatterns.org/cp/owl/hospital.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+:Hospital a owl:Class ;
+          rdfs:label "Hospital" .
+
+:Employee a owl:Class ;
+          rdfs:label "Employee" ;
+          rdfs:subClassOf agentrole:Agent .
+
+:Doctor a owl:Class ;
+        rdfs:label "Doctor" ;
+        rdfs:subClassOf :Employee .
+
+:Nurse a owl:Class ;
+       rdfs:label "Nurse" ;
+       rdfs:subClassOf :Employee .
+
+:Union a owl:Class ;
+       rdfs:label "Union" ;
+       rdfs:subClassOf collectionentity:Collection .
+
+:UnionRepresentative a owl:Class ;
+                     rdfs:label "Union Representative" ;
+                     rdfs:subClassOf :Employee .
+
+:EvaluationStatement a owl:Class ;
+                     rdfs:label "Evaluation Statement" .
+
+:hasEmployee a owl:ObjectProperty ;
+              rdfs:label "has employee" ;
+              rdfs:domain :Hospital ;
+              rdfs:range :Employee .
+
+:employedBy a owl:ObjectProperty ;
+             rdfs:label "employed by" ;
+             rdfs:domain :Employee ;
+             rdfs:range :Hospital ;
+             owl:inverseOf :hasEmployee .
+
+:hasUnion a owl:ObjectProperty ;
+           rdfs:label "has union" ;
+           rdfs:domain :Hospital ;
+           rdfs:range :Union .
+
+:represents a owl:ObjectProperty ;
+              rdfs:label "represents" ;
+              rdfs:domain :UnionRepresentative ;
+              rdfs:range :Union .
+
+:hasEvaluation a owl:ObjectProperty ;
+                rdfs:label "has evaluation" ;
+                rdfs:domain :Doctor ;
+                rdfs:range :EvaluationStatement .
+
+:evaluates a owl:ObjectProperty ;
+            rdfs:label "evaluates" ;
+            rdfs:domain :EvaluationStatement ;
+            rdfs:range :Employee ;
+            owl:inverseOf :hasEvaluation .
+
+:writtenBy a owl:ObjectProperty ;
+             rdfs:label "written by" ;
+             rdfs:domain :EvaluationStatement ;
+             rdfs:range :Doctor .
+
+:evaluationOf a owl:ObjectProperty ;
+               rdfs:label "evaluation of" ;
+               rdfs:domain :EvaluationStatement ;
+               rdfs:range :Employee .
+
+### Restrictions
+
+:Doctor rdfs:subClassOf [ 
+  a owl:Restriction ;
+  owl:onProperty :hasEvaluation ;
+  owl:someValuesFrom :EvaluationStatement 
+] .
+
+:Employee rdfs:subClassOf [ 
+  a owl:Restriction ;
+  owl:onProperty :employedBy ;
+  owl:someValuesFrom :Hospital 
+] .
+
+:UnionRepresentative rdfs:subClassOf [ 
+  a owl:Restriction ;
+  owl:onProperty :represents ;
+  owl:someValuesFrom :Union 
+] .
+
+### Individuals and their relationships can be instantiated based on the actual data.

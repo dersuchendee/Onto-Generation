@@ -1,0 +1,81 @@
+@prefix : <http://www.example.org/ontology/circular_value_network#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+
+:Resource a owl:Class ;
+          rdfs:label "Resource" ;
+          rdfs:comment "A resource is an entity that is used as an input or output in the circular value network processes." .
+
+:Product a owl:Class ;
+          rdfs:subClassOf :Resource ;
+          rdfs:label "Product" ;
+          rdfs:comment "A product is a type of resource that is the result of a process in the circular value network." .
+
+:Component a owl:Class ;
+            rdfs:subClassOf :Resource ;
+            rdfs:label "Component" ;
+            rdfs:comment "A component is a part of a product or another component that is used in the circular value network." .
+
+:Material a owl:Class ;
+           rdfs:subClassOf :Resource ;
+           rdfs:label "Material" ;
+           rdfs:comment "A material is a raw resource that is used in the production or composition of products in the circular value network." .
+
+:ProcessStep a owl:Class ;
+              rdfs:label "Process Step" ;
+              rdfs:comment "A step or action in the circular value network that involves the transformation or use of resources." .
+
+:hasType a owl:ObjectProperty ;
+          rdfs:domain :Resource ;
+          rdfs:range [ owl:unionOf (:Product :Component :Material) ] ;
+          rdfs:label "has type" ;
+          rdfs:comment "The property that associates a resource with its type, such as product, component, or material." .
+
+:isUsedIn a owl:ObjectProperty ;
+            rdfs:domain :Resource ;
+            rdfs:range :ProcessStep ;
+            rdfs:label "is used in" ;
+            rdfs:comment "The property that associates a resource with the process step in which it is used." .
+
+:hasComposition a owl:ObjectProperty ;
+                 rdfs:domain :Resource ;
+                 rdfs:range :Material ;
+                 rdfs:label "has composition" ;
+                 rdfs:comment "The property that associates a resource with its material composition." .
+
+:hasInput a owl:ObjectProperty ;
+           rdfs:domain :ProcessStep ;
+           rdfs:range :Resource ;
+           owl:inverseOf :isUsedIn ;
+           rdfs:label "has input" ;
+           rdfs:comment "The property that associates a process step with the resources used as inputs in that step." .
+
+:hasOutput a owl:ObjectProperty ;
+            rdfs:domain :ProcessStep ;
+            rdfs:range :Resource ;
+            rdfs:label "has output" ;
+            rdfs:comment "The property that associates a process step with the resources produced as outputs of that step." .
+
+### Restrictions
+
+:Consumable a owl:Class ;
+             rdfs:subClassOf :Resource ;
+             rdfs:label "Consumable" ;
+             rdfs:comment "A consumable is a type of resource that is used in a process step but is not the main focus of the circular value network." .
+
+:Catalyst a owl:Class ;
+           rdfs:subClassOf :Resource ;
+           rdfs:label "Catalyst" ;
+           rdfs:comment "A catalyst is a substance that increases the rate of a chemical reaction in a process step, without being consumed in the reaction." .
+
+### Individuals can be added to the ontology as instances of the classes with specific properties.
+
+### Ontology Metadata
+
+<http://www.example.org/ontology/circular_value_network> rdf:type owl:Ontology ;
+    rdfs:label "Circular Value Network Ontology" ;
+    rdfs:comment "An ontology for representing resources and their roles in a circular value network." .

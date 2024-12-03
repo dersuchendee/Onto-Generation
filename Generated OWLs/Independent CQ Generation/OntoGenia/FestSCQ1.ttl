@@ -1,0 +1,145 @@
+@prefix : <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+
+<http://example.org/ontology/theatre>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about theatre festivals, productions, and performances."@en .
+
+### Classes
+
+:City rdf:type owl:Class ;
+    rdfs:label "City"@en .
+
+:Theatre rdf:type owl:Class ;
+    rdfs:label "Theatre"@en ;
+    rdfs:subClassOf :City .
+
+:TheatreFestival rdf:type owl:Class ;
+    rdfs:label "Theatre Festival"@en ;
+    rdfs:subClassOf dbo:Event .
+
+:TheatreProduction rdf:type owl:Class ;
+    rdfs:label "Theatre Production"@en ;
+    rdfs:subClassOf dbo:Work .
+
+:Play rdf:type owl:Class ;
+    rdfs:label "Play"@en ;
+    rdfs:subClassOf :TheatreProduction .
+
+:Actor rdf:type owl:Class ;
+    rdfs:label "Actor"@en ;
+    rdfs:subClassOf foaf:Person .
+
+:Role rdf:type owl:Class ;
+    rdfs:label "Role in a play"@en .
+
+:Review rdf:type owl:Class ;
+    rdfs:label "Review"@en .
+
+### Object Properties
+
+:heldIn rdf:type owl:ObjectProperty ;
+    rdfs:label "held in"@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range :City .
+
+:hasProduction rdf:type owl:ObjectProperty ;
+    rdfs:label "has production"@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range :TheatreProduction .
+
+:featuresPlay rdf:type owl:ObjectProperty ;
+    rdfs:label "features play"@en ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range :Play .
+
+:employs rdf:type owl:ObjectProperty ;
+    rdfs:label "employs"@en ;
+    rdfs:domain :Theatre ;
+    rdfs:range :Actor .
+
+:playsRole rdf:type owl:ObjectProperty ;
+    rdfs:label "plays role"@en ;
+    rdfs:domain :Actor ;
+    rdfs:range :Role .
+
+:hasReview rdf:type owl:ObjectProperty ;
+    rdfs:label "has review"@en ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range :Review .
+
+### Datatype Properties
+
+:hasDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "has date"@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range xsd:date .
+
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:label "has name"@en ;
+    rdfs:domain [ rdf:type owl:Class ; owl:unionOf (:TheatreFestival :TheatreProduction :Play :Actor :Role :Review) ] ;
+    rdfs:range xsd:string .
+
+:hasRating rdf:type owl:DatatypeProperty ;
+    rdfs:label "has rating"@en ;
+    rdfs:domain :Review ;
+    rdfs:range xsd:integer .
+
+### Individuals
+
+:RomaLovesShakespeare rdf:type :TheatreFestival ;
+    :hasName "Roma Loves Shakespeare"@en ;
+    :heldIn :Rome ;
+    :hasDate "2007-01-01"^^xsd:date .
+
+:MerchantOfVenice rdf:type :Play ;
+    :hasName "The Merchant of Venice"@en .
+
+:Othello rdf:type :Play ;
+    :hasName "Othello"@en .
+
+:MidsummerNightsDream rdf:type :Play ;
+    :hasName "A Midsummer Night�s Dream"@en .
+
+:GrandTheatre rdf:type :Theatre ;
+    :hasName "The Grand Theatre"@en ;
+    :employs :FabioBianchi .
+
+:FabioBianchi rdf:type :Actor ;
+    :hasName "Fabio Bianchi"@en .
+
+:DukeOfVenice rdf:type :Role ;
+    :hasName "Duke of Venice"@en .
+
+:Servant rdf:type :Role ;
+    :hasName "Servant"@en .
+
+:IlGazzettinoReview rdf:type :Review ;
+    :hasName "Il Gazzettino Review"@en ;
+    :hasRating 5 .
+
+### Restrictions
+
+:TheatreFestival rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasDate ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass xsd:date ;
+] .
+
+### Additional Axioms
+
+:FabioBianchi :playsRole :DukeOfVenice .
+:FabioBianchi :playsRole :Servant .
+:GrandTheatre :hasProduction :MerchantOfVenice .
+:MerchantOfVenice :hasReview :IlGazzettinoReview .
+:RomaLovesShakespeare :hasProduction :MerchantOfVenice .
+:RomaLovesShakespeare :hasProduction :Othello .
+:RomaLovesShakespeare :hasProduction :MidsummerNightsDream .

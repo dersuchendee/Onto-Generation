@@ -1,0 +1,60 @@
+@prefix : <http://www.example.org/ontology/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ce: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+:Article a owl:Class ;
+         rdfs:label "Article" ;
+         rdfs:comment "A written composition on a particular subject, usually forming an independent part of a book or collection" .
+
+:Book a owl:Class ;
+      rdfs:subClassOf ce:Collection ;
+      rdfs:label "Book" ;
+      rdfs:comment "A collection of pages bound together, containing written information or literature" .
+
+:CD a owl:Class ;
+     rdfs:subClassOf ce:Collection ;
+     rdfs:label "CD" ;
+     rdfs:comment "An optical disc used to store digital data, which can include text articles" .
+
+:hasArticle a owl:ObjectProperty ;
+            rdfs:domain [ owl:unionOf (:Book :CD) ] ;
+            rdfs:range :Article ;
+            rdfs:label "has article" ;
+            rdfs:comment "A property indicating the articles contained within a book or CD" .
+
+ce:hasMember a owl:ObjectProperty ;
+             rdfs:subPropertyOf :hasArticle ;
+             rdfs:domain ce:Collection ;
+             rdfs:range owl:Thing ;
+             rdfs:label "has member" ;
+             rdfs:comment "A relation between collections and entities, indicating membership of an entity in a collection" .
+
+:composedOf a owl:ObjectProperty ;
+             owl:inverseOf ce:hasMember ;
+             rdfs:domain owl:Thing ;
+             rdfs:range ce:Collection ;
+             rdfs:label "is composed of" ;
+             rdfs:comment "A property indicating the collection to which an entity belongs" .
+
+### Individuals
+
+:Article_NursePracticesInCancerPatientCare a :Article ;
+                                             rdfs:label "A 5 year-program for improving cancer care � experiences and future directions" .
+
+:Book_NursePracticesInCancerPatientCare a :Book ;
+                                          rdfs:label "Nurse practices in cancer patient care � longitudinal studies at Italian hospitals" ;
+                                          ce:hasMember :Article_NursePracticesInCancerPatientCare .
+
+### Restrictions
+
+:Book rdfs:subClassOf [ a owl:Restriction ;
+                        owl:onProperty :hasArticle ;
+                        owl:someValuesFrom :Article ] .
+
+:CD rdfs:subClassOf [ a owl:Restriction ;
+                      owl:onProperty :hasArticle ;
+                      owl:someValuesFrom :Article ] .

@@ -1,0 +1,85 @@
+@prefix : <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<http://example.org/ontology/theatre>
+    a owl:Ontology ;
+    rdfs:label "Theatre Ontology" ;
+    rdfs:comment "An ontology for representing information about theatre plays and their production periods." .
+
+### Classes
+
+:Play
+    a owl:Class ;
+    rdfs:label "Play" ;
+    rdfs:comment "A theatrical play or drama." .
+
+:ProductionPeriod
+    a owl:Class ;
+    rdfs:label "Production Period" ;
+    rdfs:comment "The time period during which a play was written or produced." .
+
+### Object Properties
+
+:writtenDuring
+    a owl:ObjectProperty ;
+    rdfs:label "written during" ;
+    rdfs:comment "The time period during which a play was written." ;
+    rdfs:domain :Play ;
+    rdfs:range :ProductionPeriod .
+
+### Datatype Properties
+
+:hasStartDate
+    a owl:DatatypeProperty ;
+    rdfs:label "has start date" ;
+    rdfs:comment "The starting date of a production period." ;
+    rdfs:domain :ProductionPeriod ;
+    rdfs:range xsd:date .
+
+:hasEndDate
+    a owl:DatatypeProperty ;
+    rdfs:label "has end date" ;
+    rdfs:comment "The ending date of a production period." ;
+    rdfs:domain :ProductionPeriod ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:TheMerchantOfVenice
+    a :Play ;
+    rdfs:label "The Merchant of Venice" ;
+    rdfs:comment "A play by William Shakespeare." .
+
+:ProductionPeriodOfTheMerchantOfVenice
+    a :ProductionPeriod ;
+    rdfs:label "Production period of The Merchant of Venice" ;
+    rdfs:comment "The time period during which The Merchant of Venice was written." ;
+    :hasStartDate "1596-01-01"^^xsd:date ;
+    :hasEndDate "1598-12-31"^^xsd:date .
+
+### Relationships
+
+:TheMerchantOfVenice :writtenDuring :ProductionPeriodOfTheMerchantOfVenice .
+
+### Restrictions
+
+:Play rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty :writtenDuring ;
+    owl:someValuesFrom :ProductionPeriod 
+] .
+
+:ProductionPeriod rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasStartDate ;
+    owl:allValuesFrom xsd:date
+] .
+
+:ProductionPeriod rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasEndDate ;
+    owl:allValuesFrom xsd:date
+] .

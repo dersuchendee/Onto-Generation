@@ -1,0 +1,108 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <http://www.example.org/ontology/music#> .
+
+<http://www.example.org/ontology/music>
+    rdf:type owl:Ontology ;
+    rdfs:label "Music Production Ontology"@en ;
+    owl:versionInfo "1.0"^^xsd:string .
+
+### Classes
+
+:MusicalWork rdf:type owl:Class ;
+    rdfs:label "Musical Work"@en ;
+    rdfs:comment "A musical composition or piece of music."@en .
+
+:Album rdf:type owl:Class ;
+    rdfs:label "Album"@en ;
+    rdfs:comment "A collection of recorded music, published as a single item."@en ;
+    owl:equivalentClass [ rdf:type owl:Class ;
+                          owl:intersectionOf ( :MusicalWork
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :containsTrack ;
+                                                 owl:someValuesFrom :Track ] ) ] .
+
+:Track rdf:type owl:Class ;
+    rdfs:label "Track"@en ;
+    rdfs:comment "A single song or instrumental recording."@en ;
+    owl:equivalentClass [ rdf:type owl:Class ;
+                          owl:intersectionOf ( :MusicalWork
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :isTrackOf ;
+                                                 owl:someValuesFrom :Album ] ) ] .
+
+:Artist rdf:type owl:Class ;
+    rdfs:label "Artist"@en ;
+    rdfs:comment "A person who performs music or contributes to a musical work."@en .
+
+:Band rdf:type owl:Class ;
+    rdfs:label "Band"@en ;
+    rdfs:comment "A group of artists who perform music together."@en ;
+    owl:equivalentClass [ rdf:type owl:Class ;
+                          owl:intersectionOf ( :Artist
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasMember ;
+                                                 owl:someValuesFrom :Artist ] ) ] .
+
+### Object Properties
+
+:containsTrack rdf:type owl:ObjectProperty ;
+    rdfs:label "contains track"@en ;
+    rdfs:comment "An album contains one or more tracks."@en ;
+    rdfs:domain :Album ;
+    rdfs:range :Track .
+
+:isTrackOf rdf:type owl:ObjectProperty ;
+    rdfs:label "is track of"@en ;
+    rdfs:comment "A track is part of an album."@en ;
+    owl:inverseOf :containsTrack ;
+    rdfs:domain :Track ;
+    rdfs:range :Album .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "A band has one or more artists as members."@en ;
+    rdfs:domain :Band ;
+    rdfs:range :Artist .
+
+:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "performed by"@en ;
+    rdfs:comment "A track is performed by one or more artists."@en ;
+    rdfs:domain :Track ;
+    rdfs:range :Artist .
+
+:recordedOn rdf:type owl:DatatypeProperty ;
+    rdfs:label "recorded on"@en ;
+    rdfs:comment "The date on which a track was recorded."@en ;
+    rdfs:domain :Track ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:StadiumArcadium rdf:type :Album ;
+    rdfs:label "Stadium Arcadium"@en ;
+    :containsTrack :HumpDeBump .
+
+:HumpDeBump rdf:type :Track ;
+    rdfs:label "Hump de Bump"@en ;
+    :recordedOn "2004-01-26"^^xsd:date ;
+    :performedBy :AnthonyKiedis, :Flea, :JohnFrusciante, :ChadSmith ;
+    :isTrackOf :StadiumArcadium .
+
+:AnthonyKiedis rdf:type :Artist ;
+    rdfs:label "Anthony Kiedis"@en .
+
+:Flea rdf:type :Artist ;
+    rdfs:label "Flea"@en .
+
+:JohnFrusciante rdf:type :Artist ;
+    rdfs:label "John Frusciante"@en .
+
+:ChadSmith rdf:type :Artist ;
+    rdfs:label "Chad Smith"@en .
+
+:RedHotChiliPeppers rdf:type :Band ;
+    rdfs:label "Red Hot Chili Peppers"@en ;
+    :hasMember :AnthonyKiedis, :Flea, :JohnFrusciante, :ChadSmith .

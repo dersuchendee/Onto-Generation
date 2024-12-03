@@ -1,0 +1,56 @@
+@prefix : <http://www.example.org/ontology/musical_instruments#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://www.example.org/ontology/musical_instruments>
+    a owl:Ontology ;
+    rdfs:label "Ontology of Musical Instruments" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/partof.owl> .
+
+### Classes
+
+:MusicalInstrument
+    a owl:Class ;
+    rdfs:label "Musical instrument" ;
+    rdfs:comment "A device created or adapted to make musical sounds." .
+
+:InstrumentPart
+    a owl:Class ;
+    rdfs:label "Instrument part" ;
+    rdfs:comment "A part of a musical instrument that contributes to its ability to produce musical sounds." .
+
+### Object Properties
+
+:hasPart
+    a owl:ObjectProperty ;
+    rdfs:label "has part" ;
+    rdfs:comment "A transitive relation expressing parthood between musical instruments and their parts." ;
+    rdfs:subPropertyOf partof:hasPart ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :InstrumentPart .
+
+:isPartOf
+    a owl:ObjectProperty ;
+    rdfs:label "is part of" ;
+    rdfs:comment "A transitive relation expressing that an instrument part is part of a musical instrument." ;
+    rdfs:subPropertyOf partof:isPartOf ;
+    rdfs:domain :InstrumentPart ;
+    rdfs:range :MusicalInstrument .
+
+### Restrictions
+
+:MusicalInstrument
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasPart ;
+        owl:someValuesFrom :InstrumentPart
+    ] .
+
+:InstrumentPart
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isPartOf ;
+        owl:someValuesFrom :MusicalInstrument
+    ] .

@@ -1,0 +1,83 @@
+@prefix : <http://www.example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:Source a owl:Class ;
+  rdfs:label "Source" ;
+  rdfs:comment "A class representing the source of information, such as an encyclopaedia or document." .
+
+:Subject a owl:Class ;
+  rdfs:label "Subject" ;
+  rdfs:comment "A class representing the subject or topic of a source." .
+
+:hasSubject a owl:ObjectProperty ;
+  rdfs:label "has subject" ;
+  rdfs:comment "A property describing the subject or topic that a source is about." ;
+  rdfs:domain :Source ;
+  rdfs:range :Subject .
+
+:Fact a owl:Class ;
+  rdfs:label "Fact" ;
+  rdfs:comment "A class representing a piece of information that can be true or false." .
+
+:hasFact a owl:ObjectProperty ;
+  rdfs:label "has fact" ;
+  rdfs:comment "A property linking a source to a fact it contains." ;
+  rdfs:domain :Source ;
+  rdfs:range :Fact .
+
+:ReliabilityStatus a owl:Class ;
+  rdfs:label "Reliability Status" ;
+  rdfs:comment "A class representing the reliability status of a fact (reliable, unreliable, unverified, etc.)." .
+
+:hasReliabilityStatus a owl:ObjectProperty ;
+  rdfs:label "has reliability status" ;
+  rdfs:comment "A property linking a fact to its reliability status." ;
+  rdfs:domain :Fact ;
+  rdfs:range :ReliabilityStatus .
+
+:Unreliable a owl:Class ;
+  rdfs:subClassOf :ReliabilityStatus ;
+  rdfs:label "Unreliable" ;
+  rdfs:comment "A subclass representing the status of a fact that is not reliable." .
+
+:Reliable a owl:Class ;
+  rdfs:subClassOf :ReliabilityStatus ;
+  rdfs:label "Reliable" ;
+  rdfs:comment "A subclass representing the status of a fact that is reliable." .
+
+:Unverified a owl:Class ;
+  rdfs:subClassOf :ReliabilityStatus ;
+  rdfs:label "Unverified" ;
+  rdfs:comment "A subclass representing the status of a fact that has not been verified yet." .
+
+:hasUnreliableFact a owl:ObjectProperty ;
+  rdfs:subPropertyOf :hasFact ;
+  rdfs:label "has unreliable fact" ;
+  rdfs:comment "A property linking a source to a fact that is considered unreliable." ;
+  owl:equivalentProperty [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasReliabilityStatus ;
+                            owl:hasValue :Unreliable ] .
+
+### Example Individuals
+
+:EncyclopediaOfOrgans a :Source ;
+  rdfs:label "Encyclopedia of Organs" ;
+  :hasSubject :OrganRestoration .
+
+:OrganRestoration a :Subject ;
+  rdfs:label "Organ Restoration" .
+
+:FactAboutPitch a :Fact ;
+  rdfs:label "Fact about Organ Pitch" ;
+  :hasReliabilityStatus :Unreliable .
+
+:EncyclopediaOfOrgans :hasFact :FactAboutPitch .
+:EncyclopediaOfOrgans :hasUnreliableFact :FactAboutPitch .

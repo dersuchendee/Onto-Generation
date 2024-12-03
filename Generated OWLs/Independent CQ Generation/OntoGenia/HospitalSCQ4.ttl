@@ -1,0 +1,33 @@
+@prefix : <http://www.ontologydesignpatterns.org/ont/hospital.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+:Hospital a owl:Class ;
+          rdfs:label "Hospital" ;
+          rdfs:comment "A healthcare institution providing patient treatment with specialized medical and nursing staff and medical equipment." .
+
+:City a owl:Class ;
+      rdfs:label "City" ;
+      rdfs:comment "A large human settlement, generally with extensive systems for housing, transportation, sanitation, utilities, land use, and communication." .
+
+:isLocatedIn a owl:ObjectProperty ;
+              rdfs:label "is located in" ;
+              rdfs:comment "The relationship between a Hospital and the City it is located in." ;
+              rdfs:domain :Hospital ;
+              rdfs:range :City .
+
+:NoceraInferiore a :City ;
+                  rdfs:label "Nocera Inferiore" ;
+                  rdfs:comment "A city in Italy where Ospedale Riunito delle Tre Valli is located." .
+
+:OspedaleRiunitoDelleTreValli a :Hospital ;
+                               rdfs:label "Ospedale Riunito delle Tre Valli" ;
+                               rdfs:comment "A hospital located in the city of Nocera Inferiore, Italy." ;
+                               :isLocatedIn :NoceraInferiore .

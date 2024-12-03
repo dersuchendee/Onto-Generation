@@ -1,0 +1,98 @@
+@prefix : <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<http://example.org/ontology/theatre>
+    a owl:Ontology ;
+    rdfs:label "Theatre Ontology"@en .
+
+:Play
+    a owl:Class ;
+    rdfs:label "Play"@en ;
+    rdfs:comment "A dramatic composition written by a playwright."@en .
+
+:Production
+    a owl:Class ;
+    rdfs:label "Production"@en ;
+    rdfs:comment "A specific performance or series of performances of a play by a theatre company."@en .
+
+:Theatre
+    a owl:Class ;
+    rdfs:label "Theatre"@en ;
+    rdfs:comment "A building or outdoor area where theatrical performances are given."@en .
+
+:Actor
+    a owl:Class ;
+    rdfs:label "Actor"@en ;
+    rdfs:comment "A person who performs in plays, movies, or television shows."@en .
+
+:Role
+    a owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A character portrayed by an actor in a play."@en .
+
+:hasBasis
+    a owl:ObjectProperty ;
+    rdfs:label "has basis"@en ;
+    rdfs:comment "The play that is the basis for a particular production."@en ;
+    rdfs:domain :Production ;
+    rdfs:range :Play .
+
+:performedBy
+    a owl:ObjectProperty ;
+    rdfs:label "performed by"@en ;
+    rdfs:comment "The theatre company or actor performing the play."@en ;
+    rdfs:domain :Production ;
+    rdfs:range :Actor .
+
+:performsIn
+    a owl:ObjectProperty ;
+    rdfs:label "performs in"@en ;
+    rdfs:comment "The theatre where the play is performed."@en ;
+    rdfs:domain :Production ;
+    rdfs:range :Theatre .
+
+:hasRole
+    a owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:comment "Associates an actor with the role they play in a production."@en ;
+    rdfs:domain :Actor ;
+    rdfs:range :Role .
+
+:MerchantOfVenice
+    a :Play ;
+    rdfs:label "The Merchant of Venice"@en ;
+    rdfs:comment "A play written by William Shakespeare between 1596 and 1598."@en .
+
+:GrandTheatreProduction
+    a :Production ;
+    rdfs:label "Grand Theatre Production of The Merchant of Venice"@en ;
+    rdfs:comment "The production of The Merchant of Venice performed at the Grand Theatre in Rome during September and October 2009."@en ;
+    :hasBasis :MerchantOfVenice ;
+    :performsIn :GrandTheatre .
+
+:GrandTheatre
+    a :Theatre ;
+    rdfs:label "The Grand Theatre in Rome"@en ;
+    rdfs:comment "A major theatre located in Rome, Italy."@en .
+
+:FabioBianchi
+    a :Actor ;
+    rdfs:label "Fabio Bianchi"@en ;
+    rdfs:comment "An Italian actor employed at the Grand Theatre since May 2004."@en ;
+    :hasRole :DukeOfVenice ;
+    :hasRole :Servant .
+
+:DukeOfVenice
+    a :Role ;
+    rdfs:label "Duke of Venice"@en ;
+    rdfs:comment "A character role in The Merchant of Venice."@en .
+
+:Servant
+    a :Role ;
+    rdfs:label "Servant"@en ;
+    rdfs:comment "A character role in The Merchant of Venice."@en .
+
+### Additional individuals and relationships can be added to the ontology as needed.

@@ -1,0 +1,122 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+
+<http://www.example.org/ontology/music>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about music performances and related concepts."@en .
+
+### Classes
+
+:Performance
+    rdf:type owl:Class ;
+    rdfs:label "Music Performance"@en ;
+    rdfs:comment "A live music event where musicians perform in front of an audience."@en .
+
+:Venue
+    rdf:type owl:Class ;
+    rdfs:label "Venue"@en ;
+    rdfs:comment "A place where music performances and other events are held."@en .
+
+:MusicGroup
+    rdf:type owl:Class ;
+    rdfs:subClassOf foaf:Organization ;
+    rdfs:label "Music Group"@en ;
+    rdfs:comment "A group of musicians who perform together as a unit."@en .
+
+:MusicAlbum
+    rdf:type owl:Class ;
+    rdfs:label "Music Album"@en ;
+    rdfs:comment "A collection of recorded music tracks released together."@en .
+
+:MusicTrack
+    rdf:type owl:Class ;
+    rdfs:label "Music Track"@en ;
+    rdfs:comment "A single song or piece of music that is part of an album."@en .
+
+### Object Properties
+
+:performedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "performed at"@en ;
+    rdfs:comment "Relates a music performance to the venue where it took place."@en ;
+    rdfs:domain :Performance ;
+    rdfs:range :Venue .
+
+:hasPerformance
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has performance"@en ;
+    rdfs:comment "Relates a music group to a performance they have given."@en ;
+    rdfs:domain :MusicGroup ;
+    rdfs:range :Performance ;
+    owl:inverseOf :performedBy .
+
+:performedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "performed by"@en ;
+    rdfs:comment "Relates a music performance to the music group that performed."@en ;
+    rdfs:domain :Performance ;
+    rdfs:range :MusicGroup .
+
+:hasAlbum
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has album"@en ;
+    rdfs:comment "Relates a music group to an album they have released."@en ;
+    rdfs:domain :MusicGroup ;
+    rdfs:range :MusicAlbum .
+
+:hasTrack
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has track"@en ;
+    rdfs:comment "Relates a music album to its constituent tracks."@en ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range :MusicTrack .
+
+### Individuals
+
+:RedHotChiliPeppers rdf:type :MusicGroup ;
+    rdfs:label "Red Hot Chili Peppers"@en .
+
+:StadiumArcadium rdf:type :MusicAlbum ;
+    rdfs:label "Stadium Arcadium"@en ;
+    :hasTrack :HumpDeBump .
+
+:HumpDeBump rdf:type :MusicTrack ;
+    rdfs:label "Hump de Bump"@en .
+
+:PortlandPerformance rdf:type :Performance ;
+    rdfs:label "Live Performance in Portland"@en ;
+    :performedBy :RedHotChiliPeppers ;
+    :performedAt :PortlandOregonVenue .
+
+:PortlandOregonVenue rdf:type :Venue ;
+    rdfs:label "Venue in Portland, Oregon"@en .
+
+### Restrictions
+
+:Performance
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :performedAt ;
+        owl:someValuesFrom :Venue
+    ] .
+
+:MusicGroup
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasPerformance ;
+        owl:someValuesFrom :Performance
+    ] .
+
+:MusicAlbum
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasTrack ;
+        owl:someValuesFrom :MusicTrack
+    ] .

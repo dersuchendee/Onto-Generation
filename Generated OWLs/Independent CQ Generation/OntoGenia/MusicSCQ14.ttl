@@ -1,0 +1,127 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+
+<http://www.example.org/ontology/music> rdf:type owl:Ontology ;
+                                       rdfs:comment "An ontology for representing information about music production, focusing on the Red Hot Chili Peppers band and their album Stadium Arcadium." .
+
+### Classes
+
+:Band rdf:type owl:Class ;
+      rdfs:label "Band" ;
+      rdfs:comment "A group of musicians who perform together as an ensemble." .
+
+:Musician rdf:type owl:Class ;
+          rdfs:label "Musician" ;
+          rdfs:comment "An individual who plays a musical instrument or is musically talented." .
+
+:Instrument rdf:type owl:Class ;
+            rdfs:label "Instrument" ;
+            rdfs:comment "A device created or adapted to make musical sounds." .
+
+:Performance rdf:type owl:Class ;
+             rdfs:label "Performance" ;
+             rdfs:comment "A live presentation of music in front of an audience." .
+
+:Album rdf:type owl:Class ;
+       rdfs:label "Album" ;
+       rdfs:comment "A collection of audio recordings issued as a single item." .
+
+:Track rdf:type owl:Class ;
+       rdfs:label "Track" ;
+       rdfs:comment "A single song or piece of music on an album." .
+
+:Country rdf:type owl:Class ;
+         rdfs:label "Country" ;
+         rdfs:comment "A nation with its own government, occupying a particular territory." .
+
+:Region rdf:type owl:Class ;
+        rdfs:label "Region" ;
+        rdfs:comment "An area, especially part of a country or the world having definable characteristics but not always fixed boundaries." .
+
+### Object Properties
+
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:label "has member" ;
+           rdfs:comment "A band has musicians as members." ;
+           rdfs:domain :Band ;
+           rdfs:range :Musician .
+
+:playsInstrument rdf:type owl:ObjectProperty ;
+                 rdfs:label "plays instrument" ;
+                 rdfs:comment "A musician plays an instrument." ;
+                 rdfs:domain :Musician ;
+                 rdfs:range :Instrument .
+
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:label "performed by" ;
+             rdfs:comment "A performance is carried out by a musician or a band." ;
+             rdfs:domain :Performance ;
+             rdfs:range [ owl:unionOf (:Musician :Band) ] .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:label "has track" ;
+          rdfs:comment "An album has tracks." ;
+          rdfs:domain :Album ;
+          rdfs:range :Track .
+
+:locatedIn rdf:type owl:ObjectProperty ;
+           rdfs:label "located in" ;
+           rdfs:comment "A region is located in a country." ;
+           rdfs:domain :Region ;
+           rdfs:range :Country .
+
+### Individuals
+
+:RedHotChiliPeppers rdf:type :Band ;
+                     rdfs:label "Red Hot Chili Peppers" ;
+                     foaf:name "Red Hot Chili Peppers" .
+
+:AnthonyKiedis rdf:type :Musician ;
+               rdfs:label "Anthony Kiedis" ;
+               foaf:name "Anthony Kiedis" .
+
+:Flea rdf:type :Musician ;
+      rdfs:label "Flea" ;
+      foaf:name "Flea" .
+
+:JohnFrusciante rdf:type :Musician ;
+                rdfs:label "John Frusciante" ;
+                foaf:name "John Frusciante" .
+
+:ChadSmith rdf:type :Musician ;
+            rdfs:label "Chad Smith" ;
+            foaf:name "Chad Smith" .
+
+:StadiumArcadium rdf:type :Album ;
+                  rdfs:label "Stadium Arcadium" ;
+                  dbo:releaseDate "2006-05-05"^^xsd:date ;
+                  dbo:recordLabel dbr:Warner_Bros._Records .
+
+:HumpDeBump rdf:type :Track ;
+            rdfs:label "Hump de Bump" ;
+            dbo:compositionDate "2004-01-26"^^xsd:date .
+
+:Portland rdf:type :Region ;
+          rdfs:label "Portland, Oregon" ;
+          dbo:country dbr:United_States .
+
+### Facts
+
+:RedHotChiliPeppers :hasMember :AnthonyKiedis, :Flea, :JohnFrusciante, :ChadSmith .
+
+:Flea :playsInstrument dbr:Bass_guitar, dbr:Trumpet, dbr:Keyboard_instrument .
+
+:JohnFrusciante :playsInstrument dbr:Guitar .
+
+:ChadSmith :playsInstrument dbr:Drum_kit .
+
+:StadiumArcadium :hasTrack :HumpDeBump .
+
+:Portland dbo:country dbr:United_States .

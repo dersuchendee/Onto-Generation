@@ -1,0 +1,92 @@
+@prefix : <http://www.ontologydesignpatterns.org/ont/hospital.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.ontologydesignpatterns.org/ont/hospital.owl>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for the Hospital scenario"@en .
+
+### Classes
+
+:Hospital
+    rdf:type owl:Class ;
+    rdfs:label "Hospital"@en .
+
+:Employee
+    rdf:type owl:Class ;
+    rdfs:label "Employee"@en .
+
+:Nurse
+    rdf:type owl:Class ;
+    rdfs:subClassOf :Employee ;
+    rdfs:label "Nurse"@en .
+
+:Seminar
+    rdf:type owl:Class ;
+    rdfs:label "Seminar"@en .
+
+:Article
+    rdf:type owl:Class ;
+    rdfs:label "Article"@en .
+
+:ArticleCollection
+    rdf:type owl:Class ;
+    rdfs:subClassOf collectionentity:Collection ;
+    rdfs:label "Article Collection"@en .
+
+### Object Properties
+
+:employedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Employee ;
+    rdfs:range :Hospital ;
+    rdfs:label "is employed at"@en .
+
+:hasUnionRepresentative
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Hospital ;
+    rdfs:range agentrole:Agent ;
+    rdfs:label "has union representative"@en .
+
+:hasArticle
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Seminar ;
+    rdfs:range :Article ;
+    owl:inverseOf :presentedAt ;
+    rdfs:label "has article"@en .
+
+:presentedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Article ;
+    rdfs:range :Seminar ;
+    rdfs:label "presented at"@en .
+
+### Restrictions
+
+:Seminar
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasArticle ;
+        owl:someValuesFrom :Article ;
+        rdfs:label "Each seminar must have at least one article presented"@en
+    ] .
+
+### Individuals
+
+:Seminar_December_2008
+    rdf:type :Seminar ;
+    rdfs:label "Seminar December 2008"@en .
+
+:Article_Improving_Cancer_Care
+    rdf:type :Article ;
+    rdfs:label "A 5 year-program for improving cancer care � experiences and future directions"@en ;
+    :presentedAt :Seminar_December_2008 .
+
+### Facts
+
+:Seminar_December_2008 :hasArticle :Article_Improving_Cancer_Care .

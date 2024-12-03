@@ -1,0 +1,86 @@
+@prefix : <http://www.example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:Source a owl:Class ;
+  rdfs:label "Source" ;
+  rdfs:comment "A class representing the source of information, such as an encyclopaedia or a document." .
+
+:ContextOfUsage a owl:Class ;
+  rdfs:label "Context of Usage" ;
+  rdfs:comment "A class representing the context in which a source is used, including the reliability of the information provided by the source." .
+
+:hasContextOfUsage a owl:ObjectProperty ;
+  rdfs:label "has context of usage" ;
+  rdfs:comment "An object property linking a source to its context of usage." ;
+  rdfs:domain :Source ;
+  rdfs:range :ContextOfUsage .
+
+:Reliability a owl:Class ;
+  rdfs:label "Reliability" ;
+  rdfs:comment "A class representing the reliability of the information provided by a source." .
+
+:hasReliability a owl:ObjectProperty ;
+  rdfs:label "has reliability" ;
+  rdfs:comment "An object property linking a context of usage to the reliability of the source in that context." ;
+  rdfs:domain :ContextOfUsage ;
+  rdfs:range :Reliability .
+
+:Unreliable a owl:Class ;
+  rdfs:subClassOf :Reliability ;
+  rdfs:label "Unreliable" ;
+  rdfs:comment "A subclass representing unreliable information within a context of usage." .
+
+:Reliable a owl:Class ;
+  rdfs:subClassOf :Reliability ;
+  rdfs:label "Reliable" ;
+  rdfs:comment "A subclass representing reliable information within a context of usage." .
+
+:Agent a owl:Class ;
+  rdfs:subClassOf agentrole:Agent ;
+  rdfs:label "Agent" ;
+  rdfs:comment "A class representing an agent, which can be a person or an organization." .
+
+:hasAgent a owl:ObjectProperty ;
+  rdfs:label "has agent" ;
+  rdfs:comment "An object property linking a context of usage to an agent, who uses the source." ;
+  rdfs:domain :ContextOfUsage ;
+  rdfs:range :Agent .
+
+:Paul a :Agent ;
+  rdfs:label "Paul" ;
+  rdfs:comment "An individual representing the agent Paul, who is planning a restoration and assessing the reliability of sources." .
+
+:Encyclopedia a :Source ;
+  rdfs:label "Encyclopedia" ;
+  rdfs:comment "An individual representing a specific source, such as an encyclopaedia, used by Paul." .
+
+:PaulsRestorationContext a :ContextOfUsage ;
+  rdfs:label "Paul's Restoration Context" ;
+  rdfs:comment "An individual representing the context of usage where Paul is planning a restoration." .
+
+:EncyclopediaReliability a :Reliability ;
+  rdfs:label "Encyclopedia Reliability" ;
+  rdfs:comment "An individual representing the reliability of the Encyclopedia in the context of Paul's restoration planning." .
+
+:EncyclopediaReliabilityUnreliable a :Unreliable ;
+  rdfs:label "Encyclopedia Reliability - Unreliable" ;
+  rdfs:comment "An individual representing the unreliable aspects of the Encyclopedia in the context of Paul's restoration planning." .
+
+:EncyclopediaReliabilityReliable a :Reliable ;
+  rdfs:label "Encyclopedia Reliability - Reliable" ;
+  rdfs:comment "An individual representing the reliable aspects of the Encyclopedia in the context of Paul's restoration planning." .
+
+# Linking individuals to their respective classes
+:Encyclopedia :hasContextOfUsage :PaulsRestorationContext .
+:PaulsRestorationContext :hasReliability :EncyclopediaReliability .
+:PaulsRestorationContext :hasAgent :Paul .
+:EncyclopediaReliability :hasReliability :EncyclopediaReliabilityUnreliable .
+:EncyclopediaReliability :hasReliability :EncyclopediaReliabilityReliable .

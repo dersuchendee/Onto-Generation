@@ -1,0 +1,155 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.example.org/ontology/music>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about music production, album reviews, and critic opinions."@en .
+
+### Classes
+
+:MusicGroup rdf:type owl:Class ;
+    rdfs:label "Music Group"@en ;
+    rdfs:comment "A group of individuals who perform music together."@en .
+
+:MusicAlbum rdf:type owl:Class ;
+    rdfs:label "Music Album"@en ;
+    rdfs:comment "A collection of music tracks released together as a single item."@en .
+
+:MusicTrack rdf:type owl:Class ;
+    rdfs:label "Music Track"@en ;
+    rdfs:comment "A single piece of music or song."@en .
+
+:Critic rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Critic"@en ;
+    rdfs:comment "An agent who reviews and evaluates music albums."@en .
+
+:Review rdf:type owl:Class ;
+    rdfs:label "Review"@en ;
+    rdfs:comment "A critical assessment or evaluation of a music album by a critic."@en .
+
+### Object Properties
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "A property indicating the members of a music group."@en ;
+    rdfs:domain :MusicGroup ;
+    rdfs:range agentrole:Agent .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+    rdfs:label "has album"@en ;
+    rdfs:comment "A property indicating the albums released by a music group."@en ;
+    rdfs:domain :MusicGroup ;
+    rdfs:range :MusicAlbum .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+    rdfs:label "has track"@en ;
+    rdfs:comment "A property indicating the tracks contained in a music album."@en ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range :MusicTrack .
+
+:reviewedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "reviewed by"@en ;
+    rdfs:comment "A property linking a music album to its reviews by critics."@en ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range :Critic .
+
+:hasReview rdf:type owl:ObjectProperty ;
+    rdfs:label "has review"@en ;
+    rdfs:comment "A property linking a critic to their review of a music album."@en ;
+    rdfs:domain :Critic ;
+    rdfs:range :Review .
+
+### Datatype Properties
+
+:releaseDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "release date"@en ;
+    rdfs:comment "The date on which a music album was released."@en ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range xsd:date .
+
+:trackCompositionDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "track composition date"@en ;
+    rdfs:comment "The date on which a music track was composed."@en ;
+    rdfs:domain :MusicTrack ;
+    rdfs:range xsd:date .
+
+:reviewContent rdf:type owl:DatatypeProperty ;
+    rdfs:label "review content"@en ;
+    rdfs:comment "The textual content of a music album review."@en ;
+    rdfs:domain :Review ;
+    rdfs:range xsd:string .
+
+:reviewDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "review date"@en ;
+    rdfs:comment "The date on which the review was published."@en ;
+    rdfs:domain :Review ;
+    rdfs:range xsd:date .
+
+### Restrictions
+
+:MusicGroup rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasMember ;
+    owl:someValuesFrom agentrole:Agent
+] .
+
+:MusicAlbum rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasTrack ;
+    owl:someValuesFrom :MusicTrack
+] .
+
+:MusicAlbum rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :reviewedBy ;
+    owl:someValuesFrom :Critic
+] .
+
+:Critic rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasReview ;
+    owl:someValuesFrom :Review
+] .
+
+### Individuals
+
+:RedHotChiliPeppers rdf:type :MusicGroup ;
+    rdfs:label "Red Hot Chili Peppers"@en ;
+    rdfs:comment "The music group Red Hot Chili Peppers."@en .
+
+:StadiumArcadium rdf:type :MusicAlbum ;
+    rdfs:label "Stadium Arcadium"@en ;
+    rdfs:comment "The music album 'Stadium Arcadium' by Red Hot Chili Peppers."@en ;
+    :releaseDate "2006-05-05"^^xsd:date .
+
+:HumpDeBump rdf:type :MusicTrack ;
+    rdfs:label "Hump de Bump"@en ;
+    rdfs:comment "A track from the album 'Stadium Arcadium'."@en ;
+    :trackCompositionDate "2004-01-26"^^xsd:date .
+
+:CrianHiatt rdf:type :Critic ;
+    rdfs:label "Crian Hiatt"@en ;
+    rdfs:comment "The critic who reviewed the album 'Stadium Arcadium'."@en .
+
+:HiattReviewOfStadiumArcadium rdf:type :Review ;
+    rdfs:label "Hiatt's Review of Stadium Arcadium"@en ;
+    rdfs:comment "Crian Hiatt's review of the album 'Stadium Arcadium'."@en ;
+    :reviewContent "The most ambitious work in his twenty-three-year career."@en ;
+    :reviewDate "2006-08-11"^^xsd:date .
+
+### Relationships
+
+:RedHotChiliPeppers :hasAlbum :StadiumArcadium .
+
+:StadiumArcadium :hasTrack :HumpDeBump .
+
+:StadiumArcadium :reviewedBy :CrianHiatt .
+
+:CrianHiatt :hasReview :HiattReviewOfStadiumArcadium .

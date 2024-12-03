@@ -1,0 +1,104 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix cpannotationschema: <http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#> .
+@prefix : <http://example.org/ontology/construction#> .
+
+<http://example.org/ontology/construction>
+    rdf:type owl:Ontology ;
+    rdfs:label "Construction Use Case Ontology"@en ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:Actor
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor in the construction value network"@en .
+
+:Role
+    rdf:type owl:Class ;
+    rdfs:subClassOf objectrole:Role ;
+    rdfs:label "Role in the construction value network"@en .
+
+:MaterialFlow
+    rdf:type owl:Class ;
+    rdfs:label "Material flow in the construction value network"@en .
+
+### Object Properties
+
+:hasRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Role ;
+    rdfs:label "has role"@en ;
+    owl:propertyChainAxiom ( agentrole:isPlayedBy agentrole:inheresIn ) .
+
+:involvedInMaterialFlow
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :MaterialFlow ;
+    rdfs:label "involved in material flow"@en .
+
+:playsRole
+    rdf:type owl:ObjectProperty ;
+    owl:inverseOf :hasRole ;
+    rdfs:label "plays role"@en .
+
+### Restrictions
+
+:Actor
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasRole ;
+        owl:someValuesFrom :Role
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :involvedInMaterialFlow ;
+        owl:someValuesFrom :MaterialFlow
+    ] .
+
+:Role
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :playsRole ;
+        owl:someValuesFrom :Actor
+    ] .
+
+### Individuals
+
+:Contractor
+    rdf:type :Role ;
+    rdfs:label "Contractor"@en .
+
+:Supplier
+    rdf:type :Role ;
+    rdfs:label "Supplier"@en .
+
+:Architect
+    rdf:type :Role ;
+    rdfs:label "Architect"@en .
+
+:Engineer
+    rdf:type :Role ;
+    rdfs:label "Engineer"@en .
+
+:ConstructionWorker
+    rdf:type :Role ;
+    rdfs:label "Construction Worker"@en .
+
+### Example of an Actor with a Role and Material Flow
+
+:JohnDoe
+    rdf:type :Actor ;
+    rdfs:label "John Doe"@en ;
+    :hasRole :Architect ;
+    :involvedInMaterialFlow :MaterialFlow1 .
+
+:MaterialFlow1
+    rdf:type :MaterialFlow ;
+    rdfs:label "Material Flow 1"@en .

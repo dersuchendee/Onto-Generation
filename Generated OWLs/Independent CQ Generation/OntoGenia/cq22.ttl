@@ -1,0 +1,92 @@
+@prefix : <http://example.org/ontology/recycling#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://example.org/ontology/recycling>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Product Recycling based on Material Composition" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/partof.owl> ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl> .
+
+### Classes
+
+:Material
+    rdf:type owl:Class ;
+    rdfs:label "Material" ;
+    rdfs:comment "A class representing materials that can be used in products." .
+
+:Component
+    rdf:type owl:Class ;
+    rdfs:label "Component" ;
+    rdfs:comment "A class representing components that can be part of products." ;
+    owl:equivalentClass [ 
+        rdf:type owl:Class ;
+        owl:intersectionOf ( 
+            [ rdf:type owl:Restriction ; owl:onProperty partof:isPartOf ; owl:someValuesFrom :Product ]
+            [ rdf:type owl:Restriction ; owl:onProperty :isMadeOf ; owl:someValuesFrom :Material ]
+        )
+    ] .
+
+:Product
+    rdf:type owl:Class ;
+    rdfs:label "Product" ;
+    rdfs:comment "A class representing products that can be recycled." ;
+    owl:equivalentClass [ 
+        rdf:type owl:Class ;
+        owl:intersectionOf ( 
+            [ rdf:type owl:Restriction ; owl:onProperty partof:hasPart ; owl:someValuesFrom :Component ]
+            [ rdf:type owl:Restriction ; owl:onProperty collectionentity:hasMember ; owl:someValuesFrom :Material ]
+        )
+    ] .
+
+### Object Properties
+
+:isMadeOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "is made of" ;
+    rdfs:comment "A property linking a product or component to the material it is made of." ;
+    rdfs:domain [ rdf:type owl:Class ; owl:unionOf ( :Product :Component ) ] ;
+    rdfs:range :Material .
+
+partof:hasPart
+    rdfs:label "has part" ;
+    rdfs:comment "A transitive property expressing the part-whole relationship, specialized for products and components." ;
+    rdfs:domain :Product ;
+    rdfs:range :Component .
+
+partof:isPartOf
+    rdfs:label "is part of" ;
+    rdfs:comment "A transitive property expressing the part-whole relationship, specialized for components and products." ;
+    rdfs:domain :Component ;
+    rdfs:range :Product .
+
+collectionentity:hasMember
+    rdfs:label "has member" ;
+    rdfs:comment "A property expressing the membership of a material in a product." ;
+    rdfs:domain :Product ;
+    rdfs:range :Material .
+
+### Restrictions
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :isMadeOf ;
+  owl:someValuesFrom :Material ;
+  owl:allValuesFrom :Material
+] .
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty partof:hasPart ;
+  owl:someValuesFrom :Component ;
+  owl:allValuesFrom :Component
+] .
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty collectionentity:hasMember ;
+  owl:someValuesFrom :Material ;
+  owl:allValuesFrom :Material
+] .

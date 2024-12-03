@@ -1,0 +1,85 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://example.org/ontology> rdf:type owl:Ontology ;
+                              rdfs:comment "An ontology for representing the attributes of a film preview event."@en .
+
+### Classes
+
+:event:Event rdf:type owl:Class ;
+             rdfs:label "Event" ;
+             rdfs:comment "A happening that occurs at a specific place and time."@en .
+
+:Film rdf:type owl:Class ;
+      rdfs:label "Film" ;
+      rdfs:comment "A motion picture or movie."@en .
+
+:Cinema rdf:type owl:Class ;
+        rdfs:label "Cinema" ;
+        rdfs:comment "A theatre where films are shown."@en .
+
+### Object Properties
+
+:event:time rdf:type owl:ObjectProperty ;
+            rdfs:label "time" ;
+            rdfs:comment "The time at which an event occurs."@en ;
+            rdfs:domain :event:Event ;
+            rdfs:range time:Instant .
+
+:event:place rdf:type owl:ObjectProperty ;
+             rdfs:label "place" ;
+             rdfs:comment "The place where an event occurs."@en ;
+             rdfs:domain :event:Event ;
+             rdfs:range :Cinema .
+
+:event:product rdf:type owl:ObjectProperty ;
+               rdfs:label "product" ;
+               rdfs:comment "The product that is featured in the event, such as a film."@en ;
+               rdfs:domain :event:Event ;
+               rdfs:range :Film .
+
+### Datatype Properties
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:label "has title" ;
+          rdfs:comment "The title of a film."@en ;
+          rdfs:domain :Film ;
+          rdfs:range xsd:string .
+
+:hasStartTime rdf:type owl:DatatypeProperty ;
+              rdfs:label "has start time" ;
+              rdfs:comment "The starting time of an event."@en ;
+              rdfs:domain [ rdf:type owl:Class ;
+                            owl:unionOf ( :event:Event time:Instant )
+                          ] ;
+              rdfs:range xsd:dateTime .
+
+:hasLocationName rdf:type owl:DatatypeProperty ;
+                 rdfs:label "has location name" ;
+                 rdfs:comment "The name of the location, such as a cinema."@en ;
+                 rdfs:domain :Cinema ;
+                 rdfs:range xsd:string .
+
+### Individuals
+
+:CinemaOne rdf:type :Cinema ;
+           :hasLocationName "CinemaOne" .
+
+:XMen rdf:type :Film ;
+       :hasTitle "X-men" .
+
+:XMenPreview rdf:type :event:Event ;
+              :event:product :XMen ;
+              :event:place :CinemaOne ;
+              :event:time [
+                rdf:type time:Instant ;
+                :hasStartTime "2023-04-01T20:00:00Z"^^xsd:dateTime
+              ] .

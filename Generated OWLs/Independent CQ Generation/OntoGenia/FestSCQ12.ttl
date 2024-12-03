@@ -1,0 +1,62 @@
+@prefix : <http://www.example.org/theatre_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:StarRating a owl:Class ;
+    rdfs:label "Star Rating"@en ;
+    rdfs:comment "A rating given to a theatre production, expressed in stars."@en .
+
+:Newspaper a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Newspaper"@en ;
+    rdfs:comment "A newspaper that can give ratings to theatre productions."@en .
+
+:TheatreProduction a owl:Class ;
+    rdfs:label "Theatre Production"@en ;
+    rdfs:comment "A theatre production that can be rated by a newspaper."@en .
+
+:hasStarRating a owl:ObjectProperty ;
+    rdfs:domain :TheatreProduction ;
+    rdfs:range :StarRating ;
+    rdfs:label "has star rating"@en ;
+    rdfs:comment "The star rating given to a theatre production."@en .
+
+:givenBy a owl:ObjectProperty ;
+    rdfs:domain :StarRating ;
+    rdfs:range :Newspaper ;
+    rdfs:label "given by"@en ;
+    rdfs:comment "The newspaper that gives the star rating to a theatre production."@en .
+
+:rates a owl:ObjectProperty ;
+    owl:inverseOf :hasStarRating ;
+    rdfs:domain :Newspaper ;
+    rdfs:range :TheatreProduction ;
+    rdfs:label "rates"@en ;
+    rdfs:comment "The theatre production that is rated by a newspaper."@en .
+
+:hasRatingValue a owl:DatatypeProperty ;
+    rdfs:domain :StarRating ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has rating value"@en ;
+    rdfs:comment "The value of the star rating, typically from 1 to 5."@en .
+
+# Instances
+:IlGazzettino a :Newspaper ;
+    rdfs:label "Il Gazzettino"@en .
+
+:TheMerchantOfVenice_GrandTheatre a :TheatreProduction ;
+    rdfs:label "The Merchant of Venice at The Grand Theatre"@en .
+
+:FiveStarRating a :StarRating ;
+    rdfs:label "Five Star Rating"@en ;
+    :hasRatingValue 5 .
+
+# Relationships
+:TheMerchantOfVenice_GrandTheatre :hasStarRating :FiveStarRating .
+:FiveStarRating :givenBy :IlGazzettino .

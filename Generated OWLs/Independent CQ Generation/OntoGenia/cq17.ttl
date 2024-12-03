@@ -1,0 +1,106 @@
+@prefix : <http://example.org/ontology/recycling#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://example.org/ontology/recycling>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Recycling" ;
+    rdfs:comment "This ontology is designed to represent the recycling process of products based on their material composition and recycling efficiency." .
+
+### Classes
+
+:Resource
+    rdf:type owl:Class ;
+    rdfs:label "Resource" ;
+    rdfs:comment "A resource that can be recycled." .
+
+:Material
+    rdf:type owl:Class ;
+    rdfs:label "Material" ;
+    rdfs:comment "The material composition of a resource." .
+
+:RecyclingProcess
+    rdf:type owl:Class ;
+    rdfs:label "Recycling Process" ;
+    rdfs:comment "The process of recycling a resource." .
+
+:Efficiency
+    rdf:type owl:Class ;
+    rdfs:label "Efficiency" ;
+    rdfs:comment "The efficiency of a recycling process." .
+
+### Object Properties
+
+:isMadeOf
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "is made of" ;
+    rdfs:comment "The relation between a resource and the material it is made of." ;
+    rdfs:domain :Resource ;
+    rdfs:range :Material .
+
+:hasRecyclingProcess
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has recycling process" ;
+    rdfs:comment "The relation between a resource and its recycling process." ;
+    rdfs:domain :Resource ;
+    rdfs:range :RecyclingProcess .
+
+:hasEfficiency
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has efficiency" ;
+    rdfs:comment "The relation between a recycling process and its efficiency." ;
+    rdfs:domain :RecyclingProcess ;
+    rdfs:range :Efficiency .
+
+### Restrictions
+
+:RecyclableResource
+    rdf:type owl:Class ;
+    rdfs:label "Recyclable Resource" ;
+    rdfs:comment "A resource that can be recycled with a known efficiency." ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:intersectionOf (
+            :Resource
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :hasRecyclingProcess ;
+              owl:someValuesFrom :RecyclingProcess
+            ]
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :hasEfficiency ;
+              owl:someValuesFrom :Efficiency
+            ]
+        )
+    ] .
+
+### Example Individuals
+
+:GlassBottle
+    rdf:type :Resource ;
+    rdfs:label "Glass Bottle" ;
+    :isMadeOf :Glass .
+
+:Glass
+    rdf:type :Material ;
+    rdfs:label "Glass" .
+
+:GlassRecycling
+    rdf:type :RecyclingProcess ;
+    rdfs:label "Glass Recycling" .
+
+:HighEfficiency
+    rdf:type :Efficiency ;
+    rdfs:label "High Efficiency" .
+
+:GlassBottleRecycling
+    rdf:type :RecyclableResource ;
+    rdfs:label "Recyclable Glass Bottle" ;
+    :hasRecyclingProcess :GlassRecycling ;
+    :hasEfficiency :HighEfficiency .

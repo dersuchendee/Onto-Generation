@@ -1,0 +1,80 @@
+@prefix : <http://www.ontologydesignpatterns.org/ont/hospital.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:Article a owl:Class ;
+         rdfs:label "Article" ;
+         rdfs:comment "A written composition on a particular subject, usually forming an independent part of a book or collection" .
+
+:Seminar a owl:Class ;
+         rdfs:label "Seminar" ;
+         rdfs:comment "A meeting for discussion or training on a particular subject, where articles are presented and discussed" .
+
+:PresentedArticle a owl:Class ;
+                  rdfs:subClassOf :Article ;
+                  rdfs:label "Presented Article" ;
+                  rdfs:comment "An article that has been presented at a seminar" .
+
+:hasArticle a owl:ObjectProperty ;
+            rdfs:domain :Seminar ;
+            rdfs:range :Article ;
+            rdfs:label "has article" ;
+            rdfs:comment "A property that associates a seminar with its articles" .
+
+:presentedAt a owl:ObjectProperty ;
+              rdfs:domain :Article ;
+              rdfs:range :Seminar ;
+              rdfs:label "presented at" ;
+              rdfs:comment "A property that associates an article with the seminar at which it was presented" ;
+              owl:inverseOf :hasArticle .
+
+:hasPresentedArticle a owl:ObjectProperty ;
+                     rdfs:subPropertyOf :hasArticle ;
+                     rdfs:domain :Seminar ;
+                     rdfs:range :PresentedArticle ;
+                     rdfs:label "has presented article" ;
+                     rdfs:comment "A property that associates a seminar with its presented articles" .
+
+:articleTitle a owl:DatatypeProperty ;
+              rdfs:domain :Article ;
+              rdfs:range xsd:string ;
+              rdfs:label "article title" ;
+              rdfs:comment "The title of the article" .
+
+:articlePageCount a owl:DatatypeProperty ;
+                  rdfs:domain :Article ;
+                  rdfs:range xsd:nonNegativeInteger ;
+                  rdfs:label "article page count" ;
+                  rdfs:comment "The number of pages of the article" .
+
+:seminarDate a owl:DatatypeProperty ;
+              rdfs:domain :Seminar ;
+              rdfs:range xsd:date ;
+              rdfs:label "seminar date" ;
+              rdfs:comment "The date on which the seminar took place" .
+
+# Individuals
+:Seminar_Dec2008 a :Seminar ;
+                 :seminarDate "2008-12-01"^^xsd:date ;
+                 rdfs:label "Seminar December 2008" .
+
+:Article_PasqualeDiGennaro a :PresentedArticle ;
+                            :articleTitle "A 5 year-program for improving cancer care � experiences and future directions" ;
+                            :articlePageCount "346"^^xsd:nonNegativeInteger ;
+                            :presentedAt :Seminar_Dec2008 ;
+                            rdfs:label "Article by Pasquale Di Gennaro" .
+
+### Restrictions
+:Seminar rdfs:subClassOf [ a owl:Restriction ;
+                           owl:onProperty :hasPresentedArticle ;
+                           owl:someValuesFrom :PresentedArticle ] .
+
+:PresentedArticle rdfs:subClassOf [ a owl:Restriction ;
+                                    owl:onProperty :presentedAt ;
+                                    owl:someValuesFrom :Seminar ] .

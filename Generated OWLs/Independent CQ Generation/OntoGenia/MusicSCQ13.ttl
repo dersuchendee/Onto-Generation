@@ -1,0 +1,56 @@
+@prefix : <http://www.example.org/ontology/musicproduction#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<http://www.example.org/ontology/musicproduction>
+    a owl:Ontology ;
+    rdfs:label "Music Production Ontology"@en ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+### Classes
+
+:City
+    a owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:subClassOf dbo:Place ;
+    rdfs:comment "A city is an urban area with a large population and a particular administrative, legal, or historical status."@en .
+
+:Region
+    a owl:Class ;
+    rdfs:label "Region"@en ;
+    rdfs:subClassOf dbo:Place ;
+    rdfs:comment "A region is an area, especially part of a country, having definable characteristics but not always fixed boundaries."@en .
+
+### Object Properties
+
+:isLocatedIn
+    a owl:ObjectProperty ;
+    rdfs:label "is located in"@en ;
+    rdfs:domain :City ;
+    rdfs:range :Region ;
+    rdfs:comment "An object property that connects a city to the region it is located in."@en .
+
+### Individuals
+
+:Portland_Oregon
+    a :City ;
+    rdfs:label "Portland, Oregon"@en ;
+    :isLocatedIn :Oregon .
+
+:Oregon
+    a :Region ;
+    rdfs:label "Oregon"@en ;
+    rdfs:comment "A state in the Pacific Northwest region on the West Coast of the United States."@en .
+
+### Restrictions
+
+:City
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :isLocatedIn ;
+        owl:someValuesFrom :Region ;
+        rdfs:label "City location restriction"@en ;
+        rdfs:comment "A city must be located in at least one region."@en
+    ] .

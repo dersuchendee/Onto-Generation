@@ -1,0 +1,147 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <http://www.example.org/theatre-ontology#> .
+
+<http://www.example.org/theatre-ontology>
+    rdf:type owl:Ontology ;
+    rdfs:label "Theatre Ontology"@en ;
+    owl:versionInfo "1.0" .
+
+### Classes
+
+:Play
+    rdf:type owl:Class ;
+    rdfs:label "Play"@en ;
+    rdfs:comment "A theatrical work performed by actors on a stage."@en .
+
+:TheatreFestival
+    rdf:type owl:Class ;
+    rdfs:label "Theatre Festival"@en ;
+    rdfs:comment "An event where multiple theatre productions are performed."@en .
+
+:City
+    rdf:type owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:comment "A large human settlement, often the location of theatre festivals."@en .
+
+:Production
+    rdf:type owl:Class ;
+    rdfs:label "Production"@en ;
+    rdfs:comment "A specific performance or series of performances of a play."@en .
+
+:Date
+    rdf:type owl:Class ;
+    rdfs:label "Date"@en ;
+    rdfs:comment "A particular day when an event occurs."@en .
+
+### Object Properties
+
+:performedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "performed at"@en ;
+    rdfs:comment "The event at which a play is performed."@en ;
+    rdfs:domain :Play ;
+    rdfs:range :TheatreFestival .
+
+:heldIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "held in"@en ;
+    rdfs:comment "The city where a theatre festival is held."@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range :City .
+
+:hasProduction
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has production"@en ;
+    rdfs:comment "A play that is part of a theatre festival's lineup."@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range :Production .
+
+:performedOn
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "performed on"@en ;
+    rdfs:comment "The date when a production is performed."@en ;
+    rdfs:domain :Production ;
+    rdfs:range :Date .
+
+### Individuals
+
+:RomaLovesShakespeare
+    rdf:type :TheatreFestival ;
+    rdfs:label "Roma Loves Shakespeare"@en ;
+    :heldIn :Rome .
+
+:Rome
+    rdf:type :City ;
+    rdfs:label "Rome"@en .
+
+:TheMerchantOfVenice
+    rdf:type :Play ;
+    rdfs:label "The Merchant of Venice"@en ;
+    :performedAt :RomaLovesShakespeare .
+
+:Othello
+    rdf:type :Play ;
+    rdfs:label "Othello"@en ;
+    :performedAt :RomaLovesShakespeare .
+
+:AMidsummerNightsDream
+    rdf:type :Play ;
+    rdfs:label "A Midsummer Night's Dream"@en ;
+    :performedAt :RomaLovesShakespeare .
+
+:ProductionOfMerchantInRome
+    rdf:type :Production ;
+    rdfs:label "Production of The Merchant of Venice in Rome"@en ;
+    :performedOn "2009-09-07"^^xsd:date .
+
+### Restrictions
+
+:TheatreFestival
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasProduction ;
+        owl:someValuesFrom :Production
+    ] .
+
+:Production
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :performedOn ;
+        owl:someValuesFrom :Date
+    ] .
+
+### Data Properties
+
+:hasName
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has name"@en ;
+    rdfs:comment "The name of an entity, such as a play or festival."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:startDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
+    rdfs:comment "The starting date of a festival or production."@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range xsd:date .
+
+:endDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "end date"@en ;
+    rdfs:comment "The ending date of a festival or production."@en ;
+    rdfs:domain :TheatreFestival ;
+    rdfs:range xsd:date .
+
+### Assigning Data Properties to Individuals
+
+:RomaLovesShakespeare
+    :startDate "2007-01-01"^^xsd:date ;
+    :endDate "2007-01-31"^^xsd:date .
+
+:ProductionOfMerchantInRome
+    :startDate "2009-09-01"^^xsd:date ;
+    :endDate "2009-10-31"^^xsd:date .

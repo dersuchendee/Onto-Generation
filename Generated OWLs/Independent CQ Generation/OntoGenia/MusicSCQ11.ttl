@@ -1,0 +1,119 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <http://example.org/ontology#> .
+
+### Ontology Header
+<http://example.org/ontology>
+    rdf:type owl:Ontology ;
+    rdfs:label "Music Performance Ontology"@en ;
+    owl:versionInfo "1.0" .
+
+### Classes
+:Performance
+    rdf:type owl:Class ;
+    rdfs:label "A live music performance event"@en .
+
+:Song
+    rdf:type owl:Class ;
+    rdfs:label "A musical composition with lyrics"@en .
+
+:Album
+    rdf:type owl:Class ;
+    rdfs:label "A collection of recorded music"@en .
+
+:Artist
+    rdf:type owl:Class ;
+    rdfs:label "A person who performs music"@en .
+
+:Band
+    rdf:type owl:Class ;
+    rdfs:label "A group of artists who perform music together"@en .
+
+### Object Properties
+:performedBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "The artist or band that performed in a performance"@en ;
+    rdfs:domain :Performance ;
+    rdfs:range :Artist .
+
+:hasSong
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "A song that is part of a performance or album"@en ;
+    rdfs:domain [:Performance :Album] ;
+    rdfs:range :Song .
+
+:hasAlbum
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "An album that contains a song"@en ;
+    rdfs:domain :Song ;
+    rdfs:range :Album .
+
+:memberOfBand
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "An artist that is a member of a band"@en ;
+    rdfs:domain :Artist ;
+    rdfs:range :Band .
+
+### Individuals
+:RedHotChiliPeppers
+    rdf:type :Band ;
+    rdfs:label "Red Hot Chili Peppers"@en .
+
+:AnthonyKiedis
+    rdf:type :Artist ;
+    rdfs:label "Anthony Kiedis"@en ;
+    :memberOfBand :RedHotChiliPeppers .
+
+:Flea
+    rdf:type :Artist ;
+    rdfs:label "Flea"@en ;
+    :memberOfBand :RedHotChiliPeppers .
+
+:JohnFrusciante
+    rdf:type :Artist ;
+    rdfs:label "John Frusciante"@en ;
+    :memberOfBand :RedHotChiliPeppers .
+
+:ChadSmith
+    rdf:type :Artist ;
+    rdfs:label "Chad Smith"@en ;
+    :memberOfBand :RedHotChiliPeppers .
+
+:StadiumArcadium
+    rdf:type :Album ;
+    rdfs:label "Stadium Arcadium"@en .
+
+:HumpDeBump
+    rdf:type :Song ;
+    rdfs:label "Hump de Bump"@en ;
+    :hasAlbum :StadiumArcadium .
+
+:PerformancePortland2006
+    rdf:type :Performance ;
+    rdfs:label "Live performance in Portland, Oregon on August 11, 2006"@en ;
+    :performedBy :RedHotChiliPeppers ;
+    :hasSong :HumpDeBump .  # Assuming 'Hump de Bump' was played; additional songs can be added similarly
+
+### Restrictions
+:Band
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :memberOfBand ;
+        owl:someValuesFrom :Artist
+    ] .
+
+:Performance
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :performedBy ;
+        owl:someValuesFrom :Band
+    ] .
+
+:Album
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasSong ;
+        owl:someValuesFrom :Song
+    ] .

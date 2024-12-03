@@ -1,0 +1,86 @@
+@prefix : <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+### Ontology for Hospital Employment
+
+<http://www.ontologydesignpatterns.org/cp/owl/hospitalemployment.owl>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Hospital Employment"@en ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:Hospital
+    rdf:type owl:Class ;
+    rdfs:label "Hospital"@en ;
+    rdfs:comment "A facility that provides medical care and treatment to patients."@en .
+
+:Person
+    rdf:type owl:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "A human being."@en ;
+    rdfs:subClassOf agentrole:Agent .
+
+:Employment
+    rdf:type owl:Class ;
+    rdfs:label "Employment"@en ;
+    rdfs:comment "The occupation or condition of being employed at an organization or establishment."@en .
+
+### Object Properties
+
+:employedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "employed at"@en ;
+    rdfs:comment "A relationship between a person and a hospital where the person is employed."@en ;
+    rdfs:domain :Person ;
+    rdfs:range :Hospital .
+
+:hasEmploymentRecord
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has employment record"@en ;
+    rdfs:comment "A relationship between a person and their employment record."@en ;
+    rdfs:domain :Person ;
+    rdfs:range :Employment .
+
+:employmentStartDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "employment start date"@en ;
+    rdfs:comment "The date when a person's employment at a hospital began."@en ;
+    rdfs:domain :Employment ;
+    rdfs:range xsd:date .
+
+### Restrictions
+
+:Employment
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :employedAt ;
+        owl:someValuesFrom :Hospital
+    ] .
+
+:Person
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasEmploymentRecord ;
+        owl:someValuesFrom :Employment
+    ] .
+
+### Individuals (Example Data)
+
+:OspedaleRiunitoDelleTreValli
+    rdf:type :Hospital ;
+    rdfs:label "Ospedale Riunito delle Tre Valli"@en .
+
+:PasqualeDiGennaro
+    rdf:type :Person ;
+    rdfs:label "Pasquale Di Gennaro"@en ;
+    :hasEmploymentRecord :EmploymentRecordForPasqualeDiGennaro .
+
+:EmploymentRecordForPasqualeDiGennaro
+    rdf:type :Employment ;
+    rdfs:label "Employment Record for Pasquale Di Gennaro"@en ;
+    :employedAt :OspedaleRiunitoDelleTreValli ;
+    :employmentStartDate "2001-09-21"^^xsd:date .

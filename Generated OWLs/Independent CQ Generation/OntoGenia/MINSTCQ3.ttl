@@ -1,0 +1,62 @@
+@prefix : <http://www.example.org/ontology/musical_instruments#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://www.example.org/ontology/musical_instruments>
+    a owl:Ontology ;
+    rdfs:label "Ontology of Musical Instruments and their Inventors"@en .
+
+### Classes
+
+:MusicalInstrument
+    a owl:Class ;
+    rdfs:label "Musical Instrument"@en ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+:Inventor
+    a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Inventor"@en ;
+    rdfs:comment "An agent who invents a musical instrument."@en .
+
+:Person
+    a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "A human being."@en .
+
+### Object Properties
+
+:inventedBy
+    a owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :Person ;
+    rdfs:label "invented by"@en ;
+    rdfs:comment "The relationship between a musical instrument and its inventor."@en .
+
+### Individuals and Facts
+
+:Violin
+    a :MusicalInstrument ;
+    rdfs:label "Violin"@en ;
+    :inventedBy :AndreaAmati .
+
+:AndreaAmati
+    a :Person, :Inventor ;
+    rdfs:label "Andrea Amati"@en ;
+    rdfs:comment "Italian luthier from Cremona, credited with inventing the modern violin family including the violin, viola, and cello."@en .
+
+### Restrictions
+
+:MusicalInstrument
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :inventedBy ;
+        owl:someValuesFrom :Person ;
+        rdfs:label "Invention Restriction"@en ;
+        rdfs:comment "Every musical instrument must be invented by at least one person."@en
+    ] .

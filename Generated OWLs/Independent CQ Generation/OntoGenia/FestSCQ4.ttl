@@ -1,0 +1,105 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix theatre: <http://www.example.org/theatre#> .
+
+### Ontology Declaration
+theatre:TheatreOntology rdf:type owl:Ontology ;
+                        rdfs:label "Theatre Ontology"@en .
+
+### Classes
+theatre:City rdf:type owl:Class ;
+             rdfs:label "City"@en .
+
+theatre:Theatre rdf:type owl:Class ;
+                rdfs:label "Theatre"@en .
+
+theatre:TheatreProduction rdf:type owl:Class ;
+                          rdfs:label "Theatre Production"@en .
+
+theatre:TheatreFestival rdf:type owl:Class ;
+                        rdfs:label "Theatre Festival"@en ;
+                        rdfs:subClassOf theatre:TheatreProduction .
+
+theatre:Play rdf:type owl:Class ;
+             rdfs:label "Play"@en ;
+             rdfs:subClassOf theatre:TheatreProduction .
+
+theatre:Actor rdf:type owl:Class ;
+              rdfs:label "Actor"@en .
+
+### Object Properties
+theatre:isLocatedIn rdf:type owl:ObjectProperty ;
+                    rdfs:label "is located in"@en ;
+                    rdfs:domain theatre:Theatre ;
+                    rdfs:range theatre:City .
+
+theatre:participatesIn rdf:type owl:ObjectProperty ;
+                       rdfs:label "participates in"@en ;
+                       rdfs:domain [ rdf:type owl:Class ;
+                                     owl:unionOf (theatre:Theatre theatre:Play) ] ;
+                       rdfs:range theatre:TheatreFestival .
+
+theatre:features rdf:type owl:ObjectProperty ;
+                 rdfs:label "features"@en ;
+                 rdfs:domain theatre:TheatreFestival ;
+                 rdfs:range theatre:Play .
+
+theatre:employs rdf:type owl:ObjectProperty ;
+                rdfs:label "employs"@en ;
+                rdfs:domain theatre:Theatre ;
+                rdfs:range theatre:Actor .
+
+### Individuals
+theatre:Rome rdf:type theatre:City ;
+             rdfs:label "Rome"@en .
+
+theatre:Pisa rdf:type theatre:City ;
+             rdfs:label "Pisa"@en .
+
+theatre:Venice rdf:type theatre:City ;
+               rdfs:label "Venice"@en .
+
+theatre:GrandTheatreRome rdf:type theatre:Theatre ;
+                         rdfs:label "Grand Theatre in Rome"@en ;
+                         theatre:isLocatedIn theatre:Rome .
+
+theatre:TheatreInPisa rdf:type theatre:Theatre ;
+                      rdfs:label "Theatre in Pisa"@en ;
+                      theatre:isLocatedIn theatre:Pisa .
+
+theatre:TheatreInstituteVenice rdf:type theatre:Theatre ;
+                                rdfs:label "Theatre Institute in Venice"@en ;
+                                theatre:isLocatedIn theatre:Venice .
+
+theatre:RomaLovesShakespeare rdf:type theatre:TheatreFestival ;
+                              rdfs:label "Roma Loves Shakespeare Festival"@en ;
+                              theatre:features theatre:MerchantOfVenice ;
+                              theatre:features theatre:Othello ;
+                              theatre:features theatre:MidsummerNightsDream .
+
+theatre:MerchantOfVenice rdf:type theatre:Play ;
+                         rdfs:label "The Merchant of Venice"@en .
+
+theatre:Othello rdf:type theatre:Play ;
+                rdfs:label "Othello"@en .
+
+theatre:MidsummerNightsDream rdf:type theatre:Play ;
+                              rdfs:label "A Midsummer Night's Dream"@en .
+
+### Restrictions
+theatre:Theatre rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty theatre:isLocatedIn ;
+                                  owl:someValuesFrom theatre:City ] .
+
+theatre:TheatreFestival rdf:type owl:Class ;
+                        rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                          owl:onProperty theatre:features ;
+                                          owl:someValuesFrom theatre:Play ] .
+
+theatre:Theatre rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty theatre:employs ;
+                                  owl:someValuesFrom theatre:Actor ] .

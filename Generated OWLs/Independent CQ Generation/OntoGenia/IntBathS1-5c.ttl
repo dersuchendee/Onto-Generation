@@ -1,0 +1,94 @@
+@prefix : <http://example.org/onto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+
+<http://example.org/onto#>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for smart bathroom devices and functionalities" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl> .
+
+### Classes
+
+:SmartBathroomDevice rdf:type owl:Class ;
+    rdfs:label "Smart Bathroom Device" ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:comment "A device capable of providing smart functionalities within a bathroom context." .
+
+:DisplayFunctionality rdf:type owl:Class ;
+    rdfs:label "Display Functionality" ;
+    rdfs:comment "Functionality of a smart device that involves displaying information." .
+
+:AudioFunctionality rdf:type owl:Class ;
+    rdfs:label "Audio Functionality" ;
+    rdfs:comment "Functionality of a smart device that involves audio output." .
+
+:User rdf:type owl:Class ;
+    rdfs:label "User" ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:comment "An individual who interacts with the smart bathroom devices." .
+
+### Object Properties
+
+:hasFunctionality rdf:type owl:ObjectProperty ;
+    rdfs:label "has functionality" ;
+    rdfs:domain :SmartBathroomDevice ;
+    rdfs:range [ owl:unionOf (:DisplayFunctionality :AudioFunctionality) ] ;
+    rdfs:comment "Associates a smart bathroom device with its functionalities." .
+
+:isUsedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "is used by" ;
+    rdfs:domain :SmartBathroomDevice ;
+    rdfs:range :User ;
+    rdfs:comment "Associates a smart bathroom device with the user that is using it." .
+
+:displaysWeather rdf:type owl:ObjectProperty ;
+    rdfs:label "displays weather" ;
+    rdfs:subPropertyOf :hasFunctionality ;
+    rdfs:domain :SmartBathroomDevice ;
+    rdfs:range :DisplayFunctionality ;
+    rdfs:comment "A specific display functionality that shows weather information." .
+
+:announcesWeather rdf:type owl:ObjectProperty ;
+    rdfs:label "announces weather" ;
+    rdfs:subPropertyOf :hasFunctionality ;
+    rdfs:domain :SmartBathroomDevice ;
+    rdfs:range :AudioFunctionality ;
+    rdfs:comment "A specific audio functionality that announces weather information." .
+
+### Restrictions
+
+:SmartMirror rdf:type owl:Class ;
+    rdfs:label "Smart Mirror" ;
+    rdfs:subClassOf :SmartBathroomDevice ;
+    owl:equivalentClass [ 
+        rdf:type owl:Class ;
+        owl:intersectionOf ( 
+            :SmartBathroomDevice 
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :displaysWeather ;
+              owl:someValuesFrom :DisplayFunctionality 
+            ]
+        )
+    ] ;
+    rdfs:comment "A smart bathroom mirror with display functionality for showing weather information." .
+
+:SmartSpeaker rdf:type owl:Class ;
+    rdfs:label "Smart Speaker" ;
+    rdfs:subClassOf :SmartBathroomDevice ;
+    owl:equivalentClass [ 
+        rdf:type owl:Class ;
+        owl:intersectionOf ( 
+            :SmartBathroomDevice 
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :announcesWeather ;
+              owl:someValuesFrom :AudioFunctionality 
+            ]
+        )
+    ] ;
+    rdfs:comment "A smart bathroom speaker with audio functionality for announcing weather information." .

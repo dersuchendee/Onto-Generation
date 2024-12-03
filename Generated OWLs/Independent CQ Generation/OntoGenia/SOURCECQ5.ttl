@@ -1,0 +1,108 @@
+@prefix : <http://www.example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+:Source a owl:Class ;
+    rdfs:label "Source" ;
+    rdfs:comment "A class representing the source of information, such as an encyclopaedia." .
+
+:UnreliableSource a owl:Class ;
+    rdfs:subClassOf :Source ;
+    rdfs:label "Unreliable Source" ;
+    rdfs:comment "A subclass representing a source of information that is considered unreliable or untrue." .
+
+:OrganComponent a owl:Class ;
+    rdfs:label "Organ Component" ;
+    rdfs:comment "A class representing the components of an organ." .
+
+:OrganBuilder a owl:Class ;
+    rdfs:label "Organ Builder" ;
+    rdfs:comment "A class representing the builder of an organ." .
+
+:Organ a owl:Class ;
+    rdfs:label "Organ" ;
+    rdfs:comment "A class representing a musical organ." .
+
+:Pitch a owl:Class ;
+    rdfs:label "Pitch" ;
+    rdfs:comment "A class representing the pitch of an organ component." .
+
+:hasComponent a owl:ObjectProperty ;
+    rdfs:domain :Organ ;
+    rdfs:range :OrganComponent ;
+    rdfs:label "has component" ;
+    rdfs:comment "An object property linking an organ to its components." .
+
+:hasBuilder a owl:ObjectProperty ;
+    rdfs:domain :Organ ;
+    rdfs:range :OrganBuilder ;
+    rdfs:label "has builder" ;
+    rdfs:comment "An object property linking an organ to its builder." .
+
+:hasPitch a owl:ObjectProperty ;
+    rdfs:domain :OrganComponent ;
+    rdfs:range :Pitch ;
+    rdfs:label "has pitch" ;
+    rdfs:comment "An object property linking an organ component to its pitch." .
+
+:isComponentOf a owl:ObjectProperty ;
+    owl:inverseOf :hasComponent ;
+    rdfs:domain :OrganComponent ;
+    rdfs:range :Organ ;
+    rdfs:label "is component of" ;
+    rdfs:comment "An object property linking an organ component to the organ it is a part of." .
+
+:isBuiltBy a owl:ObjectProperty ;
+    owl:inverseOf :hasBuilder ;
+    rdfs:domain :OrganBuilder ;
+    rdfs:range :Organ ;
+    rdfs:label "is built by" ;
+    rdfs:comment "An object property linking an organ builder to the organs they have built." .
+
+:hasUnreliableInformation a owl:ObjectProperty ;
+    rdfs:domain :Source ;
+    rdfs:range :OrganComponent ;
+    rdfs:label "has unreliable information" ;
+    rdfs:comment "An object property indicating that a source has unreliable information about an organ component." .
+
+:hasUnreliableSource a owl:ObjectProperty ;
+    rdfs:domain :OrganComponent ;
+    rdfs:range :UnreliableSource ;
+    owl:inverseOf :hasUnreliableInformation ;
+    rdfs:label "has unreliable source" ;
+    rdfs:comment "An object property indicating that an organ component has an unreliable source." .
+
+:ContextOfProduction a owl:Class ;
+    rdfs:label "Context of Production" ;
+    rdfs:comment "A class representing the context in which an organ was produced, including time, location, and organ builder." .
+
+:hasContextOfProduction a owl:ObjectProperty ;
+    rdfs:domain :Organ ;
+    rdfs:range :ContextOfProduction ;
+    rdfs:label "has context of production" ;
+    rdfs:comment "An object property linking an organ to its context of production." .
+
+:ProducedBy a owl:ObjectProperty ;
+    rdfs:domain :ContextOfProduction ;
+    rdfs:range :OrganBuilder ;
+    rdfs:label "produced by" ;
+    rdfs:comment "An object property linking the context of production to the organ builder." .
+
+:hasProductionTime a owl:DatatypeProperty ;
+    rdfs:domain :ContextOfProduction ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "has production time" ;
+    rdfs:comment "A datatype property indicating the time when the organ was produced." .
+
+:hasProductionLocation a owl:DatatypeProperty ;
+    rdfs:domain :ContextOfProduction ;
+    rdfs:range xsd:string ;
+    rdfs:label "has production location" ;
+    rdfs:comment "A datatype property indicating the location where the organ was produced." .

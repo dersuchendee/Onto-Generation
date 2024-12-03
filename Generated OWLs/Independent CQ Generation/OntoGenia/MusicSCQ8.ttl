@@ -1,0 +1,139 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+### Ontology Declaration
+<http://www.example.org/ontology/music>
+    a owl:Ontology ;
+    rdfs:label "Music Production Ontology"@en .
+
+### Classes
+:Band
+    a owl:Class ;
+    rdfs:label "Band" ;
+    rdfs:comment "A group of musicians who perform together as an ensemble." .
+
+:Member
+    a owl:Class ;
+    rdfs:label "Member" ;
+    rdfs:comment "An individual who is part of a band or musical group." .
+
+:Instrument
+    a owl:Class ;
+    rdfs:label "Instrument" ;
+    rdfs:comment "A musical instrument that is played by a member of a band." .
+
+:Album
+    a owl:Class ;
+    rdfs:label "Album" ;
+    rdfs:comment "A collection of recorded music tracks." .
+
+:Song
+    a owl:Class ;
+    rdfs:label "Song" ;
+    rdfs:comment "A single piece of music performed by a band or artist." .
+
+### Object Properties
+:hasMember
+    a owl:ObjectProperty ;
+    rdfs:label "has member" ;
+    rdfs:comment "A property indicating the members that are part of a band." ;
+    rdfs:domain :Band ;
+    rdfs:range :Member .
+
+:playsInstrument
+    a owl:ObjectProperty ;
+    rdfs:label "plays instrument" ;
+    rdfs:comment "A property indicating the instrument that a member plays." ;
+    rdfs:domain :Member ;
+    rdfs:range :Instrument .
+
+:hasAlbum
+    a owl:ObjectProperty ;
+    rdfs:label "has album" ;
+    rdfs:comment "A property indicating the albums that a band has produced." ;
+    rdfs:domain :Band ;
+    rdfs:range :Album .
+
+:hasSong
+    a owl:ObjectProperty ;
+    rdfs:label "has song" ;
+    rdfs:comment "A property indicating the songs that are part of an album." ;
+    rdfs:domain :Album ;
+    rdfs:range :Song .
+
+### Datatype Properties
+:composedOn
+    a owl:DatatypeProperty ;
+    rdfs:label "composed on" ;
+    rdfs:comment "The date on which a song was composed." ;
+    rdfs:domain :Song ;
+    rdfs:range xsd:date .
+
+### Individuals
+:RedHotChiliPeppers
+    a :Band ;
+    rdfs:label "Red Hot Chili Peppers" .
+
+:AnthonyKiedis
+    a :Member ;
+    rdfs:label "Anthony Kiedis" ;
+    :playsInstrument :Vocals .
+
+:Flea
+    a :Member ;
+    rdfs:label "Flea" ;
+    :playsInstrument :Bass ;
+    :playsInstrument :Trumpet ;
+    :playsInstrument :Keyboards ;
+    :playsInstrument :Vocals .
+
+:JohnFrusciante
+    a :Member ;
+    rdfs:label "John Frusciante" ;
+    :playsInstrument :Guitar .
+
+:ChadSmith
+    a :Member ;
+    rdfs:label "Chad Smith" ;
+    :playsInstrument :Drums .
+
+:StadiumArcadium
+    a :Album ;
+    rdfs:label "Stadium Arcadium" ;
+    :hasSong :HumpDeBump .
+
+:HumpDeBump
+    a :Song ;
+    rdfs:label "Hump de Bump" ;
+    :composedOn "2004-01-26"^^xsd:date .
+
+### Restrictions
+:Band
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasMember ;
+        owl:someValuesFrom :Member
+    ] .
+
+:Album
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasSong ;
+        owl:someValuesFrom :Song
+    ] .
+
+:Member
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :playsInstrument ;
+        owl:someValuesFrom :Instrument
+    ] .
+
+### Band Memberships
+:RedHotChiliPeppers :hasMember :AnthonyKiedis .
+:RedHotChiliPeppers :hasMember :Flea .
+:RedHotChiliPeppers :hasMember :JohnFrusciante .
+:RedHotChiliPeppers :hasMember :ChadSmith .

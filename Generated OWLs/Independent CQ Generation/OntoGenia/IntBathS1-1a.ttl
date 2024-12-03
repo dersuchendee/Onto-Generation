@@ -1,0 +1,91 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+:Person a owl:Class ;
+        rdfs:subClassOf agentrole:Agent ;
+        rdfs:label "Person" .
+
+:Bathroom a owl:Class ;
+          rdfs:label "Bathroom" .
+
+:ElectricToothbrush a owl:Class ;
+                    rdfs:label "Electric Toothbrush" .
+
+:ToothbrushingActivity a owl:Class ;
+                       rdfs:label "Toothbrushing Activity" .
+
+:isLocatedIn a owl:ObjectProperty ;
+              rdfs:domain :Person ;
+              rdfs:range :Bathroom ;
+              rdfs:label "is located in" .
+
+:uses a owl:ObjectProperty ;
+       rdfs:domain :Person ;
+       rdfs:range :ElectricToothbrush ;
+       rdfs:label "uses" .
+
+:performsActivity a owl:ObjectProperty ;
+                  rdfs:domain :Person ;
+                  rdfs:range :ToothbrushingActivity ;
+                  rdfs:label "performs activity" .
+
+:hasAgent a owl:ObjectProperty ;
+           rdfs:domain :ToothbrushingActivity ;
+           rdfs:range :Person ;
+           owl:inverseOf :performsActivity ;
+           rdfs:label "has agent" .
+
+:involvesObject a owl:ObjectProperty ;
+                 rdfs:domain :ToothbrushingActivity ;
+                 rdfs:range :ElectricToothbrush ;
+                 owl:inverseOf :uses ;
+                 rdfs:label "involves object" .
+
+:hasLocation a owl:ObjectProperty ;
+              rdfs:domain :ToothbrushingActivity ;
+              rdfs:range :Bathroom ;
+              owl:inverseOf :isLocatedIn ;
+              rdfs:label "has location" .
+
+### Individuals
+
+:John a :Person ;
+      rdfs:label "John" .
+
+:MainBathroom a :Bathroom ;
+               rdfs:label "Main Bathroom" .
+
+:JohnsElectricToothbrush a :ElectricToothbrush ;
+                         rdfs:label "John's Electric Toothbrush" .
+
+:JohnsToothbrushing a :ToothbrushingActivity ;
+                     :hasAgent :John ;
+                     :involvesObject :JohnsElectricToothbrush ;
+                     :hasLocation :MainBathroom ;
+                     rdfs:label "John's Toothbrushing" .
+
+### Restrictions
+
+:Person rdfs:subClassOf [ a owl:Restriction ;
+                          owl:onProperty :isLocatedIn ;
+                          owl:someValuesFrom :Bathroom ] .
+
+:ToothbrushingActivity rdfs:subClassOf [ a owl:Restriction ;
+                                         owl:onProperty :hasAgent ;
+                                         owl:someValuesFrom :Person ] .
+
+:ToothbrushingActivity rdfs:subClassOf [ a owl:Restriction ;
+                                         owl:onProperty :involvesObject ;
+                                         owl:someValuesFrom :ElectricToothbrush ] .
+
+:ToothbrushingActivity rdfs:subClassOf [ a owl:Restriction ;
+                                         owl:onProperty :hasLocation ;
+                                         owl:someValuesFrom :Bathroom ] .

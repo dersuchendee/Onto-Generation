@@ -1,0 +1,112 @@
+@prefix : <http://www.example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://www.example.org/ontology> rdf:type owl:Ontology ;
+                                  rdfs:comment "An ontology for assessing the credibility of sources in the context of organ restoration."@en .
+
+### Classes
+
+:Source rdf:type owl:Class ;
+        rdfs:label "Source"@en ;
+        rdfs:comment "A class representing a source of information."@en .
+
+:CredibilityAssessment rdf:type owl:Class ;
+                       rdfs:label "Credibility Assessment"@en ;
+                       rdfs:comment "A class representing an assessment of the credibility of a source."@en .
+
+:Expert rdf:type owl:Class ;
+        rdfs:subClassOf agentrole:Agent ;
+        rdfs:label "Expert"@en ;
+        rdfs:comment "A subclass of Agent representing an expert who can assess the credibility of a source."@en .
+
+:Fact rdf:type owl:Class ;
+      rdfs:label "Fact"@en ;
+      rdfs:comment "A class representing a fact provided by a source."@en .
+
+:UnreliableFact rdf:type owl:Class ;
+                rdfs:subClassOf :Fact ;
+                rdfs:label "Unreliable Fact"@en ;
+                rdfs:comment "A subclass of Fact representing a fact that is deemed unreliable."@en .
+
+### Object Properties
+
+:hasCredibilityAssessment rdf:type owl:ObjectProperty ;
+                           rdfs:domain :Source ;
+                           rdfs:range :CredibilityAssessment ;
+                           rdfs:label "has credibility assessment"@en ;
+                           rdfs:comment "A property linking a source to its credibility assessment."@en .
+
+:assessedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :CredibilityAssessment ;
+            rdfs:range :Expert ;
+            rdfs:label "assessed by"@en ;
+            rdfs:comment "A property linking a credibility assessment to the expert who made the assessment."@en .
+
+:provides rdf:type owl:ObjectProperty ;
+          rdfs:domain :Source ;
+          rdfs:range :Fact ;
+          rdfs:label "provides"@en ;
+          rdfs:comment "A property linking a source to the facts it provides."@en .
+
+:hasUnreliableFact rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :provides ;
+                   rdfs:domain :Source ;
+                   rdfs:range :UnreliableFact ;
+                   rdfs:label "has unreliable fact"@en ;
+                   rdfs:comment "A property linking a source to a fact that is deemed unreliable."@en .
+
+### Datatype Properties
+
+:hasCredibilityScore rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :CredibilityAssessment ;
+                      rdfs:range xsd:decimal ;
+                      rdfs:label "has credibility score"@en ;
+                      rdfs:comment "A property representing the credibility score of a source, expressed as a decimal."@en .
+
+:hasCredibilityExplanation rdf:type owl:DatatypeProperty ;
+                            rdfs:domain :CredibilityAssessment ;
+                            rdfs:range xsd:string ;
+                            rdfs:label "has credibility explanation"@en ;
+                            rdfs:comment "A property representing the explanation for the credibility score of a source."@en .
+
+### Individuals
+
+:ExpertPaul rdf:type :Expert ;
+            rdfs:label "Expert Paul"@en ;
+            rdfs:comment "An individual representing the expert Paul who assesses the credibility of sources in organ restoration."@en .
+
+:Encyclopedia rdf:type :Source ;
+              rdfs:label "Encyclopedia"@en ;
+              rdfs:comment "An individual representing an encyclopedia as a source of information."@en .
+
+:AssessmentOfEncyclopedia rdf:type :CredibilityAssessment ;
+                          :assessedBy :ExpertPaul ;
+                          :hasCredibilityScore "0.7"^^xsd:decimal ;
+                          :hasCredibilityExplanation "Some components and technicalities such as the pitch are inconsistent with other organs from the same builder."@en ;
+                          rdfs:label "Assessment of Encyclopedia"@en ;
+                          rdfs:comment "An individual representing the credibility assessment of the encyclopedia by Expert Paul."@en .
+
+### Restrictions
+
+:CredibilityAssessment rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                         owl:onProperty :assessedBy ;
+                                         owl:someValuesFrom :Expert ] .
+
+:Source rdfs:subClassOf [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasCredibilityAssessment ;
+                          owl:someValuesFrom :CredibilityAssessment ] .
+
+:Source rdfs:subClassOf [ rdf:type owl:Restriction ;
+                          owl:onProperty :provides ;
+                          owl:someValuesFrom :Fact ] .
+
+:Source rdfs:subClassOf [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasUnreliableFact ;
+                          owl:someValuesFrom :UnreliableFact ] .

@@ -1,0 +1,85 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:Product rdf:type owl:Class ;
+         rdfs:label "Product" ;
+         rdfs:comment "A product which is made up of various components." .
+
+:Component rdf:type owl:Class ;
+           rdfs:label "Component" ;
+           rdfs:comment "A component that is part of a product and is made up of materials." ;
+           rdfs:subClassOf partof:hasPart .
+
+:Material rdf:type owl:Class ;
+          rdfs:label "Material" ;
+          rdfs:comment "A material that constitutes a component with certain properties and provenance." ;
+          rdfs:subClassOf partof:hasPart .
+
+:Property rdf:type owl:Class ;
+          rdfs:label "Property" ;
+          rdfs:comment "A property that characterizes a material." .
+
+:Provenance rdf:type owl:Class ;
+            rdfs:label "Provenance" ;
+            rdfs:comment "The origin or source from which something comes, such as the source of a material." .
+
+### Object Properties
+
+:isMadeOf rdf:type owl:ObjectProperty ;
+          rdfs:label "is made of" ;
+          rdfs:domain :Component ;
+          rdfs:range :Material ;
+          rdfs:comment "An object property that associates a component with the materials it is made of." .
+
+:hasComponent rdf:type owl:ObjectProperty ;
+              rdfs:label "has component" ;
+              rdfs:domain :Product ;
+              rdfs:range :Component ;
+              rdfs:comment "An object property that associates a product with its components." ;
+              owl:inverseOf :isComponentOf .
+
+:isComponentOf rdf:type owl:ObjectProperty ;
+               rdfs:label "is component of" ;
+               rdfs:domain :Component ;
+               rdfs:range :Product ;
+               rdfs:comment "An object property that associates a component with the product it is part of." .
+
+:hasProperty rdf:type owl:ObjectProperty ;
+             rdfs:label "has property" ;
+             rdfs:domain :Material ;
+             rdfs:range :Property ;
+             rdfs:comment "An object property that associates a material with its properties." .
+
+:hasProvenance rdf:type owl:ObjectProperty ;
+               rdfs:label "has provenance" ;
+               rdfs:domain :Material ;
+               rdfs:range :Provenance ;
+               rdfs:comment "An object property that associates a material with its provenance." .
+
+### Restrictions
+
+:Component rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :isMadeOf ;
+                             owl:someValuesFrom :Material ] .
+
+:Product rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasComponent ;
+                           owl:someValuesFrom :Component ] .
+
+:Material rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasProperty ;
+                            owl:someValuesFrom :Property ] .
+
+:Material rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasProvenance ;
+                            owl:someValuesFrom :Provenance ] .

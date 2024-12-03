@@ -1,0 +1,107 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology ;
+                              rdfs:comment "An ontology to represent the free time periods in a user's calendar for a given day."@en .
+
+### Classes
+
+:Calendar rdf:type owl:Class ;
+          rdfs:label "Calendar" ;
+          rdfs:comment "A system for organizing days for social, religious, commercial, or administrative purposes."@en .
+
+:Event rdf:type owl:Class ;
+       rdfs:label "Event" ;
+       rdfs:comment "An occurrence at a specific time and place, with a beginning and an end."@en .
+
+:TimePeriod rdf:type owl:Class ;
+            rdfs:label "Time Period" ;
+            rdfs:comment "A specific defined period of time."@en .
+
+:FreeTimePeriod rdf:type owl:Class ;
+                rdfs:subClassOf :TimePeriod ;
+                rdfs:label "Free Time Period" ;
+                rdfs:comment "A period of time where there are no scheduled events in the user's calendar."@en .
+
+### Object Properties
+
+:hasEvent rdf:type owl:ObjectProperty ;
+          rdfs:label "has event" ;
+          rdfs:comment "A relationship between a calendar and an event that occurs within it."@en ;
+          rdfs:domain :Calendar ;
+          rdfs:range :Event .
+
+:hasFreeTimePeriod rdf:type owl:ObjectProperty ;
+                   rdfs:label "has free time period" ;
+                   rdfs:comment "A relationship between a calendar and a free time period within it."@en ;
+                   rdfs:domain :Calendar ;
+                   rdfs:range :FreeTimePeriod .
+
+### Datatype Properties
+
+:startTime rdf:type owl:DatatypeProperty ;
+           rdfs:label "start time" ;
+           rdfs:comment "The starting time of an event or time period."@en ;
+           rdfs:domain [ rdf:type owl:Class ;
+                         owl:unionOf (:Event :TimePeriod)
+                       ] ;
+           rdfs:range xsd:dateTime .
+
+:endTime rdf:type owl:DatatypeProperty ;
+         rdfs:label "end time" ;
+         rdfs:comment "The ending time of an event or time period."@en ;
+         rdfs:domain [ rdf:type owl:Class ;
+                       owl:unionOf (:Event :TimePeriod)
+                     ] ;
+         rdfs:range xsd:dateTime .
+
+### Restrictions
+
+:FreeTimePeriod rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty :startTime ;
+                                  owl:allValuesFrom xsd:dateTime
+                                ] ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty :endTime ;
+                                  owl:allValuesFrom xsd:dateTime
+                                ] .
+
+:Event rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :startTime ;
+                         owl:allValuesFrom xsd:dateTime
+                       ] ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :endTime ;
+                         owl:allValuesFrom xsd:dateTime
+                       ] .
+
+### Individuals (Example Instances)
+
+:MyCalendar rdf:type :Calendar ;
+            rdfs:label "My Calendar" ;
+            :hasEvent :MeetingAtNoon .
+
+:MeetingAtNoon rdf:type :Event ;
+               rdfs:label "Meeting at Noon" ;
+               :startTime "2023-04-01T12:00:00Z"^^xsd:dateTime ;
+               :endTime "2023-04-01T13:00:00Z"^^xsd:dateTime .
+
+:AfternoonFreeTime rdf:type :FreeTimePeriod ;
+                   rdfs:label "Afternoon Free Time" ;
+                   :startTime "2023-04-01T13:00:00Z"^^xsd:dateTime ;
+                   :endTime "2023-04-01T18:00:00Z"^^xsd:dateTime .
+
+:EveningFreeTime rdf:type :FreeTimePeriod ;
+                 rdfs:label "Evening Free Time" ;
+                 :startTime "2023-04-01T18:00:00Z"^^xsd:dateTime ;
+                 :endTime "2023-04-01T23:59:59Z"^^xsd:dateTime .
+
+:MyCalendar :hasFreeTimePeriod :AfternoonFreeTime,
+                             :EveningFreeTime .

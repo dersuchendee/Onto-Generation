@@ -1,0 +1,115 @@
+@prefix : <http://www.semanticweb.org/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.semanticweb.org/hospital>
+    rdf:type owl:Ontology ;
+    owl:imports agentrole: ;
+    owl:imports collectionentity: .
+
+### Classes
+
+:Hospital
+    rdf:type owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A health care institution providing patient treatment with specialized medical and nursing staff and medical equipment." .
+
+:Person
+    rdf:type owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "A human being." .
+
+:Employee
+    rdf:type owl:Class ;
+    rdfs:label "Employee" ;
+    rdfs:comment "A person who is hired to provide services to a company on a regular basis in exchange for compensation." ;
+    rdfs:subClassOf :Person .
+
+:Nurse
+    rdf:type owl:Class ;
+    rdfs:label "Nurse" ;
+    rdfs:comment "A healthcare professional who is trained to care for people who are sick or injured." ;
+    rdfs:subClassOf :Employee .
+
+:UnionRepresentative
+    rdf:type owl:Class ;
+    rdfs:label "Union Representative" ;
+    rdfs:comment "An employee of an organization or company who represents and defends the interests of their fellow employees as a labor union member." ;
+    rdfs:subClassOf :Employee .
+
+:Book
+    rdf:type owl:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "A written or printed work consisting of pages glued or sewn together along one side and bound in covers." .
+
+:ArticleCollection
+    rdf:type owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of articles, usually on a similar topic or theme, gathered into a single volume or issue." ;
+    rdfs:subClassOf :Book .
+
+### Object Properties
+
+:employedAt
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "employed at" ;
+    rdfs:comment "The relationship between an employee and the hospital they work for." ;
+    rdfs:domain :Employee ;
+    rdfs:range :Hospital .
+
+:hasUnionRepresentativeRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "has union representative role" ;
+    rdfs:comment "The relationship between an employee and their role as a union representative." ;
+    rdfs:domain :Employee ;
+    rdfs:range :UnionRepresentative .
+
+:hasNumberOfPages
+    rdf:type owl:DatatypeProperty ;
+    rdfs:label "has number of pages" ;
+    rdfs:comment "The property that associates a book with its number of pages." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:nonNegativeInteger .
+
+### Individuals
+
+:OspedaleRiunitoDelleTreValli
+    rdf:type :Hospital ;
+    rdfs:label "Ospedale Riunito delle Tre Valli" ;
+    rdfs:comment "A hospital located in the city of Nocera Inferiore, Italy." .
+
+:PasqualeDiGennaro
+    rdf:type :Nurse ;
+    rdfs:label "Pasquale Di Gennaro" ;
+    rdfs:comment "A certified nurse and union representative for male nurses at Ospedale Riunito delle Tre Valli." .
+
+:NursePracticesInCancerPatientCare
+    rdf:type :ArticleCollection ;
+    rdfs:label "Nurse practices in cancer patient care – longitudinal studies at Italian hospitals" ;
+    :hasNumberOfPages 346 .
+
+### Restrictions
+
+:Nurse
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :employedAt ;
+        owl:someValuesFrom :Hospital
+    ] .
+
+:UnionRepresentative
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasUnionRepresentativeRole ;
+        owl:someValuesFrom :Hospital
+    ] .
+
+### Facts
+
+:PasqualeDiGennaro :employedAt :OspedaleRiunitoDelleTreValli .
+:PasqualeDiGennaro :hasUnionRepresentativeRole :UnionRepresentative .

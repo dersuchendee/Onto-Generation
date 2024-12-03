@@ -1,0 +1,99 @@
+@prefix : <http://www.semanticweb.org/musicontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+
+:Instrument rdf:type owl:Class ;
+             rdfs:label "Musical instrument" .
+
+:Person rdf:type owl:Class ;
+        rdfs:subClassOf agentrole:Agent ;
+        rdfs:label "Person" .
+
+:PlaysInstrument rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Person ;
+                 rdfs:range :Instrument ;
+                 rdfs:label "plays instrument" .
+
+:Vocalist rdf:type owl:Class ;
+          rdfs:subClassOf :Person ;
+          rdfs:label "Vocalist" .
+
+:Bassist rdf:type owl:Class ;
+         rdfs:subClassOf :Person ;
+         rdfs:label "Bassist" .
+
+:Guitarist rdf:type owl:Class ;
+           rdfs:subClassOf :Person ;
+           rdfs:label "Guitarist" .
+
+:Drummer rdf:type owl:Class ;
+         rdfs:subClassOf :Person ;
+         rdfs:label "Drummer" .
+
+:Trumpeter rdf:type owl:Class ;
+           rdfs:subClassOf :Person ;
+           rdfs:label "Trumpeter" .
+
+:Keyboardist rdf:type owl:Class ;
+             rdfs:subClassOf :Person ;
+             rdfs:label "Keyboardist" .
+
+:Vocals rdf:type owl:Class ;
+         rdfs:subClassOf :Instrument ;
+         rdfs:label "Vocals" .
+
+:Bass rdf:type owl:Class ;
+      rdfs:subClassOf :Instrument ;
+      rdfs:label "Bass guitar" .
+
+:Trumpet rdf:type owl:Class ;
+         rdfs:subClassOf :Instrument ;
+         rdfs:label "Trumpet" .
+
+:Keyboards rdf:type owl:Class ;
+           rdfs:subClassOf :Instrument ;
+           rdfs:label "Keyboards" .
+
+:Guitar rdf:type owl:Class ;
+        rdfs:subClassOf :Instrument ;
+        rdfs:label "Guitar" .
+
+:Drums rdf:type owl:Class ;
+       rdfs:subClassOf :Instrument ;
+       rdfs:label "Drums" .
+
+:AnthonyKiedis rdf:type owl:NamedIndividual ,
+                        :Vocalist ;
+                rdfs:label "Anthony Kiedis" .
+
+:Flea rdf:type owl:NamedIndividual ,
+               :Bassist ,
+               :Trumpeter ,
+               :Keyboardist ,
+               :Vocalist ;
+      rdfs:label "Flea" .
+
+:JohnFrusciante rdf:type owl:NamedIndividual ,
+                         :Guitarist ,
+                         :Vocalist ;
+                rdfs:label "John Frusciante" .
+
+:ChadSmith rdf:type owl:NamedIndividual ,
+                     :Drummer ;
+            rdfs:label "Chad Smith" .
+
+:AnthonyKiedis :PlaysInstrument :Vocals .
+
+:Flea :PlaysInstrument :Bass ;
+      :PlaysInstrument :Trumpet ;
+      :PlaysInstrument :Keyboards ;
+      :PlaysInstrument :Vocals .
+
+:JohnFrusciante :PlaysInstrument :Guitar ;
+                :PlaysInstrument :Vocals .
+
+:ChadSmith :PlaysInstrument :Drums .

@@ -1,0 +1,101 @@
+@prefix : <http://www.example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.example.org/ontology> rdf:type owl:Ontology .
+
+### Classes
+
+:Product rdf:type owl:Class ;
+         rdfs:label "Product" ;
+         rdfs:comment "A product manufactured by a company." .
+
+:Material rdf:type owl:Class ;
+          rdfs:label "Material" ;
+          rdfs:comment "A material that is used to compose a product." .
+
+:Component rdf:type owl:Class ;
+           rdfs:subClassOf :Material ;
+           rdfs:label "Component" ;
+           rdfs:comment "A component is a distinct material that forms part of a product." .
+
+:Origin rdf:type owl:Class ;
+        rdfs:label "Origin" ;
+        rdfs:comment "The origin of a material, indicating where it was sourced or produced." .
+
+:ProductionProcess rdf:type owl:Class ;
+                   rdfs:label "Production Process" ;
+                   rdfs:comment "The process through which a material or product is created, modified, or processed." .
+
+### Object Properties
+
+:hasComponent rdf:type owl:ObjectProperty ;
+              rdfs:domain :Product ;
+              rdfs:range :Component ;
+              rdfs:label "has component" ;
+              rdfs:comment "A relationship between a product and its components." .
+
+:hasOrigin rdf:type owl:ObjectProperty ;
+           rdfs:domain :Material ;
+           rdfs:range :Origin ;
+           rdfs:label "has origin" ;
+           rdfs:comment "A relationship between a material and its origin." .
+
+:producedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Material ;
+            rdfs:range :ProductionProcess ;
+            rdfs:label "produced by" ;
+            rdfs:comment "A relationship between a material and the process by which it is produced." .
+
+### Restrictions
+
+:Product rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :hasComponent ;
+  owl:someValuesFrom :Component
+] .
+
+:Material rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :hasOrigin ;
+  owl:someValuesFrom :Origin
+] .
+
+:Material rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :producedBy ;
+  owl:someValuesFrom :ProductionProcess
+] .
+
+### Individuals (Example Instances)
+
+:Product123 rdf:type :Product ;
+            rdfs:label "Product 123" ;
+            :hasComponent :ComponentA, :ComponentB .
+
+:ComponentA rdf:type :Component ;
+            rdfs:label "Component A" ;
+            :hasOrigin :OriginA ;
+            :producedBy :ProcessA .
+
+:ComponentB rdf:type :Component ;
+            rdfs:label "Component B" ;
+            :hasOrigin :OriginB ;
+            :producedBy :ProcessB .
+
+:OriginA rdf:type :Origin ;
+         rdfs:label "Origin A" .
+
+:OriginB rdf:type :Origin ;
+         rdfs:label "Origin B" .
+
+:ProcessA rdf:type :ProductionProcess ;
+          rdfs:label "Production Process A" .
+
+:ProcessB rdf:type :ProductionProcess ;
+          rdfs:label "Production Process B" .

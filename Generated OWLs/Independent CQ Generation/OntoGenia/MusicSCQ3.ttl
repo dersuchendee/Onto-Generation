@@ -1,0 +1,194 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix ex: <http://example.org/ontology#> .
+
+### Ontology Declaration
+ex:MusicProductionOntology rdf:type owl:Ontology ;
+                           rdfs:label "Music Production Ontology"@en .
+
+### Classes
+ex:Band rdf:type owl:Class ;
+        rdfs:label "Band"@en ;
+        rdfs:comment "A musical ensemble typically consisting of several musicians."@en .
+
+ex:Person rdf:type owl:Class ;
+          rdfs:label "Person"@en ;
+          rdfs:comment "A human being."@en .
+
+ex:Role rdf:type owl:Class ;
+        rdfs:label "Role"@en ;
+        rdfs:comment "A function or part performed by a person in a particular context."@en .
+
+ex:BandMember rdf:type owl:Class ;
+              rdfs:subClassOf ex:Role ;
+              rdfs:label "Band Member"@en ;
+              rdfs:comment "A role of a person who is a member of a band."@en .
+
+ex:Instrument rdf:type owl:Class ;
+              rdfs:label "Instrument"@en ;
+              rdfs:comment "A musical instrument that a band member can play."@en .
+
+ex:Performance rdf:type owl:Class ;
+               rdfs:label "Performance"@en ;
+               rdfs:comment "A live presentation of music by a band or artist."@en .
+
+ex:Album rdf:type owl:Class ;
+         rdfs:label "Album"@en ;
+         rdfs:comment "A collection of recorded music tracks."@en .
+
+ex:Track rdf:type owl:Class ;
+         rdfs:label "Track"@en ;
+         rdfs:comment "A single song or piece of music on an album."@en .
+
+### Object Properties
+ex:hasMember rdf:type owl:ObjectProperty ;
+             rdfs:domain ex:Band ;
+             rdfs:range ex:Person ;
+             rdfs:label "has member"@en ;
+             rdfs:comment "A property indicating the members of a band."@en .
+
+ex:playsInstrument rdf:type owl:ObjectProperty ;
+                   rdfs:domain ex:Person ;
+                   rdfs:range ex:Instrument ;
+                   rdfs:label "plays instrument"@en ;
+                   rdfs:comment "A property indicating the instrument played by a band member."@en .
+
+ex:performs rdf:type owl:ObjectProperty ;
+            rdfs:domain ex:Person ;
+            rdfs:range ex:Performance ;
+            rdfs:label "performs"@en ;
+            rdfs:comment "A property indicating the performances a person is involved in."@en .
+
+ex:hasAlbum rdf:type owl:ObjectProperty ;
+            rdfs:domain ex:Band ;
+            rdfs:range ex:Album ;
+            rdfs:label "has album"@en ;
+            rdfs:comment "A property indicating the albums released by a band."@en .
+
+ex:hasTrack rdf:type owl:ObjectProperty ;
+            rdfs:domain ex:Album ;
+            rdfs:range ex:Track ;
+            rdfs:label "has track"@en ;
+            rdfs:comment "A property indicating the tracks that are part of an album."@en .
+
+ex:hasRole rdf:type owl:ObjectProperty ;
+           rdfs:domain ex:Person ;
+           rdfs:range ex:Role ;
+           rdfs:label "has role"@en ;
+           rdfs:comment "A property indicating the role of a person within a band."@en .
+
+### Datatype Properties
+ex:hasName rdf:type owl:DatatypeProperty ;
+           rdfs:domain ex:Person ;
+           rdfs:range xsd:string ;
+           rdfs:label "has name"@en ;
+           rdfs:comment "A property indicating the name of a person."@en .
+
+ex:hasTitle rdf:type owl:DatatypeProperty ;
+            rdfs:domain [ owl:unionOf (ex:Album ex:Track) ] ;
+            rdfs:range xsd:string ;
+            rdfs:label "has title"@en ;
+            rdfs:comment "A property indicating the title of an album or track."@en .
+
+ex:releaseDate rdf:type owl:DatatypeProperty ;
+               rdfs:domain ex:Album ;
+               rdfs:range xsd:date ;
+               rdfs:label "release date"@en ;
+               rdfs:comment "A property indicating the release date of an album."@en .
+
+ex:compositionDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain ex:Track ;
+                   rdfs:range xsd:date ;
+                   rdfs:label "composition date"@en ;
+                   rdfs:comment "A property indicating the date when a track was composed."@en .
+
+ex:performanceDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain ex:Performance ;
+                   rdfs:range xsd:date ;
+                   rdfs:label "performance date"@en ;
+                   rdfs:comment "A property indicating the date when a performance took place."@en .
+
+### Individuals
+ex:AnthonyKiedis rdf:type ex:Person ;
+                 ex:hasName "Anthony Kiedis" ;
+                 ex:hasRole ex:Vocalist .
+
+ex:Flea rdf:type ex:Person ;
+        ex:hasName "Flea" ;
+        ex:hasRole ex:Bassist .
+
+ex:JohnFrusciante rdf:type ex:Person ;
+                  ex:hasName "John Frusciante" ;
+                  ex:hasRole ex:Guitarist .
+
+ex:ChadSmith rdf:type ex:Person ;
+              ex:hasName "Chad Smith" ;
+              ex:hasRole ex:Drummer .
+
+ex:RedHotChiliPeppers rdf:type ex:Band ;
+                       ex:hasMember ex:AnthonyKiedis, ex:Flea, ex:JohnFrusciante, ex:ChadSmith .
+
+ex:StadiumArcadium rdf:type ex:Album ;
+                    ex:hasTitle "Stadium Arcadium" ;
+                    ex:releaseDate "2006-05-05"^^xsd:date ;
+                    ex:hasTrack ex:HumpDeBump .
+
+ex:HumpDeBump rdf:type ex:Track ;
+              ex:hasTitle "Hump de Bump" ;
+              ex:compositionDate "2004-01-26"^^xsd:date .
+
+ex:PortlandPerformance rdf:type ex:Performance ;
+                        ex:performanceDate "2006-08-11"^^xsd:date .
+
+### Roles
+ex:Vocalist rdf:type ex:BandMember ;
+            rdfs:label "Vocalist"@en ;
+            rdfs:comment "A band member who sings."@en .
+
+ex:Bassist rdf:type ex:BandMember ;
+           rdfs:label "Bassist"@en ;
+           rdfs:comment "A band member who plays the bass guitar."@en .
+
+ex:Guitarist rdf:type ex:BandMember ;
+             rdfs:label "Guitarist"@en ;
+             rdfs:comment "A band member who plays the guitar."@en .
+
+ex:Drummer rdf:type ex:BandMember ;
+           rdfs:label "Drummer"@en ;
+           rdfs:comment "A band member who plays the drums."@en .
+
+### Instruments
+ex:Vocals rdf:type ex:Instrument ;
+          rdfs:label "Vocals"@en ;
+          rdfs:comment "The musical use of voice (singing)."@en .
+
+ex:BassGuitar rdf:type ex:Instrument ;
+              rdfs:label "Bass Guitar"@en ;
+              rdfs:comment "A stringed instrument played primarily with the fingers or thumb."@en .
+
+ex:Guitar rdf:type ex:Instrument ;
+          rdfs:label "Guitar"@en ;
+          rdfs:comment "A stringed musical instrument with frets that is played with fingers or a plectrum."@en .
+
+ex:Drums rdf:type ex:Instrument ;
+         rdfs:label "Drums"@en ;
+         rdfs:comment "A percussion instrument typically played by striking with sticks or hands."@en .
+
+### Restrictions
+ex:BandMember rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty ex:hasMember ;
+                                owl:someValuesFrom ex:Person ] .
+
+ex:Performance rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                 owl:onProperty ex:performs ;
+                                 owl:someValuesFrom ex:Person ] .
+
+ex:Album rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty ex:hasTrack ;
+                           owl:someValuesFrom ex:Track ] .
+
+### End of Ontology

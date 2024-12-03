@@ -1,0 +1,53 @@
+@prefix : <http://www.example.org/theatre_ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+
+:Employment a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Employment" ;
+    rdfs:comment "An employment relationship between an actor and a theatre." .
+
+:Theatre a owl:Class ;
+    rdfs:label "Theatre" ;
+    rdfs:comment "A theatre where plays are performed and actors are employed." .
+
+:Actor a owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor" ;
+    rdfs:comment "An individual who performs in a theatrical production." .
+
+:hasActor a owl:ObjectProperty ;
+    rdfs:domain :Employment ;
+    rdfs:range :Actor ;
+    rdfs:label "has actor" ;
+    rdfs:comment "The actor involved in the employment relationship." .
+
+:employedAt a owl:ObjectProperty ;
+    rdfs:domain :Employment ;
+    rdfs:range :Theatre ;
+    rdfs:label "employed at" ;
+    rdfs:comment "The theatre at which the actor is employed." .
+
+:employmentStartDate a owl:DatatypeProperty ;
+    rdfs:domain :Employment ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "employment start date" ;
+    rdfs:comment "The date when the employment relationship began." .
+
+### Individuals
+
+:GrandTheatre a :Theatre ;
+    rdfs:label "Grand Theatre in Rome" .
+
+:FabioBianchi a :Actor ;
+    rdfs:label "Fabio Bianchi" .
+
+:FabioBianchiEmployment a :Employment ;
+    :hasActor :FabioBianchi ;
+    :employedAt :GrandTheatre ;
+    :employmentStartDate "2004-05-01T00:00:00"^^xsd:dateTime ;
+    rdfs:label "Employment of Fabio Bianchi at Grand Theatre" .

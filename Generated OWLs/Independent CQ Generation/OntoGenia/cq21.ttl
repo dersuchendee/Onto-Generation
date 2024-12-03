@@ -1,0 +1,77 @@
+@prefix : <http://example.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://example.org/ontology> rdf:type owl:Ontology ;
+                              rdfs:comment "An ontology for representing the composition of resources in a circular value network."@en .
+
+### Classes
+
+:Resource rdf:type owl:Class ;
+          rdfs:label "Resource"@en ;
+          rdfs:comment "A resource is an entity that is used as an input or output in the circular value network."@en .
+
+:Product rdf:type owl:Class ;
+         rdfs:subClassOf :Resource ;
+         rdfs:label "Product"@en ;
+         rdfs:comment "A product is a type of resource that is the result of a production process in the circular value network."@en .
+
+:Component rdf:type owl:Class ;
+           rdfs:subClassOf :Resource ;
+           rdfs:label "Component"@en ;
+           rdfs:comment "A component is a part of a product that can be identified as a separate entity in the circular value network."@en .
+
+:Material rdf:type owl:Class ;
+          rdfs:subClassOf :Resource ;
+          rdfs:label "Material"@en ;
+          rdfs:comment "Material refers to the substances or elements that make up a product or component in the circular value network."@en .
+
+:Composition rdf:type owl:Class ;
+             rdfs:label "Composition"@en ;
+             rdfs:comment "The composition of a resource refers to the constituent materials or components that make up the resource."@en .
+
+### Object Properties
+
+:hasType rdf:type owl:ObjectProperty ;
+         rdfs:label "has type"@en ;
+         rdfs:comment "Relates a resource to its type, which can be a product, component, or material."@en ;
+         rdfs:domain :Resource ;
+         rdfs:range [ rdf:type owl:Class ;
+                      owl:unionOf (:Product :Component :Material) ] .
+
+:hasComposition rdf:type owl:ObjectProperty ;
+                rdfs:label "has composition"@en ;
+                rdfs:comment "Relates a resource to its composition."@en ;
+                rdfs:domain :Resource ;
+                rdfs:range :Composition .
+
+:isComposedOf rdf:type owl:ObjectProperty ;
+              rdfs:label "is composed of"@en ;
+              rdfs:comment "Relates a composition to the materials or components it consists of."@en ;
+              rdfs:domain :Composition ;
+              rdfs:range [ rdf:type owl:Class ;
+                           owl:unionOf (:Material :Component) ] .
+
+### Restrictions
+
+:Resource owl:equivalentClass [ rdf:type owl:Class ;
+                                owl:oneOf (:Product :Component :Material) ] .
+
+:Product rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasComposition ;
+                           owl:someValuesFrom :Composition ] .
+
+:Component rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :isComposedOf ;
+                             owl:someValuesFrom :Material ] .
+
+:Material rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :isComposedOf ;
+                            owl:someValuesFrom :Material ] .

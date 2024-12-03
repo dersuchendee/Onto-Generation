@@ -1,0 +1,120 @@
+@prefix : <http://www.example.org/circular_value_network.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+
+<http://www.example.org/circular_value_network.owl>
+    rdf:type owl:Ontology ;
+    rdfs:label "Ontology for Circular Value Network" ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl> .
+
+### Classes
+
+:ActorType
+    rdf:type owl:Class ;
+    rdfs:label "Actor Type" ;
+    rdfs:comment "The type of an actor within the circular value network." .
+
+:Actor
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Actor" ;
+    rdfs:comment "An agent involved in the circular value network, responsible for one or more pieces of work." .
+
+:Work
+    rdf:type owl:Class ;
+    rdfs:label "Work" ;
+    rdfs:comment "A piece of work or task that an actor is responsible for in a step of the circular value network." .
+
+:Competency
+    rdf:type owl:Class ;
+    rdfs:label "Competency" ;
+    rdfs:comment "A skill or capability that an actor possesses to perform certain work." .
+
+:Infrastructure
+    rdf:type owl:Class ;
+    rdfs:label "Infrastructure" ;
+    rdfs:comment "The necessary infrastructure and resources that an actor might hold to perform the work." .
+
+:Role
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Role ;
+    rdfs:label "Role" ;
+    rdfs:comment "The role that an actor has in the network." .
+
+### Object Properties
+
+:hasActorType
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :ActorType ;
+    rdfs:label "has actor type" ;
+    rdfs:comment "The property that associates an actor with its type." .
+
+:isActorTypeOf
+    rdf:type owl:ObjectProperty ;
+    owl:inverseOf :hasActorType ;
+    rdfs:domain :ActorType ;
+    rdfs:range :Actor ;
+    rdfs:label "is actor type of" ;
+    rdfs:comment "The property that associates an actor type with its actors." .
+
+:responsibleFor
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Work ;
+    rdfs:label "responsible for" ;
+    rdfs:comment "The property that associates an actor with the work they are responsible for." .
+
+:hasCompetency
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Competency ;
+    rdfs:label "has competency" ;
+    rdfs:comment "The property that associates an actor with the competencies they hold." .
+
+:holdsInfrastructure
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Infrastructure ;
+    rdfs:label "holds infrastructure" ;
+    rdfs:comment "The property that associates an actor with the infrastructure they hold." .
+
+:hasRole
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Actor ;
+    rdfs:range :Role ;
+    rdfs:label "has role" ;
+    rdfs:comment "The property that associates an actor with the role they have in the network." .
+
+### Restrictions
+
+:Actor
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasActorType ;
+        owl:someValuesFrom :ActorType
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :responsibleFor ;
+        owl:someValuesFrom :Work
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasCompetency ;
+        owl:someValuesFrom :Competency
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :holdsInfrastructure ;
+        owl:someValuesFrom :Infrastructure
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasRole ;
+        owl:someValuesFrom :Role
+    ] .

@@ -1,0 +1,162 @@
+@prefix : <http://www.semanticweb.org/sophia-music-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+
+<http://www.semanticweb.org/sophia-music-ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about musical instruments, their characteristics, and their makers."@en .
+
+### Classes
+
+:MusicalInstrument
+    rdf:type owl:Class ;
+    rdfs:label "Musical Instrument"@en ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+:InstrumentMaker
+    rdf:type owl:Class ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:label "Instrument Maker"@en ;
+    rdfs:comment "An agent who builds or constructs musical instruments."@en .
+
+:InstrumentFamily
+    rdf:type owl:Class ;
+    rdfs:label "Instrument Family"@en ;
+    rdfs:comment "A grouping of musical instruments based on common construction, playing method, or the range of sounds they produce."@en .
+
+:Timbre
+    rdf:type owl:Class ;
+    rdfs:label "Timbre"@en ;
+    rdfs:comment "The quality of a musical note or sound that distinguishes different types of musical instruments, or voices."@en .
+
+:PitchRange
+    rdf:type owl:Class ;
+    rdfs:label "Pitch Range"@en ;
+    rdfs:comment "The range of pitches that a musical instrument can produce."@en .
+
+:DynamicRange
+    rdf:type owl:Class ;
+    rdfs:label "Dynamic Range"@en ;
+    rdfs:comment "The range of loudness that a musical instrument can produce."@en .
+
+:Instrumentation
+    rdf:type owl:Class ;
+    rdfs:label "Instrumentation"@en ;
+    rdfs:comment "The manner in which a musical composition is assigned to musical instruments."@en .
+
+:MusicalComposition
+    rdf:type owl:Class ;
+    rdfs:label "Musical Composition"@en ;
+    rdfs:comment "A work of music, specifically the structure of a musical piece, in terms of its layers of sound and the types of instruments used."@en .
+
+### Object Properties
+
+:madeBy
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :InstrumentMaker ;
+    rdfs:label "made by"@en ;
+    rdfs:comment "Relates a musical instrument to its maker."@en .
+
+:belongsToFamily
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :InstrumentFamily ;
+    rdfs:label "belongs to family"@en ;
+    rdfs:comment "Relates a musical instrument to its corresponding instrument family."@en .
+
+:hasTimbre
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :Timbre ;
+    rdfs:label "has timbre"@en ;
+    rdfs:comment "Relates a musical instrument to its timbre or range of timbres."@en .
+
+:hasPitchRange
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :PitchRange ;
+    rdfs:label "has pitch range"@en ;
+    rdfs:comment "Relates a musical instrument to its range of pitches."@en .
+
+:hasDynamicRange
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :DynamicRange ;
+    rdfs:label "has dynamic range"@en ;
+    rdfs:comment "Relates a musical instrument to its dynamic range."@en .
+
+:usedInComposition
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :MusicalComposition ;
+    rdfs:label "used in composition"@en ;
+    rdfs:comment "Relates a musical instrument to the compositions in which it is used."@en .
+
+:hasInstrumentation
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :MusicalComposition ;
+    rdfs:range :Instrumentation ;
+    rdfs:label "has instrumentation"@en ;
+    rdfs:comment "Relates a musical composition to its instrumentation."@en .
+
+### Restrictions
+
+:MusicalInstrument
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :madeBy ;
+        owl:someValuesFrom :InstrumentMaker
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :belongsToFamily ;
+        owl:someValuesFrom :InstrumentFamily
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasTimbre ;
+        owl:someValuesFrom :Timbre
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasPitchRange ;
+        owl:someValuesFrom :PitchRange
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasDynamicRange ;
+        owl:someValuesFrom :DynamicRange
+    ] .
+
+:InstrumentMaker
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :madeBy ;
+        owl:someValuesFrom :MusicalInstrument
+    ] .
+
+:InstrumentFamily
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :belongsToFamily ;
+        owl:someValuesFrom :MusicalInstrument
+    ] .
+
+:MusicalComposition
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasInstrumentation ;
+        owl:someValuesFrom :Instrumentation
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :usedInComposition ;
+        owl:someValuesFrom :MusicalInstrument
+    ] .

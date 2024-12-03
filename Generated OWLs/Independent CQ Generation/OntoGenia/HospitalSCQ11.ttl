@@ -1,0 +1,86 @@
+@prefix : <http://www.example.org/ontology/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+:Hospital a owl:Class ;
+          rdfs:label "Hospital" .
+
+:Union a owl:Class ;
+       rdfs:label "Union" .
+
+:UnionRepresentative a owl:Class ;
+                     rdfs:subClassOf agentrole:Agent ;
+                     rdfs:label "Union Representative" .
+
+:StaffMember a owl:Class ;
+             rdfs:subClassOf agentrole:Agent ;
+             rdfs:label "Staff Member" .
+
+:Nurse a owl:Class ;
+       rdfs:subClassOf :StaffMember ;
+       rdfs:label "Nurse" .
+
+:SeniorDoctor a owl:Class ;
+               rdfs:subClassOf :StaffMember ;
+               rdfs:label "Senior Doctor" .
+
+:Evaluation a owl:Class ;
+            rdfs:label "Evaluation" .
+
+:Publication a owl:Class ;
+             rdfs:label "Publication" .
+
+:ArticleCollection a owl:Class ;
+                   rdfs:subClassOf :Publication ;
+                   rdfs:label "Article Collection" .
+
+:Book a owl:Class ;
+      rdfs:subClassOf :ArticleCollection ;
+      rdfs:label "Book" .
+
+:CD a owl:Class ;
+     rdfs:subClassOf :ArticleCollection ;
+     rdfs:label "CD" .
+
+:hasPublicationDate a owl:DatatypeProperty ;
+                     rdfs:domain :Publication ;
+                     rdfs:range xsd:date ;
+                     rdfs:label "has publication date" .
+
+:employs a owl:ObjectProperty ;
+          rdfs:domain :Hospital ;
+          rdfs:range :StaffMember ;
+          rdfs:label "employs" .
+
+:hasUnionRepresentative a owl:ObjectProperty ;
+                         rdfs:domain :Union ;
+                         rdfs:range :UnionRepresentative ;
+                         rdfs:label "has union representative" .
+
+:hasMember a owl:ObjectProperty ;
+            rdfs:domain :Union ;
+            rdfs:range :StaffMember ;
+            rdfs:label "has member" .
+
+:providesEvaluation a owl:ObjectProperty ;
+                     rdfs:domain :SeniorDoctor ;
+                     rdfs:range :Evaluation ;
+                     rdfs:label "provides evaluation" .
+
+:hasAuthor a owl:ObjectProperty ;
+            rdfs:domain :Publication ;
+            rdfs:range :StaffMember ;
+            rdfs:label "has author" .
+
+:hasArticleCollection a owl:ObjectProperty ;
+                       rdfs:domain :Hospital ;
+                       rdfs:range :ArticleCollection ;
+                       rdfs:label "has article collection" .
+
+### Individuals and their relationships can be instantiated based on the given scenario.
+

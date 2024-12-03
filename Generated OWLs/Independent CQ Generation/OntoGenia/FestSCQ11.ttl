@@ -1,0 +1,87 @@
+@prefix : <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix theatre: <http://example.org/ontology/theatre#> .
+
+<http://example.org/ontology/theatre>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing information about theatre productions, festivals, plays, and their premier dates."@en ;
+    rdfs:label "Theatre Ontology"@en .
+
+### Classes
+
+:Production
+    rdf:type owl:Class ;
+    rdfs:label "Theatre Production"@en ;
+    rdfs:comment "A theatre production which is a staging of a play or performance."@en .
+
+:Festival
+    rdf:type owl:Class ;
+    rdfs:label "Theatre Festival"@en ;
+    rdfs:comment "A festival event that features multiple theatre productions."@en .
+
+:Play
+    rdf:type owl:Class ;
+    rdfs:label "Play"@en ;
+    rdfs:comment "A written dramatic work by a playwright."@en .
+
+:Premier
+    rdf:type owl:Class ;
+    rdfs:label "Premier"@en ;
+    rdfs:comment "The first public performance of a play or production."@en .
+
+### Object Properties
+
+:hasProduction
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Festival ;
+    rdfs:range :Production ;
+    rdfs:label "has production"@en ;
+    rdfs:comment "A relationship between a festival and the productions it features."@en .
+
+:performsPlay
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Production ;
+    rdfs:range :Play ;
+    rdfs:label "performs play"@en ;
+    rdfs:comment "A relationship between a production and the play that is performed."@en .
+
+:hasPremier
+    rdf:type owl:ObjectProperty ;
+    rdfs:domain :Production ;
+    rdfs:range :Premier ;
+    rdfs:label "has premier"@en ;
+    rdfs:comment "A relationship between a production and its premier date."@en .
+
+### Datatype Properties
+
+:premierDate
+    rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Premier ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "premier date"@en ;
+    rdfs:comment "The date and time when the premier of a production took place."@en .
+
+### Individuals
+
+:TheMerchantOfVenice
+    rdf:type :Play ;
+    rdfs:label "The Merchant of Venice"@en .
+
+:RomaLovesShakespeare
+    rdf:type :Festival ;
+    rdfs:label "Roma Loves Shakespeare"@en .
+
+:MerchantOfVeniceProductionGrandTheatre
+    rdf:type :Production ;
+    rdfs:label "The Merchant of Venice at The Grand Theatre"@en ;
+    :performsPlay :TheMerchantOfVenice ;
+    :hasPremier :PremierGrandTheatre .
+
+:PremierGrandTheatre
+    rdf:type :Premier ;
+    rdfs:label "Premier of The Merchant of Venice at The Grand Theatre"@en ;
+    :premierDate "2009-09-07T20:00:00Z"^^xsd:dateTime .

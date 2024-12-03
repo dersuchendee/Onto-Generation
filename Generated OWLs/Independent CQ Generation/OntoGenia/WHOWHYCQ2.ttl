@@ -1,0 +1,87 @@
+@prefix : <http://example.org/ontology/waterbodies#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix aquaticresources: <http://www.ontologydesignpatterns.org/cp/owl/fsdas/aquaticresources.owl#> .
+
+<http://example.org/ontology/waterbodies>
+    rdf:type owl:Ontology ;
+    owl:imports <http://www.ontologydesignpatterns.org/cp/owl/fsdas/aquaticresources.owl> ;
+    rdfs:label "Water Bodies Ontology"@en ;
+    rdfs:comment "An ontology for representing different types of water bodies and their characteristics."@en .
+
+### Classes
+
+:WaterBody rdf:type owl:Class ;
+    rdfs:label "Water body"@en ;
+    rdfs:comment "A body of water of any size, including oceans, seas, lakes, rivers, streams, ponds, and more."@en .
+
+:CoastalWaterBody rdf:type owl:Class ;
+    rdfs:subClassOf :WaterBody ;
+    rdfs:label "Coastal water body"@en ;
+    rdfs:comment "A water body that is situated on or near a coast, such as a sea or ocean."@en .
+
+:InlandWaterBody rdf:type owl:Class ;
+    rdfs:subClassOf :WaterBody ;
+    rdfs:label "Inland water body"@en ;
+    rdfs:comment "A water body that is situated inland, such as a lake, river, or stream."@en .
+
+:Basin rdf:type owl:Class ;
+    rdfs:label "Basin"@en ;
+    rdfs:comment "A geographical area characterized by a particular water body or a collection of water bodies."@en .
+
+:SubBasin rdf:type owl:Class ;
+    rdfs:subClassOf :Basin ;
+    rdfs:label "Sub-basin"@en ;
+    rdfs:comment "A smaller geographical area within a larger basin, characterized by its own water bodies."@en .
+
+### Object Properties
+
+:contains rdf:type owl:ObjectProperty ;
+    rdfs:domain :Basin ;
+    rdfs:range :WaterBody ;
+    rdfs:label "contains"@en ;
+    rdfs:comment "A relationship indicating that a basin contains a specific water body or bodies."@en .
+
+:hasSubBasin rdf:type owl:ObjectProperty ;
+    rdfs:domain :Basin ;
+    rdfs:range :SubBasin ;
+    rdfs:label "has sub-basin"@en ;
+    rdfs:comment "A relationship indicating that a basin includes one or more sub-basins."@en .
+
+:isTypeOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :WaterBody ;
+    rdfs:range rdfs:Class ;
+    owl:inverseOf aquaticresources:hasSpecies ;
+    rdfs:label "is type of"@en ;
+    rdfs:comment "A relationship indicating the classification type of a water body."@en .
+
+### Restrictions
+
+:Basin rdf:type owl:Class ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :contains ;
+        owl:someValuesFrom :WaterBody
+    ] ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasSubBasin ;
+        owl:someValuesFrom :SubBasin
+    ] .
+
+:CoastalWaterBody rdf:type owl:Class ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :isTypeOf ;
+        owl:hasValue "Coastal"
+    ] .
+
+:InlandWaterBody rdf:type owl:Class ;
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :isTypeOf ;
+        owl:hasValue "Inland"
+    ] .

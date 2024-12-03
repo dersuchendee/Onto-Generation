@@ -1,0 +1,132 @@
+@prefix : <http://www.semanticweb.org/sophia-music-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://www.semanticweb.org/sophia-music-ontology>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing musical instruments and their historical context, specifically designed for musicologists like Sophia."@en .
+
+### Classes
+
+:MusicalInstrument rdf:type owl:Class ;
+    rdfs:label "Musical Instrument"@en ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+:InstrumentFamily rdf:type owl:Class ;
+    rdfs:label "Instrument Family"@en ;
+    rdfs:comment "A grouping of musical instruments based on common construction, playing method, or the sound they produce."@en .
+
+:InstrumentRealization rdf:type owl:Class ;
+    rdfs:label "Instrument Realization"@en ;
+    rdfs:comment "A specific instance of a musical instrument as it was built and used in a particular historical context."@en .
+
+:Timbre rdf:type owl:Class ;
+    rdfs:label "Timbre"@en ;
+    rdfs:comment "The quality of a musical note or sound that distinguishes different types of sound production, such as voices or musical instruments."@en .
+
+:PitchRange rdf:type owl:Class ;
+    rdfs:label "Pitch Range"@en ;
+    rdfs:comment "The range of pitches that a musical instrument can produce."@en .
+
+:DynamicRange rdf:type owl:Class ;
+    rdfs:label "Dynamic Range"@en ;
+    rdfs:comment "The range of volume that a musical instrument can produce, from the softest to the loudest."@en .
+
+:MusicalNotation rdf:type owl:Class ;
+    rdfs:label "Musical Notation"@en ;
+    rdfs:comment "A system used to visually represent aurally perceived music through the use of written symbols."@en .
+
+### Object Properties
+
+:belongsToFamily rdf:type owl:ObjectProperty ;
+    rdfs:label "belongs to family"@en ;
+    rdfs:comment "Associates a musical instrument with its corresponding instrument family."@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :InstrumentFamily .
+
+:hasTimbre rdf:type owl:ObjectProperty ;
+    rdfs:label "has timbre"@en ;
+    rdfs:comment "Associates a musical instrument with its timbre or range of timbres."@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :Timbre .
+
+:hasPitchRange rdf:type owl:ObjectProperty ;
+    rdfs:label "has pitch range"@en ;
+    rdfs:comment "Associates a musical instrument with its range of pitches."@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :PitchRange .
+
+:hasDynamicRange rdf:type owl:ObjectProperty ;
+    rdfs:label "has dynamic range"@en ;
+    rdfs:comment "Associates a musical instrument with its dynamic range."@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :DynamicRange .
+
+:hasMusicalNotation rdf:type owl:ObjectProperty ;
+    rdfs:label "has musical notation"@en ;
+    rdfs:comment "Associates a musical instrument with the notation system used to write music for it."@en ;
+    rdfs:domain :MusicalInstrument ;
+    rdfs:range :MusicalNotation .
+
+:realizationOf rdf:type owl:ObjectProperty ;
+    rdfs:label "realization of"@en ;
+    rdfs:comment "Associates an instrument realization with the generic musical instrument it represents."@en ;
+    rdfs:domain :InstrumentRealization ;
+    rdfs:range :MusicalInstrument .
+
+:createdDuring rdf:type owl:ObjectProperty ;
+    rdfs:label "created during"@en ;
+    rdfs:comment "Associates an instrument realization with the time period it was created or used."@en ;
+    rdfs:domain :InstrumentRealization ;
+    rdfs:range xsd:dateTime .
+
+### Datatype Properties
+
+:hasCreationDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "has creation date"@en ;
+    rdfs:comment "Indicates the specific date or time period when an instrument realization was built."@en ;
+    rdfs:domain :InstrumentRealization ;
+    rdfs:range xsd:dateTime .
+
+### Individuals and Facts
+
+:Violin rdf:type :MusicalInstrument ;
+    rdfs:label "Violin"@en ;
+    :belongsToFamily :StringFamily ;
+    :hasTimbre :BrightTimbre ;
+    :hasPitchRange :ViolinPitchRange ;
+    :hasDynamicRange :ViolinDynamicRange ;
+    :hasMusicalNotation :StandardWesternNotation .
+
+:StringFamily rdf:type :InstrumentFamily ;
+    rdfs:label "String Family"@en .
+
+:BrightTimbre rdf:type :Timbre ;
+    rdfs:label "Bright Timbre"@en .
+
+:ViolinPitchRange rdf:type :PitchRange ;
+    rdfs:label "Violin Pitch Range"@en .
+
+:ViolinDynamicRange rdf:type :DynamicRange ;
+    rdfs:label "Violin Dynamic Range"@en .
+
+:StandardWesternNotation rdf:type :MusicalNotation ;
+    rdfs:label "Standard Western Notation"@en .
+
+:StradivariusViolin rdf:type :InstrumentRealization ;
+    rdfs:label "Stradivarius Violin"@en ;
+    :realizationOf :Violin ;
+    :hasCreationDate "1730-01-01T00:00:00Z"^^xsd:dateTime .
+
+### Restrictions
+
+:InstrumentRealization rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasCreationDate ;
+    owl:someValuesFrom xsd:dateTime
+] .
+
+### End of Ontology

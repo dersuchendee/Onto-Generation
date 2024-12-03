@@ -1,0 +1,106 @@
+@prefix : <http://example.org/onto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix objectrole: <http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#> .
+
+<http://example.org/onto#> rdf:type owl:Ontology ;
+                            rdfs:comment "An ontology for representing the context-dependent content presentation in a smart bathroom environment." .
+
+### Classes
+
+:User rdf:type owl:Class ;
+       rdfs:subClassOf agentrole:Agent ;
+       rdfs:label "User" ;
+       rdfs:comment "An individual who is using the smart bathroom." .
+
+:SmartMirror rdf:type owl:Class ;
+              rdfs:label "Smart Mirror" ;
+              rdfs:comment "A mirror in the smart bathroom capable of displaying graphical content." .
+
+:SmartSpeaker rdf:type owl:Class ;
+               rdfs:label "Smart Speaker" ;
+               rdfs:comment "A speaker in the smart bathroom capable of reading out content." .
+
+:Content rdf:type owl:Class ;
+          rdfs:label "Content" ;
+          rdfs:comment "The information content that can be presented to the user." .
+
+:WeatherContent rdf:type owl:Class ;
+                 rdfs:subClassOf :Content ;
+                 rdfs:label "Weather Content" ;
+                 rdfs:comment "Content that includes weather information." .
+
+:UserLocation rdf:type owl:Class ;
+               rdfs:label "User Location" ;
+               rdfs:comment "The location of the user within the smart bathroom." .
+
+:UserActivity rdf:type owl:Class ;
+               rdfs:label "User Activity" ;
+               rdfs:comment "The activity that the user is currently engaged in within the smart bathroom." .
+
+### Object Properties
+
+:hasLocation rdf:type owl:ObjectProperty ;
+              rdfs:domain :User ;
+              rdfs:range :UserLocation ;
+              rdfs:label "has location" ;
+              rdfs:comment "The current location of the user within the smart bathroom." .
+
+:hasActivity rdf:type owl:ObjectProperty ;
+              rdfs:domain :User ;
+              rdfs:range :UserActivity ;
+              rdfs:label "has activity" ;
+              rdfs:comment "The current activity that the user is engaged in within the smart bathroom." .
+
+:displaysContent rdf:type owl:ObjectProperty ;
+                  rdfs:domain :SmartMirror ;
+                  rdfs:range :Content ;
+                  rdfs:label "displays content" ;
+                  rdfs:comment "The smart mirror displays content." .
+
+:readsOutContent rdf:type owl:ObjectProperty ;
+                  rdfs:domain :SmartSpeaker ;
+                  rdfs:range :Content ;
+                  rdfs:label "reads out content" ;
+                  rdfs:comment "The smart speaker reads out content." .
+
+### Individuals
+
+:InFrontOfMirror rdf:type :UserLocation ;
+                  rdfs:label "In front of mirror" ;
+                  rdfs:comment "The user location in front of the smart mirror." .
+
+:WalkingAround rdf:type :UserLocation ;
+                rdfs:label "Walking around" ;
+                rdfs:comment "The user location when walking around the bathroom." .
+
+:BrushingTeeth rdf:type :UserActivity ;
+                rdfs:label "Brushing teeth" ;
+                rdfs:comment "The user activity of brushing teeth." .
+
+### Restrictions
+
+:SmartMirror rdf:type owl:Class ;
+              rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty :displaysContent ;
+                                owl:someValuesFrom :WeatherContent ] ;
+              rdfs:comment "The smart mirror is capable of displaying weather content as graphics." .
+
+:SmartSpeaker rdf:type owl:Class ;
+               rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                 owl:onProperty :readsOutContent ;
+                                 owl:someValuesFrom :WeatherContent ] ;
+               rdfs:comment "The smart speaker is capable of reading out weather content." .
+
+:User rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasLocation ;
+                         owl:someValuesFrom :UserLocation ] ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasActivity ;
+                         owl:someValuesFrom :UserActivity ] ;
+       rdfs:comment "The user has a location and an activity within the smart bathroom." .

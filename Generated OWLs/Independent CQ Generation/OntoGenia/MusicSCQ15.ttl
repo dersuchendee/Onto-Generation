@@ -1,0 +1,102 @@
+@prefix : <http://www.example.org/ontology/musicproduction#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+<http://www.example.org/ontology/musicproduction>
+    a owl:Ontology ;
+    rdfs:label "Music Production Ontology"@en ;
+    rdfs:comment "An ontology for representing information about music production, bands, albums, and tracks."@en .
+
+### Classes
+
+:Band
+    a owl:Class ;
+    rdfs:label "Band"@en ;
+    rdfs:comment "A musical group playing together."@en .
+
+:Member
+    a owl:Class ;
+    rdfs:label "Band Member"@en ;
+    rdfs:comment "A person who is a member of a band."@en .
+
+:Album
+    a owl:Class ;
+    rdfs:subClassOf collectionentity:Collection ;
+    rdfs:label "Album"@en ;
+    rdfs:comment "A collection of music tracks released together."@en .
+
+:Track
+    a owl:Class ;
+    rdfs:label "Track"@en ;
+    rdfs:comment "A single song or piece of music that is part of an album."@en .
+
+### Object Properties
+
+:hasMember
+    a owl:ObjectProperty ;
+    rdfs:domain :Band ;
+    rdfs:range :Member ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "A property indicating the members of a band."@en .
+
+:hasAlbum
+    a owl:ObjectProperty ;
+    rdfs:domain :Band ;
+    rdfs:range :Album ;
+    rdfs:label "has album"@en ;
+    rdfs:comment "A property indicating the albums released by a band."@en .
+
+:hasTrack
+    a owl:ObjectProperty ;
+    rdfs:domain :Album ;
+    rdfs:range :Track ;
+    rdfs:label "has track"@en ;
+    rdfs:comment "A property indicating the tracks that are part of an album."@en ;
+    owl:inverseOf collectionentity:hasMember .
+
+### Restrictions
+
+:Album
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty :hasTrack ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+### Individuals
+
+:RedHotChiliPeppers
+    a :Band ;
+    rdfs:label "Red Hot Chili Peppers"@en .
+
+:AnthonyKiedis
+    a :Member ;
+    rdfs:label "Anthony Kiedis"@en .
+
+:Flea
+    a :Member ;
+    rdfs:label "Flea"@en .
+
+:JohnFrusciante
+    a :Member ;
+    rdfs:label "John Frusciante"@en .
+
+:ChadSmith
+    a :Member ;
+    rdfs:label "Chad Smith"@en .
+
+:StadiumArcadium
+    a :Album ;
+    rdfs:label "Stadium Arcadium"@en .
+
+:HumpDeBump
+    a :Track ;
+    rdfs:label "Hump de Bump"@en .
+
+### Facts
+
+:RedHotChiliPeppers :hasMember :AnthonyKiedis, :Flea, :JohnFrusciante, :ChadSmith .
+:RedHotChiliPeppers :hasAlbum :StadiumArcadium .
+:StadiumArcadium :hasTrack :HumpDeBump .

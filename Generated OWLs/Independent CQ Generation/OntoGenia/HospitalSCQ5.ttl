@@ -1,0 +1,56 @@
+@prefix : <http://www.example.org/ontology/hospital#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://www.example.org/ontology/hospital>
+    rdf:type owl:Ontology ;
+    rdfs:comment "An ontology for representing entities in a hospital setting and their relationships, particularly to answer the competency question: In what country is a certain city located?"@en .
+
+### Classes
+
+:Country
+    rdf:type owl:Class ;
+    rdfs:label "Country" ;
+    rdfs:comment "A nation with its own government, occupying a particular territory."@en .
+
+:City
+    rdf:type owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A large town or populated area, usually with a local government."@en .
+
+### Object Properties
+
+:isLocatedIn
+    rdf:type owl:ObjectProperty ;
+    rdfs:label "is located in" ;
+    rdfs:comment "The relationship between a city and the country it is located in."@en ;
+    rdfs:domain :City ;
+    rdfs:range :Country .
+
+### Individuals
+
+:NoceraInferiore
+    rdf:type :City ;
+    rdfs:label "Nocera Inferiore" ;
+    rdfs:comment "A city in Italy where Ospedale Riunito delle Tre Valli is located."@en ;
+    :isLocatedIn :Italy .
+
+:Italy
+    rdf:type :Country ;
+    rdfs:label "Italy" ;
+    rdfs:comment "A country in Europe."@en .
+
+### Restrictions
+
+:City
+    rdfs:subClassOf [
+        rdf:type owl:Restriction ;
+        owl:onProperty :isLocatedIn ;
+        owl:someValuesFrom :Country ;
+        rdfs:label "City-Country location restriction" ;
+        rdfs:comment "Every city is located in some country."@en
+    ] .

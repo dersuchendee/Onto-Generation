@@ -1,0 +1,148 @@
+@prefix : <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+@prefix partof: <http://www.ontologydesignpatterns.org/cp/owl/partof.owl#> .
+@prefix collectionentity: <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#> .
+
+:Performance a owl:Class ;
+    rdfs:label "Performance" ;
+    rdfs:comment "A live show where music is performed." .
+
+:Band a owl:Class ;
+    rdfs:label "Band" ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:comment "A group of musicians who perform together." .
+
+:MusicAlbum a owl:Class ;
+    rdfs:label "Music Album" ;
+    rdfs:comment "A collection of recorded music tracks." .
+
+:MusicTrack a owl:Class ;
+    rdfs:label "Music Track" ;
+    rdfs:subClassOf collectionentity:Collection ;
+    rdfs:comment "A single song or instrumental recording." .
+
+:Musician a owl:Class ;
+    rdfs:label "Musician" ;
+    rdfs:subClassOf agentrole:Agent ;
+    rdfs:comment "A person who plays a musical instrument or is musically talented." .
+
+:Instrument a owl:Class ;
+    rdfs:label "Musical Instrument" ;
+    rdfs:comment "A device created or adapted to make musical sounds." .
+
+:hasPerformanceDate a owl:DatatypeProperty ;
+    rdfs:label "has performance date" ;
+    rdfs:domain :Performance ;
+    rdfs:range xsd:dateTime ;
+    rdfs:comment "The date and time when a performance took place." .
+
+:performedBy a owl:ObjectProperty ;
+    rdfs:label "performed by" ;
+    rdfs:domain :Performance ;
+    rdfs:range :Band ;
+    rdfs:comment "The band that performed in a live performance." .
+
+:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member" ;
+    rdfs:domain :Band ;
+    rdfs:range :Musician ;
+    rdfs:comment "A musician who is a member of a band." .
+
+:playsInstrument a owl:ObjectProperty ;
+    rdfs:label "plays instrument" ;
+    rdfs:domain :Musician ;
+    rdfs:range :Instrument ;
+    rdfs:comment "The instrument that a musician plays." .
+
+:hasTrack a owl:ObjectProperty ;
+    rdfs:label "has track" ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range :MusicTrack ;
+    rdfs:comment "A music track that is part of a music album." .
+
+:recordedIn a owl:ObjectProperty ;
+    rdfs:label "recorded in" ;
+    rdfs:domain :MusicTrack ;
+    rdfs:range :MusicAlbum ;
+    rdfs:comment "The music album in which a track is included." .
+
+:hasAlbumReleaseDate a owl:DatatypeProperty ;
+    rdfs:label "has album release date" ;
+    rdfs:domain :MusicAlbum ;
+    rdfs:range xsd:date ;
+    rdfs:comment "The release date of a music album." .
+
+:hasCompositionDate a owl:DatatypeProperty ;
+    rdfs:label "has composition date" ;
+    rdfs:domain :MusicTrack ;
+    rdfs:range xsd:date ;
+    rdfs:comment "The date when a music track was composed." .
+
+### Individuals
+
+:RedHotChiliPeppers a :Band ;
+    rdfs:label "Red Hot Chili Peppers" .
+
+:AnthonyKiedis a :Musician ;
+    rdfs:label "Anthony Kiedis" ;
+    :playsInstrument :Vocals .
+
+:Flea a :Musician ;
+    rdfs:label "Flea" ;
+    :playsInstrument :Bass ;
+    :playsInstrument :Trumpet ;
+    :playsInstrument :Keyboards ;
+    :playsInstrument :Vocals .
+
+:JohnFrusciante a :Musician ;
+    rdfs:label "John Frusciante" ;
+    :playsInstrument :Guitar .
+
+:ChadSmith a :Musician ;
+    rdfs:label "Chad Smith" ;
+    :playsInstrument :Drums .
+
+:StadiumArcadium a :MusicAlbum ;
+    rdfs:label "Stadium Arcadium" ;
+    :hasAlbumReleaseDate "2006-05-05"^^xsd:date .
+
+:HumpDeBump a :MusicTrack ;
+    rdfs:label "Hump de Bump" ;
+    :hasCompositionDate "2004-01-26"^^xsd:date ;
+    :recordedIn :StadiumArcadium .
+
+:PortlandPerformance a :Performance ;
+    rdfs:label "Live performance in Portland, Oregon" ;
+    :performedBy :RedHotChiliPeppers ;
+    :hasPerformanceDate "2006-08-11T20:00:00Z"^^xsd:dateTime .
+
+### Restrictions
+
+:Band rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasMember ;
+    owl:someValuesFrom :Musician
+] .
+
+:MusicAlbum rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :hasTrack ;
+    owl:someValuesFrom :MusicTrack
+] .
+
+:Performance rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :performedBy ;
+    owl:someValuesFrom :Band
+] .
+
+:MusicTrack rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty :recordedIn ;
+    owl:someValuesFrom :MusicAlbum
+] .

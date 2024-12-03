@@ -1,0 +1,76 @@
+@prefix : <http://example.org/onto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix agentrole: <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#> .
+
+:User a owl:Class ;
+      rdfs:subClassOf agentrole:Agent ;
+      rdfs:label "User" .
+
+:Preference a owl:Class ;
+            rdfs:label "Preference" .
+
+:Activity a owl:Class ;
+          rdfs:label "Activity" .
+
+:MovieGenre a owl:Class ;
+            rdfs:label "Movie Genre" .
+
+:ActionMovie a owl:Class ;
+             rdfs:subClassOf :MovieGenre ;
+             rdfs:label "Action Movie" .
+
+:WeatherCondition a owl:Class ;
+                  rdfs:label "Weather Condition" .
+
+:RainyWeather a owl:Class ;
+              rdfs:subClassOf :WeatherCondition ;
+              rdfs:label "Rainy Weather" .
+
+:hasPreference a owl:ObjectProperty ;
+               rdfs:domain :User ;
+               rdfs:range :Preference ;
+               rdfs:label "has preference" .
+
+:prefersActivity a owl:ObjectProperty ;
+                 rdfs:domain :Preference ;
+                 rdfs:range :Activity ;
+                 rdfs:label "prefers activity" .
+
+:prefersGenre a owl:ObjectProperty ;
+              rdfs:domain :Preference ;
+              rdfs:range :MovieGenre ;
+              rdfs:label "prefers genre" .
+
+:prefersWeather a owl:ObjectProperty ;
+                rdfs:domain :Preference ;
+                rdfs:range :WeatherCondition ;
+                rdfs:label "prefers weather" .
+
+:GoingToMovies a owl:Class ;
+               rdfs:subClassOf :Activity ;
+               rdfs:label "Going to the Movies" .
+
+:user123 a :User ;
+         rdfs:label "User 123" .
+
+:user123Preference a :Preference ;
+                   rdfs:label "User 123's Preference" .
+
+:user123PrefersActionMovies a :ActionMovie ;
+                            rdfs:label "User 123 Prefers Action Movies" .
+
+:user123PrefersRainyWeather a :RainyWeather ;
+                            rdfs:label "User 123 Prefers Rainy Weather" .
+
+:user123PrefersGoingToMovies a :GoingToMovies ;
+                             rdfs:label "User 123 Prefers Going to the Movies" .
+
+:user123 :hasPreference :user123Preference .
+
+:user123Preference :prefersActivity :user123PrefersGoingToMovies ;
+                   :prefersGenre :user123PrefersActionMovies ;
+                   :prefersWeather :user123PrefersRainyWeather .
