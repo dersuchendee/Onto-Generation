@@ -1,0 +1,87 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Theatre rdf:type owl:Class .
+
+:Cl_TheatreFestival rdf:type owl:Class .
+
+:Cl_FestivalOccurrence rdf:type owl:Class .
+
+:Cl_City rdf:type owl:Class .
+
+:Cl_Play rdf:type owl:Class .
+
+:Cl_TheatreProduction rdf:type owl:Class .
+
+:Cl_Actor rdf:type owl:Class .
+
+:Cl_Review rdf:type owl:Class .
+
+:Cl_TheatreRole rdf:type owl:Class .
+
+### Hierarchy
+
+:Cl_FestivalOccurrence rdfs:subClassOf :Cl_TheatreFestival .
+
+### Object Properties
+
+:hasProduction rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TheatreFestival ;
+    rdfs:range :Cl_TheatreProduction .
+
+:occursIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_FestivalOccurrence ;
+    rdfs:range :Cl_City .
+
+:hasActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TheatreProduction ;
+    rdfs:range :Cl_Actor .
+
+:playsRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_TheatreRole .
+
+:hasReview rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TheatreProduction ;
+    rdfs:range :Cl_Review .
+
+### Data Properties
+
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_TheatreFestival, :Cl_City, :Cl_Play, :Cl_Actor, :Cl_TheatreRole ;
+    rdfs:range xsd:string .
+
+:hasDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_FestivalOccurrence ;
+    rdfs:range xsd:date .
+
+:hasRating rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Review ;
+    rdfs:range xsd:integer .
+
+### Individuals and Facts (Example Individuals)
+
+:RomaLovesShakespeare rdf:type :Cl_TheatreFestival ;
+    :hasName "Roma Loves Shakespeare" .
+
+:RomaLovesShakespeare2007 rdf:type :Cl_FestivalOccurrence ;
+    :occursIn :CityOfRome ;
+    :hasDate "2007-01-01"^^xsd:date ;
+    :hasProduction :MerchantOfVenicePisa,
+                    :MerchantOfVeniceVeniceInstitute .
+
+:CityOfRome rdf:type :Cl_City ;
+    :hasName "Rome" .
+
+:MerchantOfVenicePisa rdf:type :Cl_TheatreProduction ;
+    :hasName "The Merchant of Venice - Pisa" .
+
+:MerchantOfVeniceVeniceInstitute rdf:type :Cl_TheatreProduction ;
+    :hasName "The Merchant of Venice - Venice Institute" .
+
+# Additional individuals and facts would be added similarly for other festivals, productions, cities, etc.

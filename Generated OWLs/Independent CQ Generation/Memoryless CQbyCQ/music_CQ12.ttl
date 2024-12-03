@@ -1,0 +1,87 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicalGroup rdf:type owl:Class .
+:Cl_MusicAlbum rdf:type owl:Class .
+:Cl_MusicTrack rdf:type owl:Class .
+:Cl_Person rdf:type owl:Class .
+:Cl_Critic rdf:type owl:Class .
+:Cl_PerformanceEvent rdf:type owl:Class .
+
+### Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_MusicalGroup ;
+           rdfs:range :Cl_Person .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicalGroup ;
+          rdfs:range :Cl_MusicAlbum .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicAlbum ;
+          rdfs:range :Cl_MusicTrack .
+
+:composedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_MusicTrack ;
+             rdfs:range :Cl_Person .
+
+:reviewedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_MusicAlbum ;
+            rdfs:range :Cl_Critic .
+
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_PerformanceEvent ;
+             rdfs:range :Cl_MusicalGroup .
+
+:hasPerformance rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_MusicTrack ;
+                rdfs:range :Cl_PerformanceEvent .
+
+### Data Properties
+:hasName rdf:type owl:DataProperty ;
+         rdfs:domain :Cl_MusicalGroup ;
+         rdfs:range xsd:string .
+
+:hasReleaseDate rdf:type owl:DataProperty ;
+                rdfs:domain :Cl_MusicAlbum ;
+                rdfs:range xsd:date .
+
+:hasCompositionDate rdf:type owl:DataProperty ;
+                    rdfs:domain :Cl_MusicTrack ;
+                    rdfs:range xsd:date .
+
+:hasReview rdf:type owl:DataProperty ;
+           rdfs:domain :Cl_MusicAlbum ;
+           rdfs:range xsd:string .
+
+:hasPerformanceDate rdf:type owl:DataProperty ;
+                    rdfs:domain :Cl_PerformanceEvent ;
+                    rdfs:range xsd:date .
+
+:hasLocation rdf:type owl:DataProperty ;
+             rdfs:domain :Cl_PerformanceEvent ;
+             rdfs:range xsd:string .
+
+### Individuals and Facts (Example Individuals)
+:RedHotChiliPeppers rdf:type :Cl_MusicalGroup ;
+                     :hasName "Red Hot Chili Peppers" .
+
+:StadiumArcadium rdf:type :Cl_MusicAlbum ;
+                  :hasName "Stadium Arcadium" ;
+                  :hasReleaseDate "2006-05-05"^^xsd:date ;
+                  :hasAlbum :RedHotChiliPeppers .
+
+:HumpDeBump rdf:type :Cl_MusicTrack ;
+            :hasName "Hump de Bump" ;
+            :hasCompositionDate "2004-01-26"^^xsd:date ;
+            :hasTrack :StadiumArcadium .
+
+:PortlandPerformance rdf:type :Cl_PerformanceEvent ;
+                     :hasPerformanceDate "2006-08-11"^^xsd:date ;
+                     :hasLocation "Portland, Oregon, US" ;
+                     :performedBy :RedHotChiliPeppers ;
+                     :hasPerformance :HumpDeBump .

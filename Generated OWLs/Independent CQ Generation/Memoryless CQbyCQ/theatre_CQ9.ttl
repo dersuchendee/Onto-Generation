@@ -1,0 +1,32 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Play rdf:type rdfs:Class .
+:Cl_WritingPeriod rdf:type rdfs:Class .
+
+### Object Properties
+:op_hasWritingPeriod rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range :Cl_WritingPeriod .
+
+### Data Properties
+:dp_startYear rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_WritingPeriod ;
+    rdfs:range xsd:gYear .
+
+:dp_endYear rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_WritingPeriod ;
+    rdfs:range xsd:gYear .
+
+### Individuals
+:MerchantOfVenice rdf:type :Cl_Play .
+:WritingPeriod_MerchantOfVenice rdf:type :Cl_WritingPeriod .
+
+### Relations
+:MerchantOfVenice :op_hasWritingPeriod :WritingPeriod_MerchantOfVenice .
+:WritingPeriod_MerchantOfVenice :dp_startYear "1596"^^xsd:gYear .
+:WritingPeriod_MerchantOfVenice :dp_endYear "1598"^^xsd:gYear .

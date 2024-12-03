@@ -1,0 +1,46 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+:Cl_WaterBody rdf:type owl:Class .
+
+:Cl_CoastalWaterBody rdf:type owl:Class ;
+                     rdfs:subClassOf :Cl_WaterBody .
+
+:Cl_InlandWaterBody rdf:type owl:Class ;
+                    rdfs:subClassOf :Cl_WaterBody .
+
+:Cl_Lake rdf:type owl:Class ;
+         rdfs:subClassOf :Cl_InlandWaterBody .
+
+:Cl_River rdf:type owl:Class ;
+          rdfs:subClassOf :Cl_InlandWaterBody .
+
+:Cl_Stream rdf:type owl:Class ;
+           rdfs:subClassOf :Cl_InlandWaterBody .
+
+:Cl_Pond rdf:type owl:Class ;
+         rdfs:subClassOf :Cl_InlandWaterBody .
+
+:Cl_Reservoir rdf:type owl:Class ;
+               rdfs:subClassOf :Cl_InlandWaterBody .
+
+:Cl_Wetland rdf:type owl:Class ;
+             rdfs:subClassOf :Cl_InlandWaterBody .
+
+:Cl_Ocean rdf:type owl:Class ;
+           rdfs:subClassOf :Cl_CoastalWaterBody .
+
+:Cl_Sea rdf:type owl:Class ;
+        rdfs:subClassOf :Cl_CoastalWaterBody .
+
+:Cl_Bay rdf:type owl:Class ;
+        rdfs:subClassOf :Cl_CoastalWaterBody .
+
+:Cl_Gulf rdf:type owl:Class ;
+         rdfs:subClassOf :Cl_CoastalWaterBody .
+
+:Cl_Estuary rdf:type owl:Class ;
+             rdfs:subClassOf :Cl_CoastalWaterBody .

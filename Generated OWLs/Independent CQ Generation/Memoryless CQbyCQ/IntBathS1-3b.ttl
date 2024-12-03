@@ -1,0 +1,40 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Pivot Class
+:Cl_UserPreferredAction
+
+### Classes
+:Cl_User
+:Cl_SystemAction
+:Cl_Context
+
+### Object Properties
+:op_prefers
+    rdf:type        owl:ObjectProperty ;
+    rdfs:domain     :Cl_User ;
+    rdfs:range      :Cl_UserPreferredAction .
+
+:op_hasPreferredAction
+    rdf:type        owl:ObjectProperty ;
+    rdfs:domain     :Cl_UserPreferredAction ;
+    rdfs:range      :Cl_SystemAction .
+
+:op_inContext
+    rdf:type        owl:ObjectProperty ;
+    rdfs:domain     :Cl_UserPreferredAction ;
+    rdfs:range      :Cl_Context .
+
+### Data Properties
+:dp_hasLocation
+    rdf:type        owl:DatatypeProperty ;
+    rdfs:domain     :Cl_Context ;
+    rdfs:range      xsd:string .
+
+:dp_hasTime
+    rdf:type        owl:DatatypeProperty ;
+    rdfs:domain     :Cl_Context ;
+    rdfs:range      xsd:time .

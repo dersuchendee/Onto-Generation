@@ -1,0 +1,21 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_City rdf:type owl:Class .
+:Cl_Country rdf:type owl:Class .
+
+### Object Properties
+:op_isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range :Cl_Country .
+
+### Individuals
+:Ind_Rome rdf:type :Cl_City .
+:Ind_Italy rdf:type :Cl_Country .
+
+### Facts
+:Ind_Rome :op_isLocatedIn :Ind_Italy .

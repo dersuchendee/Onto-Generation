@@ -1,0 +1,84 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Person rdf:type owl:Class .
+:Cl_Location rdf:type owl:Class .
+:Cl_Bathroom rdf:type owl:Class ; rdfs:subClassOf :Cl_Location .
+:Cl_Mirror rdf:type owl:Class .
+:Cl_ElectricToothbrush rdf:type owl:Class .
+:Cl_Object rdf:type owl:Class .
+:Cl_Activity rdf:type owl:Class .
+:Cl_BrushingTeeth rdf:type owl:Class ; rdfs:subClassOf :Cl_Activity .
+
+### Reification (Pivot Class)
+:Cl_PersonLocationActivity rdf:type owl:Class .
+
+### Object Properties
+:op_hasLocation rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Cl_Person ;
+                 rdfs:range :Cl_Location .
+
+:op_hasObject rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Person ;
+              rdfs:range :Cl_Object .
+
+:op_performingActivity rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_Person ;
+                       rdfs:range :Cl_Activity .
+
+:op_reflectedIn rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Person ;
+                rdfs:range :Cl_Mirror .
+
+:op_holds rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Person ;
+           rdfs:range :Cl_ElectricToothbrush .
+
+:op_relatedToActivity rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Cl_Object ;
+                      rdfs:range :Cl_Activity .
+
+### Reification Object Properties
+:op_hasPerson rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_PersonLocationActivity ;
+              rdfs:range :Cl_Person .
+
+:op_hasActivityLocation rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Cl_PersonLocationActivity ;
+                        rdfs:range :Cl_Location .
+
+:op_hasActivity rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_PersonLocationActivity ;
+                rdfs:range :Cl_Activity .
+
+### Restrictions
+:Cl_Bathroom owl:equivalentClass [ rdf:type owl:Restriction ;
+                                    owl:onProperty :op_hasLocation ;
+                                    owl:someValuesFrom :Cl_Person ] .
+
+:Cl_BrushingTeeth owl:equivalentClass [ rdf:type owl:Restriction ;
+                                         owl:onProperty :op_relatedToActivity ;
+                                         owl:someValuesFrom :Cl_ElectricToothbrush ] .
+
+### Individuals
+:Indv_Person1 rdf:type :Cl_Person .
+:Indv_Bathroom1 rdf:type :Cl_Bathroom .
+:Indv_Mirror1 rdf:type :Cl_Mirror .
+:Indv_ElectricToothbrush1 rdf:type :Cl_ElectricToothbrush .
+:Indv_BrushingTeeth1 rdf:type :Cl_BrushingTeeth .
+
+### Facts
+:Indv_Person1 :op_hasLocation :Indv_Bathroom1 .
+:Indv_Person1 :op_reflectedIn :Indv_Mirror1 .
+:Indv_Person1 :op_holds :Indv_ElectricToothbrush1 .
+:Indv_ElectricToothbrush1 :op_relatedToActivity :Indv_BrushingTeeth1 .
+
+### Reification Facts
+:Indv_PersonLocationActivity1 rdf:type :Cl_PersonLocationActivity .
+:Indv_PersonLocationActivity1 :op_hasPerson :Indv_Person1 .
+:Indv_PersonLocationActivity1 :op_hasActivityLocation :Indv_Bathroom1 .
+:Indv_PersonLocationActivity1 :op_hasActivity :Indv_BrushingTeeth1 .

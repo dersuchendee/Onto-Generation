@@ -1,0 +1,30 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Source rdf:type owl:Class .
+:Cl_Subject rdf:type owl:Class .
+:Cl_SourceSubject rdf:type owl:Class .
+
+### Object Properties
+:op_hasSubject rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range :Cl_Subject .
+
+:op_isSubjectOf rdf:type owl:ObjectProperty ;
+    owl:inverseOf :op_hasSubject ;
+    rdfs:domain :Cl_Subject ;
+    rdfs:range :Cl_Source .
+
+### Reification Object Properties
+:op_hasSourceSubject rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range :Cl_SourceSubject .
+
+:op_subjectOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_SourceSubject ;
+    rdfs:range :Cl_Subject .

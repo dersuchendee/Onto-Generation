@@ -1,0 +1,45 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Actor rdf:type rdfs:Class .
+:Cl_Theatre rdf:type rdfs:Class .
+:Cl_EmploymentPeriod rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_EmploymentPeriod rdfs:subClassOf :Cl_Actor, :Cl_Theatre .
+
+### Object Properties
+:op_hasActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Theatre ;
+    rdfs:range :Cl_Actor .
+
+:op_worksAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Theatre .
+
+:op_hasEmploymentPeriod rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_EmploymentPeriod .
+
+:op_employmentIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_EmploymentPeriod ;
+    rdfs:range :Cl_Theatre .
+
+### Data Properties
+:dp_startDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_EmploymentPeriod ;
+    rdfs:range xsd:date .
+
+### Individuals
+:FabioBianchi rdf:type :Cl_Actor .
+:TheGrandTheatreRome rdf:type :Cl_Theatre .
+:FabioBianchiEmploymentPeriod rdf:type :Cl_EmploymentPeriod .
+
+### Relationships
+:FabioBianchi :op_hasEmploymentPeriod :FabioBianchiEmploymentPeriod .
+:FabioBianchiEmploymentPeriod :op_employmentIn :TheGrandTheatreRome .
+:FabioBianchiEmploymentPeriod :dp_startDate "2004-05-01"^^xsd:date .

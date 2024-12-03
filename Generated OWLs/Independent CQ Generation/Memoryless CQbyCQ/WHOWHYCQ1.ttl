@@ -1,0 +1,35 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_WaterBasin rdf:type owl:Class .
+:Cl_WaterBody rdf:type owl:Class .
+:Cl_CoastalWaterBody rdf:type owl:Class ; rdfs:subClassOf :Cl_WaterBody .
+:Cl_SubWaterBasin rdf:type owl:Class ; rdfs:subClassOf :Cl_WaterBasin .
+:Cl_WaterBodyInBasin rdf:type owl:Class .
+
+### Object Properties
+:op_belongsTo rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_WaterBody ;
+               rdfs:range :Cl_WaterBasin .
+
+:op_contains rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_WaterBasin ;
+              rdfs:range :Cl_WaterBody .
+
+:op_hasSubBasin rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_WaterBasin ;
+                rdfs:range :Cl_SubWaterBasin .
+
+### Reification Object Properties for Cl_WaterBodyInBasin
+:op_isWaterBodyOf rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Cl_WaterBodyInBasin ;
+                  rdfs:range :Cl_WaterBody .
+
+:op_isPartOfBasin rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Cl_WaterBodyInBasin ;
+                  rdfs:range :Cl_WaterBasin .

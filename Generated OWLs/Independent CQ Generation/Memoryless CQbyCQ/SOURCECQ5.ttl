@@ -1,0 +1,60 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Source rdf:type owl:Class .
+
+:Cl_PersonalJournal rdf:type owl:Class ;
+                    rdfs:subClassOf :Cl_Source .
+
+:Cl_LiteraryText rdf:type owl:Class ;
+                 rdfs:subClassOf :Cl_Source .
+
+:Cl_OfficialSource rdf:type owl:Class ;
+                   rdfs:subClassOf :Cl_Source .
+
+:Cl_NewspaperArticle rdf:type owl:Class ;
+                     rdfs:subClassOf :Cl_OfficialSource .
+
+:Cl_ConcertReview rdf:type owl:Class ;
+                  rdfs:subClassOf :Cl_OfficialSource .
+
+:Cl_Painting rdf:type owl:Class ;
+              rdfs:subClassOf :Cl_Source .
+
+:Cl_OrdinaryPeopleSource rdf:type owl:Class ;
+                         rdfs:subClassOf :Cl_Source .
+
+:Cl_SourceContext rdf:type owl:Class .
+
+### Object Properties
+
+:hasContext rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_Source ;
+             rdfs:range :Cl_SourceContext .
+
+:createdBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_SourceContext ;
+            rdfs:range :Cl_Person .
+
+:relatesToEvent rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_SourceContext ;
+                rdfs:range :Cl_Event .
+
+### Data Properties
+
+:hasCreationDate rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Cl_SourceContext ;
+                 rdfs:range xsd:dateTime .
+
+:hasCreationPlace rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Cl_SourceContext ;
+                  rdfs:range xsd:string .
+
+:hasGoal rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_SourceContext ;
+         rdfs:range xsd:string .

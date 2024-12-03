@@ -1,0 +1,98 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicGroup rdf:type rdfs:Class .
+:Cl_MusicAlbum rdf:type rdfs:Class .
+:Cl_MusicTrack rdf:type rdfs:Class .
+:Cl_Musician rdf:type rdfs:Class .
+:Cl_Critic rdf:type rdfs:Class .
+:Cl_Performance rdf:type rdfs:Class .
+:Cl_AlbumTrackInfo rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_AlbumTrackInfo rdfs:subClassOf :Cl_MusicAlbum .
+
+### Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_MusicGroup ;
+           rdfs:range :Cl_Musician .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicGroup ;
+          rdfs:range :Cl_MusicAlbum .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicAlbum ;
+          rdfs:range :Cl_MusicTrack .
+
+:composedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_MusicTrack ;
+             rdfs:range :Cl_Musician .
+
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_Performance ;
+             rdfs:range :Cl_MusicGroup .
+
+:reviewedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_MusicAlbum ;
+            rdfs:range :Cl_Critic .
+
+### Data Properties
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_MusicGroup, :Cl_MusicAlbum, :Cl_MusicTrack, :Cl_Musician, :Cl_Critic ;
+         rdfs:range xsd:string .
+
+:hasReleaseDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Cl_MusicAlbum ;
+                rdfs:range xsd:date .
+
+:hasCompositionDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_MusicTrack ;
+                    rdfs:range xsd:date .
+
+:hasPerformanceDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_Performance ;
+                    rdfs:range xsd:date .
+
+:hasTrackCount rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Cl_AlbumTrackInfo ;
+               rdfs:range xsd:integer .
+
+### Restrictions
+:Cl_MusicAlbum owl:equivalentClass [
+  rdf:type owl:Restriction ;
+  owl:onProperty :hasTrackCount ;
+  owl:someValuesFrom xsd:integer
+] .
+
+### Individuals
+:RedHotChiliPeppers rdf:type :Cl_MusicGroup ;
+                     :hasName "Red Hot Chili Peppers" .
+
+:StadiumArcadium rdf:type :Cl_MusicAlbum ;
+                  :hasName "Stadium Arcadium" ;
+                  :hasReleaseDate "2006-05-05"^^xsd:date .
+
+:StadiumArcadiumInfo rdf:type :Cl_AlbumTrackInfo ;
+                     :hasTrackCount "28"^^xsd:integer .
+
+:HumpDeBump rdf:type :Cl_MusicTrack ;
+            :hasName "Hump de Bump" ;
+            :hasCompositionDate "2004-01-26"^^xsd:date .
+
+:CrianHiatt rdf:type :Cl_Critic ;
+            :hasName "Crian Hiatt" .
+
+:PortlandPerformance rdf:type :Cl_Performance ;
+                      :hasPerformanceDate "2006-08-11"^^xsd:date ;
+                      :performedBy :RedHotChiliPeppers .
+
+### Relationships
+:RedHotChiliPeppers :hasAlbum :StadiumArcadium .
+:StadiumArcadium :hasTrack :HumpDeBump .
+:StadiumArcadium :reviewedBy :CrianHiatt .
+:StadiumArcadium :hasTrackCount :StadiumArcadiumInfo .

@@ -1,0 +1,94 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicalGroup rdf:type owl:Class .
+:Cl_MusicAlbum rdf:type owl:Class .
+:Cl_MusicTrack rdf:type owl:Class .
+:Cl_Person rdf:type owl:Class .
+:Cl_PerformanceEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_MusicTrack rdfs:subClassOf :Cl_MusicAlbum .
+:Cl_Person rdfs:subClassOf :Cl_MusicalGroup .
+
+### Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_MusicalGroup ;
+           rdfs:range :Cl_Person .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicalGroup ;
+          rdfs:range :Cl_MusicAlbum .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicAlbum ;
+          rdfs:range :Cl_MusicTrack .
+
+:performedIn rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_MusicalGroup ;
+             rdfs:range :Cl_PerformanceEvent .
+
+### Data Properties
+:hasName rdf:type owl:DataProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range xsd:string .
+
+:hasTitle rdf:type owl:DataProperty ;
+          rdfs:domain :Cl_MusicAlbum ;
+          rdfs:range xsd:string .
+
+:hasReleaseDate rdf:type owl:DataProperty ;
+                rdfs:domain :Cl_MusicAlbum ;
+                rdfs:range xsd:date .
+
+:hasCompositionDate rdf:type owl:DataProperty ;
+                    rdfs:domain :Cl_MusicTrack ;
+                    rdfs:range xsd:date .
+
+### Reification (Pivot Class) Relations
+:hasPerformanceDate rdf:type owl:DataProperty ;
+                    rdfs:domain :Cl_PerformanceEvent ;
+                    rdfs:range xsd:date .
+
+:featuresSong rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_PerformanceEvent ;
+              rdfs:range :Cl_MusicTrack .
+
+:tookPlaceIn rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_PerformanceEvent ;
+             rdfs:range xsd:string .  # Assuming location is a string, could be a class if more detail is needed
+
+### Individuals (Example Individuals for the story, not part of the ontology structure)
+:RedHotChiliPeppers rdf:type :Cl_MusicalGroup ;
+                     :hasMember :AnthonyKiedis, :Flea, :JohnFrusciante, :ChadSmith ;
+                     :hasAlbum :StadiumArcadium .
+
+:StadiumArcadium rdf:type :Cl_MusicAlbum ;
+                  :hasTitle "Stadium Arcadium" ;
+                  :hasReleaseDate "2006-05-05"^^xsd:date ;
+                  :hasTrack :HumpDeBump .
+
+:HumpDeBump rdf:type :Cl_MusicTrack ;
+            :hasTitle "Hump de Bump" ;
+            :hasCompositionDate "2004-01-26"^^xsd:date .
+
+:PerformancePortland rdf:type :Cl_PerformanceEvent ;
+                      :hasPerformanceDate "2006-08-11"^^xsd:date ;
+                      :tookPlaceIn "Portland, Oregon (US)" ;
+                      :featuresSong :HumpDeBump .
+
+:AnthonyKiedis rdf:type :Cl_Person ;
+               :hasName "Anthony Kiedis" .
+
+:Flea rdf:type :Cl_Person ;
+      :hasName "Flea" .
+
+:JohnFrusciante rdf:type :Cl_Person ;
+                :hasName "John Frusciante" .
+
+:ChadSmith rdf:type :Cl_Person ;
+           :hasName "Chad Smith" .

@@ -1,0 +1,47 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Product rdf:type owl:Class .
+:Cl_Material rdf:type owl:Class .
+:Cl_ProductionProcess rdf:type owl:Class .
+:Cl_SupplyChain rdf:type owl:Class .
+:Cl_Stakeholder rdf:type owl:Class .
+:Cl_DataOrigin rdf:type owl:Class .
+:Cl_ValidationProof rdf:type owl:Class .
+
+### Reification Class
+:Cl_ProductComponent rdf:type owl:Class .
+
+### Object Properties
+:hasComponent rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Product ;
+               rdfs:range :Cl_ProductComponent .
+
+:isComposedOf rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_ProductComponent ;
+               rdfs:range :Cl_Material .
+
+:hasProductionProcess rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Cl_ProductComponent ;
+                      rdfs:range :Cl_ProductionProcess .
+
+:hasSupplyChain rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Product ;
+                rdfs:range :Cl_SupplyChain .
+
+:hasStakeholder rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_SupplyChain ;
+                rdfs:range :Cl_Stakeholder .
+
+:hasDataOrigin rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Material ;
+               rdfs:range :Cl_DataOrigin .
+
+:hasValidationProof rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_DataOrigin ;
+                    rdfs:range :Cl_ValidationProof .

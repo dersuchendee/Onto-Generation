@@ -1,0 +1,84 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_TheatreFestival rdf:type owl:Class .
+:Cl_Play rdf:type owl:Class .
+:Cl_Theatre rdf:type owl:Class .
+:Cl_TheatreProduction rdf:type owl:Class .
+:Cl_TheatreInstitute rdf:type owl:Class .
+:Cl_UniversityArtStudents rdf:type owl:Class .
+:Cl_Actor rdf:type owl:Class .
+:Cl_Review rdf:type owl:Class .
+:Cl_FestivalPlayAppearance rdf:type owl:Class .
+
+### Hierarchy
+:Cl_TheatreProduction rdfs:subClassOf :Cl_Play .
+:Cl_TheatreInstitute rdfs:subClassOf :Cl_Theatre .
+:Cl_UniversityArtStudents rdfs:subClassOf :Cl_Actor .
+
+### Object Properties
+:hasProduction rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_TheatreFestival ;
+                rdfs:range :Cl_FestivalPlayAppearance .
+
+:featuresPlay rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_FestivalPlayAppearance ;
+              rdfs:range :Cl_Play .
+
+:performedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_FestivalPlayAppearance ;
+              rdfs:range :Cl_Theatre .
+
+### Data Properties
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_TheatreFestival ;
+         rdfs:range xsd:string .
+
+:hasDate rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_TheatreFestival ;
+         rdfs:range xsd:date .
+
+### Individuals
+:RomaLovesShakespeare rdf:type :Cl_TheatreFestival ;
+                      :hasName "Roma Loves Shakespeare" ;
+                      :hasDate "2007-01-01"^^xsd:date .
+
+:MerchantOfVenice rdf:type :Cl_Play ;
+                   :hasName "The Merchant of Venice" .
+
+:Othello rdf:type :Cl_Play ;
+          :hasName "Othello" .
+
+:MidsummerNightsDream rdf:type :Cl_Play ;
+                       :hasName "A Midsummer Night’s Dream" .
+
+### Reification
+:RomaLovesShakespeare_MerchantOfVenice_Pisa rdf:type :Cl_FestivalPlayAppearance ;
+                                              :featuresPlay :MerchantOfVenice ;
+                                              :performedBy :TheatrePisa .
+
+:RomaLovesShakespeare_MerchantOfVenice_Venice rdf:type :Cl_FestivalPlayAppearance ;
+                                                :featuresPlay :MerchantOfVenice ;
+                                                :performedBy :TheatreInstituteVenice .
+
+:RomaLovesShakespeare_Othello rdf:type :Cl_FestivalPlayAppearance ;
+                                :featuresPlay :Othello ;
+                                :performedBy :TheatreUnknown .
+
+:RomaLovesShakespeare_MidsummerNightsDream rdf:type :Cl_FestivalPlayAppearance ;
+                                             :featuresPlay :MidsummerNightsDream ;
+                                             :performedBy :TheatreUnknown .
+
+### Additional Individuals for Theatres
+:TheatrePisa rdf:type :Cl_Theatre ;
+              :hasName "Theatre in Pisa" .
+
+:TheatreInstituteVenice rdf:type :Cl_TheatreInstitute ;
+                         :hasName "Theatre Institute in Venice" .
+
+:TheatreUnknown rdf:type :Cl_Theatre ;
+                 :hasName "Unknown Theatre" .

@@ -1,0 +1,64 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicalWork rdf:type owl:Class .
+:Cl_Track rdf:type owl:Class .
+:Cl_Album rdf:type owl:Class .
+:Cl_Artist rdf:type owl:Class .
+:Cl_MusicGroup rdf:type owl:Class ; rdfs:subClassOf :Cl_Artist .
+:Cl_Person rdf:type owl:Class ; rdfs:subClassOf :Cl_Artist .
+:Cl_TrackRecording rdf:type owl:Class .
+
+### Object Properties
+:op_composedBy rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_MusicalWork ;
+                rdfs:range :Cl_Artist .
+
+:op_performedBy rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Track ;
+                rdfs:range :Cl_MusicGroup .
+
+:op_recordedIn rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Track ;
+               rdfs:range :Cl_Album .
+
+:op_hasTrack rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Album ;
+              rdfs:range :Cl_Track .
+
+:op_isRecordingOf rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Cl_TrackRecording ;
+                  rdfs:range :Cl_MusicalWork .
+
+### Data Properties
+:dp_releaseDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Cl_Album ;
+                rdfs:range xsd:date .
+
+:dp_compositionDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_MusicalWork ;
+                    rdfs:range xsd:date .
+
+### Individuals
+:ind_StadiumArcadium rdf:type :Cl_Album ;
+                      :dp_releaseDate "2006-05-05"^^xsd:date .
+
+:ind_HumpDeBump rdf:type :Cl_MusicalWork ;
+                 :dp_compositionDate "2004-01-26"^^xsd:date .
+
+:ind_HumpDeBumpTrack rdf:type :Cl_TrackRecording ;
+                     :op_isRecordingOf :ind_HumpDeBump ;
+                     :op_recordedIn :ind_StadiumArcadium .
+
+### Reification
+:Cl_TrackRecording rdf:type owl:Class ;
+                   rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                     owl:onProperty :op_isRecordingOf ;
+                                     owl:someValuesFrom :Cl_MusicalWork ] ;
+                   rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                     owl:onProperty :op_recordedIn ;
+                                     owl:someValuesFrom :Cl_Album ] .

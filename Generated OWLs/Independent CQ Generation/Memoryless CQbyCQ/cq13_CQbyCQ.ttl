@@ -1,0 +1,57 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Product rdf:type owl:Class .
+
+:Cl_Component rdf:type owl:Class .
+
+:Cl_Material rdf:type owl:Class .
+
+:Cl_Property rdf:type owl:Class .
+
+:Cl_Provenance rdf:type owl:Class .
+
+:Cl_MaterialComposition rdf:type owl:Class .
+
+### Object Properties
+
+:hasComponent rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Product ;
+               rdfs:range :Cl_Component .
+
+:isMadeOf rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Component ;
+           rdfs:range :Cl_MaterialComposition .
+
+:hasMaterial rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_MaterialComposition ;
+              rdfs:range :Cl_Material .
+
+:hasProperty rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_MaterialComposition ;
+              rdfs:range :Cl_Property .
+
+:hasProvenance rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_MaterialComposition ;
+                rdfs:range :Cl_Provenance .
+
+### Data Properties
+
+:hasName rdf:type owl:DataProperty ;
+          rdfs:domain [ rdf:type owl:Class ; owl:unionOf (:Cl_Product :Cl_Component :Cl_Material :Cl_Property :Cl_Provenance) ] ;
+          rdfs:range xsd:string .
+
+### Restrictions
+
+:Cl_Product owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasComponent ; owl:someValuesFrom :Cl_Component ] .
+
+:Cl_Component owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :isMadeOf ; owl:someValuesFrom :Cl_MaterialComposition ] .
+
+:Cl_MaterialComposition owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasMaterial ; owl:someValuesFrom :Cl_Material ] ;
+                        owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasProperty ; owl:someValuesFrom :Cl_Property ] ;
+                        owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasProvenance ; owl:someValuesFrom :Cl_Provenance ] .

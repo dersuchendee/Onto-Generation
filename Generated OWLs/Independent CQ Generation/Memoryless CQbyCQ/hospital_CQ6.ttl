@@ -1,0 +1,59 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_Union rdf:type owl:Class .
+:Cl_StaffMember rdf:type owl:Class .
+:Cl_Nurse rdf:type owl:Class ; rdfs:subClassOf :Cl_StaffMember .
+:Cl_Doctor rdf:type owl:Class ; rdfs:subClassOf :Cl_StaffMember .
+:Cl_SeniorDoctor rdf:type owl:Class ; rdfs:subClassOf :Cl_Doctor .
+:Cl_UnionRepresentative rdf:type owl:Class ; rdfs:subClassOf :Cl_StaffMember .
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_ResearchArticle rdf:type owl:Class .
+:Cl_Seminar rdf:type owl:Class .
+:Cl_UnionMembership rdf:type owl:Class .
+
+### Object Properties
+:employedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_StaffMember ;
+    rdfs:range :Cl_Hospital .
+
+:memberOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_StaffMember ;
+    rdfs:range :Cl_Union .
+
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Union ;
+    rdfs:range :Cl_UnionRepresentative .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionMembership ;
+    rdfs:range :Cl_StaffMember .
+
+:hasUnion rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionMembership ;
+    rdfs:range :Cl_Union .
+
+### Data Properties
+:hasStartDate rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_UnionMembership ;
+    rdfs:range xsd:date .
+
+### Restrictions and Class Definitions
+:Cl_UnionMembership rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasMember ; owl:someValuesFrom :Cl_StaffMember ] ;
+    owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasUnion ; owl:someValuesFrom :Cl_Union ] ;
+    owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasStartDate ; owl:someValuesFrom xsd:date ] .
+
+### Individuals and Facts (Example Individuals, not part of ontology definition)
+:PasqualeDiGennaro rdf:type :Cl_Nurse, :Cl_UnionRepresentative .
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+:UnionOfMaleNurses rdf:type :Cl_Union .
+:MembershipOfPasquale rdf:type :Cl_UnionMembership ;
+    :hasMember :PasqualeDiGennaro ;
+    :hasUnion :UnionOfMaleNurses ;
+    :hasStartDate "2002-01-01"^^xsd:date .

@@ -1,0 +1,43 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Source rdf:type owl:Class .
+:Cl_PrimarySource rdf:type owl:Class ; rdfs:subClassOf :Cl_Source .
+:Cl_SecondarySource rdf:type owl:Class ; rdfs:subClassOf :Cl_Source .
+:Cl_PersonalJournal rdf:type owl:Class ; rdfs:subClassOf :Cl_PrimarySource .
+:Cl_LiteraryText rdf:type owl:Class ; rdfs:subClassOf :Cl_PrimarySource .
+:Cl_NewspaperArticle rdf:type owl:Class ; rdfs:subClassOf :Cl_SecondarySource .
+:Cl_ConcertReview rdf:type owl:Class ; rdfs:subClassOf :Cl_SecondarySource .
+:Cl_Painting rdf:type owl:Class ; rdfs:subClassOf :Cl_SecondarySource .
+:Cl_SourceType rdf:type owl:Class .
+
+### Object Properties
+:hasSourceType rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Source ;
+                rdfs:range :Cl_SourceType .
+
+### Data Properties
+:isReliable rdf:type owl:DataProperty ;
+             rdfs:domain :Cl_Source ;
+             rdfs:range xsd:boolean .
+
+### Individuals
+:PrimarySource rdf:type :Cl_SourceType .
+:SecondarySource rdf:type :Cl_SourceType .
+
+### Reification
+:Cl_SourceType rdf:type owl:Class .
+:hasSourceType rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Source ;
+                rdfs:range :Cl_SourceType .
+:isPrimary rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_Source ;
+            rdfs:range :Cl_PrimarySource .
+:isSecondary rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Source ;
+              rdfs:range :Cl_SecondarySource .

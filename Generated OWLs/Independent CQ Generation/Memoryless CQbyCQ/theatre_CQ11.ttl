@@ -1,0 +1,34 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Theatre rdf:type rdfs:Class .
+:Cl_Production rdf:type rdfs:Class .
+:Cl_Festival rdf:type rdfs:Class .
+:Cl_Review rdf:type rdfs:Class .
+:Cl_Actor rdf:type rdfs:Class .
+:Cl_ProductionPremierDate rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_ProductionPremierDate rdfs:subClassOf :Cl_Production .
+
+### Object Properties
+:hasPremierDate rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_ProductionPremierDate .
+
+### Data Properties
+:premierDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_ProductionPremierDate ;
+    rdfs:range xsd:date .
+
+### Individuals
+:TheMerchantOfVenice_GrandTheatre rdf:type :Cl_Production .
+:PremierDate_GrandTheatre rdf:type :Cl_ProductionPremierDate ;
+    :premierDate "2009-09-07"^^xsd:date .
+
+### Relations
+:TheMerchantOfVenice_GrandTheatre :hasPremierDate :PremierDate_GrandTheatre .

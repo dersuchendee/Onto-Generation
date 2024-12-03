@@ -1,0 +1,37 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Actor rdf:type owl:Class .
+:Cl_ValueNetwork rdf:type owl:Class .
+:Cl_Process rdf:type owl:Class .
+:Cl_ActorInValueNetwork rdf:type owl:Class .
+
+### Object Properties
+:op_involvedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_ValueNetwork .
+
+:op_hasProcess rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ValueNetwork ;
+    rdfs:range :Cl_Process .
+
+:op_performsProcess rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Process .
+
+### Reification (Pivot Class)
+:op_actorInvolvedInProcess rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorInValueNetwork ;
+    rdfs:range :Cl_Actor .
+
+:op_processOfActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorInValueNetwork ;
+    rdfs:range :Cl_Process .
+
+:op_valueNetworkOfActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorInValueNetwork ;
+    rdfs:range :Cl_ValueNetwork .

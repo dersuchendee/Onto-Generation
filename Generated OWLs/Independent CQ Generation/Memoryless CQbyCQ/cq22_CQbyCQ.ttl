@@ -1,0 +1,25 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Product rdf:type owl:Class .
+:Cl_Material rdf:type owl:Class .
+:Cl_MaterialComposition rdf:type owl:Class .
+
+### Object Properties
+:op_hasMaterialComposition rdf:type owl:ObjectProperty ;
+                           rdfs:domain :Cl_Product ;
+                           rdfs:range :Cl_MaterialComposition .
+
+:op_composedOf rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_MaterialComposition ;
+               rdfs:range :Cl_Material .
+
+### Data Properties
+:dp_efficiencyOfRecycling rdf:type owl:DatatypeProperty ;
+                          rdfs:domain :Cl_Product ;
+                          rdfs:range xsd:decimal .

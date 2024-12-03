@@ -1,0 +1,93 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Country rdf:type owl:Class .
+:Cl_Region rdf:type owl:Class .
+
+### Object Properties
+:op_isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Region ;
+    rdfs:range :Cl_Country .
+
+### Individuals
+:Ind_US rdf:type :Cl_Country ;
+    rdfs:label "United States" .
+
+:Ind_Oregon rdf:type :Cl_Region ;
+    rdfs:label "Oregon" ;
+    :op_isLocatedIn :Ind_US .
+
+### Previous RDF
+# Classes
+:Cl_Band rdf:type owl:Class .
+:Cl_Album rdf:type owl:Class .
+:Cl_Musician rdf:type owl:Class .
+:Cl_Song rdf:type owl:Class .
+:Cl_Critic rdf:type owl:Class .
+:Cl_Performance rdf:type owl:Class .
+
+# Object Properties
+:op_hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Musician .
+
+:op_hasAlbum rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Album .
+
+:op_hasTrack rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Song .
+
+:op_hasCritic rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Critic .
+
+:op_hasPerformance rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Performance .
+
+# Data Properties
+:dp_recordStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:date .
+
+:dp_releaseDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:date .
+
+:dp_composeDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range xsd:date .
+
+:dp_performanceDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range xsd:date .
+
+# Individuals
+:Ind_RedHotChiliPeppers rdf:type :Cl_Band ;
+    rdfs:label "Red Hot Chili Peppers" .
+
+:Ind_StadiumArcadium rdf:type :Cl_Album ;
+    rdfs:label "Stadium Arcadium" ;
+    :op_hasBand :Ind_RedHotChiliPeppers ;
+    :dp_recordStartDate "2004-09-01"^^xsd:date ;
+    :dp_releaseDate "2006-05-05"^^xsd:date .
+
+:Ind_HumpDeBump rdf:type :Cl_Song ;
+    rdfs:label "Hump de Bump" ;
+    :op_hasAlbum :Ind_StadiumArcadium ;
+    :dp_composeDate "2004-01-26"^^xsd:date .
+
+:Ind_CritiqueByCrianHiatt rdf:type :Cl_Critic ;
+    rdfs:label "Crian Hiatt" ;
+    :op_hasCritic :Ind_StadiumArcadium .
+
+:Ind_PerformanceInPortland rdf:type :Cl_Performance ;
+    rdfs:label "Live Performance in Portland" ;
+    :op_hasBand :Ind_RedHotChiliPeppers ;
+    :dp_performanceDate "2006-08-11"^^xsd:date .

@@ -1,0 +1,77 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_Employee rdf:type owl:Class ;
+             rdfs:subClassOf :Cl_Person .
+
+:Cl_Doctor rdf:type owl:Class ;
+            rdfs:subClassOf :Cl_Employee .
+
+:Cl_Nurse rdf:type owl:Class ;
+           rdfs:subClassOf :Cl_Employee .
+
+:Cl_UnionRepresentative rdf:type owl:Class ;
+                         rdfs:subClassOf :Cl_Employee .
+
+:Cl_EvaluationStatement rdf:type owl:Class .
+
+### Object Properties
+
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_UnionRepresentative .
+
+:isEmployedAt rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Employee ;
+               rdfs:range :Cl_Hospital .
+
+:hasWrittenStatement rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Cl_Doctor ;
+                     rdfs:range :Cl_EvaluationStatement .
+
+:evaluatesEmployee rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_EvaluationStatement ;
+                    rdfs:range :Cl_Employee .
+
+### Data Properties
+
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range xsd:string .
+
+:hasEmploymentStartDate rdf:type owl:DatatypeProperty ;
+                         rdfs:domain :Cl_Employee ;
+                         rdfs:range xsd:date .
+
+:hasEvaluationDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_EvaluationStatement ;
+                    rdfs:range xsd:date .
+
+:hasEvaluationContent rdf:type owl:DatatypeProperty ;
+                       rdfs:domain :Cl_EvaluationStatement ;
+                       rdfs:range xsd:string .
+
+### Individuals
+
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital ;
+                               :hasName "Ospedale Riunito delle Tre Valli" .
+
+:PasqualeDiGennaro rdf:type :Cl_Nurse, :Cl_UnionRepresentative ;
+                   :hasName "Pasquale Di Gennaro" ;
+                   :isEmployedAt :OspedaleRiunitoDelleTreValli ;
+                   :hasEmploymentStartDate "2001-09-21"^^xsd:date .
+
+### Reification
+
+:EvaluationStatement1 rdf:type :Cl_EvaluationStatement ;
+                      :hasWrittenStatement :Doctor1 ;
+                      :evaluatesEmployee :PasqualeDiGennaro ;
+                      :hasEvaluationDate "2002-01-15"^^xsd:date ;
+                      :hasEvaluationContent "Excellent clinical skills and patient care." .

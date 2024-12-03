@@ -1,0 +1,68 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_Union rdf:type owl:Class .
+:Cl_UnionRepresentative rdf:type owl:Class .
+:Cl_Employee rdf:type owl:Class .
+:Cl_SeniorDoctor rdf:type owl:Class .
+:Cl_Nurse rdf:type owl:Class .
+:Cl_NursingAssistant rdf:type owl:Class .
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_ResearchArticle rdf:type owl:Class .
+:Cl_SeminarEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_NursingAssistant rdfs:subClassOf :Cl_Employee .
+:Cl_Nurse rdfs:subClassOf :Cl_Employee .
+:Cl_SeniorDoctor rdfs:subClassOf :Cl_Employee .
+:Cl_UnionRepresentative rdfs:subClassOf :Cl_Employee .
+
+### Object Properties
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_UnionRepresentative .
+
+:employs rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Hospital ;
+         rdfs:range :Cl_Employee .
+
+:hasWrittenEvaluation rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_SeniorDoctor ;
+                       rdfs:range :Cl_Employee .
+
+:hasArticle rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_ArticleCollection ;
+            rdfs:range :Cl_ResearchArticle .
+
+:holdsSeminar rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Hospital ;
+              rdfs:range :Cl_SeminarEvent .
+
+### Data Properties
+:hasTitle rdf:type owl:DataProperty ;
+          rdfs:domain :Cl_ResearchArticle ;
+          rdfs:range xsd:string .
+
+:hasPageCount rdf:type owl:DataProperty ;
+              rdfs:domain :Cl_ArticleCollection ;
+              rdfs:range xsd:integer .
+
+:hasDate rdf:type owl:DataProperty ;
+         rdfs:domain :Cl_SeminarEvent ;
+         rdfs:range xsd:date .
+
+### Individuals
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+
+:SeminarOnNursePractices rdf:type :Cl_SeminarEvent ;
+                          :hasDate "2008-12-01"^^xsd:date .
+
+### Relations involving reification class Cl_SeminarEvent
+:holdsSeminar rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Hospital ;
+              rdfs:range :Cl_SeminarEvent .

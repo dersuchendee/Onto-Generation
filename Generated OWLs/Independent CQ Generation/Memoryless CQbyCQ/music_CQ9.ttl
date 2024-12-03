@@ -1,0 +1,75 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Band rdf:type rdfs:Class .
+:Cl_Musician rdf:type rdfs:Class .
+:Cl_Album rdf:type rdfs:Class .
+:Cl_Track rdf:type rdfs:Class .
+:Cl_Critic rdf:type rdfs:Class .
+:Cl_Performance rdf:type rdfs:Class .
+:Cl_CriticReview rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_Musician rdfs:subClassOf :Cl_Band .
+:Cl_Track rdfs:subClassOf :Cl_Album .
+:Cl_Performance rdfs:subClassOf :Cl_Album .
+:Cl_CriticReview rdfs:subClassOf :Cl_Critic .
+
+### Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Band ;
+           rdfs:range :Cl_Musician .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_Band ;
+          rdfs:range :Cl_Album .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_Album ;
+          rdfs:range :Cl_Track .
+
+:performedIn rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_Band ;
+             rdfs:range :Cl_Performance .
+
+:reviewedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_Album ;
+            rdfs:range :Cl_CriticReview .
+
+### Data Properties
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_Musician ;
+         rdfs:range xsd:string .
+
+:hasReleaseDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Cl_Album ;
+                rdfs:range xsd:date .
+
+:hasCompositionDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_Track ;
+                    rdfs:range xsd:date .
+
+:hasPerformanceDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_Performance ;
+                    rdfs:range xsd:date .
+
+:hasReview rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Cl_CriticReview ;
+           rdfs:range xsd:string .
+
+:hasReviewDate rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Cl_CriticReview ;
+               rdfs:range xsd:date .
+
+### Reification Relations
+:hasCritic rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_CriticReview ;
+           rdfs:range :Cl_Critic .
+
+:concernsAlbum rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_CriticReview ;
+               rdfs:range :Cl_Album .

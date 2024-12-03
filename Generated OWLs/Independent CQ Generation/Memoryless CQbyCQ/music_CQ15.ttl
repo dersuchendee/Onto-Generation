@@ -1,0 +1,99 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+### Classes
+:Cl_MusicGroup rdf:type owl:Class .
+:Cl_MusicAlbum rdf:type owl:Class .
+:Cl_MusicTrack rdf:type owl:Class .
+:Cl_Musician rdf:type owl:Class .
+:Cl_Critic rdf:type owl:Class .
+:Cl_LivePerformance rdf:type owl:Class .
+:Cl_Person rdf:type owl:Class .
+:Cl_RecordContainsTrack rdf:type owl:Class .
+
+### Hierarchy
+:Cl_Musician rdfs:subClassOf :Cl_Person .
+:Cl_Critic rdfs:subClassOf :Cl_Person .
+
+### Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_MusicGroup ;
+           rdfs:range :Cl_Musician .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicGroup ;
+          rdfs:range :Cl_MusicAlbum .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_MusicAlbum ;
+          rdfs:range :Cl_MusicTrack .
+
+:composedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_MusicTrack ;
+             rdfs:range :Cl_Musician .
+
+:critiquedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_MusicAlbum ;
+              rdfs:range :Cl_Critic .
+
+:performedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_LivePerformance ;
+              rdfs:range :Cl_MusicGroup .
+
+### Data Properties
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range xsd:string .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Cl_MusicAlbum ,:Cl_MusicTrack ,:Cl_LivePerformance ;
+          rdfs:range xsd:string .
+
+:hasReleaseDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Cl_MusicAlbum ;
+                rdfs:range xsd:date .
+
+:hasCompositionDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_MusicTrack ;
+                    rdfs:range xsd:date .
+
+:hasPerformanceDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_LivePerformance ;
+                    rdfs:range xsd:dateTime .
+
+:hasLocation rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Cl_LivePerformance ;
+             rdfs:range xsd:string .
+
+### Restrictions
+:Cl_MusicAlbum owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasTrack ;
+    owl:someValuesFrom :Cl_MusicTrack
+] .
+
+### Reification
+:Cl_RecordContainsTrack rdf:type owl:Class ;
+                        rdfs:subClassOf [
+                            rdf:type owl:Restriction ;
+                            owl:onProperty :hasAlbum ;
+                            owl:allValuesFrom :Cl_MusicAlbum
+                        ] , [
+                            rdf:type owl:Restriction ;
+                            owl:onProperty :hasTrack ;
+                            owl:someValuesFrom :Cl_MusicTrack
+                        ] .
+
+# Connects an album to a track ensuring that an album always contains at least one track
+:containsTrack rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_MusicAlbum ;
+               rdfs:range :Cl_RecordContainsTrack .
+
+# Connects the reification class to the actual track
+:trackContained rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_RecordContainsTrack ;
+                rdfs:range :Cl_MusicTrack .

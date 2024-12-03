@@ -1,0 +1,57 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicalGroup rdf:type owl:Class .
+
+:Cl_Musician rdf:type owl:Class .
+
+:Cl_Album rdf:type owl:Class .
+
+:Cl_AlbumReleaseEvent rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Album .
+
+### Object Properties
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicalGroup ;
+    rdfs:range :Cl_Musician .
+
+:hasAlbum rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicalGroup ;
+    rdfs:range :Cl_Album .
+
+:releaseEvent rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_AlbumReleaseEvent .
+
+### Data Properties
+:releaseDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_AlbumReleaseEvent ;
+    rdfs:range xsd:date .
+
+### Individuals
+:RedHotChiliPeppers rdf:type :Cl_MusicalGroup .
+
+:AnthonyKiedis rdf:type :Cl_Musician .
+
+:Flea rdf:type :Cl_Musician .
+
+:JohnFrusciante rdf:type :Cl_Musician .
+
+:ChadSmith rdf:type :Cl_Musician .
+
+:StadiumArcadium rdf:type :Cl_Album .
+
+:StadiumArcadiumRelease rdf:type :Cl_AlbumReleaseEvent ;
+    :releaseDate "2006-05-05"^^xsd:date .
+
+### Relations
+:RedHotChiliPeppers :hasMember :AnthonyKiedis .
+:RedHotChiliPeppers :hasMember :Flea .
+:RedHotChiliPeppers :hasMember :JohnFrusciante .
+:RedHotChiliPeppers :hasMember :ChadSmith .
+:RedHotChiliPeppers :hasAlbum :StadiumArcadium .
+:StadiumArcadium :releaseEvent :StadiumArcadiumRelease .

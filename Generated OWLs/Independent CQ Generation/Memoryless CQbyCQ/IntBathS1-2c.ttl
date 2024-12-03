@@ -1,0 +1,38 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_AbstractTime rdf:type owl:Class .
+
+### Reification (Pivot Class)
+:Cl_UserAbstractTime rdf:type owl:Class .
+
+### Object Properties
+:op_hasAbstractTime rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_User ;
+    rdfs:range :Cl_AbstractTime .
+
+### Data Properties
+:dp_hasStartTime rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_AbstractTime ;
+    rdfs:range xsd:time .
+
+:dp_hasEndTime rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_AbstractTime ;
+    rdfs:range xsd:time .
+
+### Restrictions
+:Cl_AbstractTimeMorning rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Restriction ;
+        owl:onProperty :dp_hasStartTime ;
+        owl:hasValue "06:00:00"^^xsd:time
+    ] ;
+    owl:equivalentClass [
+        rdf:type owl:Restriction ;
+        owl:onProperty :dp_hasEndTime ;
+        owl:hasValue "10:00:00"^^xsd:time
+    ] .

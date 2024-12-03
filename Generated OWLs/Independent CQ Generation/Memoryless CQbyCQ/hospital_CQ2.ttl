@@ -1,0 +1,32 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type rdfs:Class .
+:Cl_Degree rdf:type rdfs:Class .
+:Cl_StudyPeriod rdf:type rdfs:Class .
+
+### Object Properties
+:op_hasDegree rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Degree .
+
+:op_studiedDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_StudyPeriod .
+
+:op_forDegree rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_StudyPeriod ;
+    rdfs:range :Cl_Degree .
+
+### Data Properties
+:dp_studyStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_StudyPeriod ;
+    rdfs:range xsd:date .
+
+:dp_studyEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_StudyPeriod ;
+    rdfs:range xsd:date .

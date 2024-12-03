@@ -1,0 +1,31 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Event rdf:type owl:Class .
+:Cl_Movie rdf:type owl:Class ; rdfs:subClassOf :Cl_Event .
+:Cl_TimePeriod rdf:type owl:Class .
+
+### Reification (Pivot Class)
+:Cl_Availability rdf:type owl:Class .
+
+### Object Properties
+:hasEvent rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Availability ;
+           rdfs:range :Cl_Event .
+
+:isAvailableDuring rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_Event ;
+                    rdfs:range :Cl_TimePeriod .
+
+### Data Properties
+:hasStartTime rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Cl_TimePeriod ;
+              rdfs:range xsd:dateTime .
+
+:hasEndTime rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Cl_TimePeriod ;
+            rdfs:range xsd:dateTime .

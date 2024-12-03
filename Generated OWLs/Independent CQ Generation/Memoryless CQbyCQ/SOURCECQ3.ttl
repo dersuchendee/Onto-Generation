@@ -1,0 +1,63 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Source a owl:Class .
+
+:Cl_PersonalJournal a owl:Class ;
+    rdfs:subClassOf :Cl_Source .
+
+:Cl_LiteraryText a owl:Class ;
+    rdfs:subClassOf :Cl_Source .
+
+:Cl_NewspaperArticle a owl:Class ;
+    rdfs:subClassOf :Cl_Source .
+
+:Cl_ConcertReview a owl:Class ;
+    rdfs:subClassOf :Cl_Source .
+
+:Cl_Painting a owl:Class ;
+    rdfs:subClassOf :Cl_Source .
+
+:Cl_SourceGoal a owl:Class .
+
+### Object Properties
+
+:hasGoal a owl:ObjectProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range :Cl_SourceGoal .
+
+### Data Properties
+
+:hasUnreliableInformation a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:boolean .
+
+:createdBy a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:createdWhen a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:dateTime .
+
+:createdWhere a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:relatesToEvent a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:hasContentTheme a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:elicitsEmotionalResponse a owl:DataProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .

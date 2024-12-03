@@ -1,0 +1,54 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_MusicalInstrument rdf:type owl:Class .
+
+:Cl_InventionEvent rdf:type owl:Class .
+
+### Object Properties
+
+:Op_inventedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range :Cl_Person .
+
+:Op_inventionOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_MusicalInstrument .
+
+### Reification (Pivot Class) Relations
+
+:Op_inventionEvent rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_InventionEvent ;
+    rdfs:range :Cl_MusicalInstrument .
+
+:Op_inventor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_InventionEvent ;
+    rdfs:range :Cl_Person .
+
+### Data Properties
+
+:Op_inventionDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_InventionEvent ;
+    rdfs:range xsd:date .
+
+### Restrictions
+
+:Cl_InventionEvent owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :Op_inventionEvent ;
+    owl:someValuesFrom :Cl_MusicalInstrument
+] .
+
+:Cl_InventionEvent owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :Op_inventor ;
+    owl:someValuesFrom :Cl_Person
+] .

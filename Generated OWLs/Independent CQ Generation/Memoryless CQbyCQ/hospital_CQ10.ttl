@@ -1,0 +1,32 @@
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_Book rdf:type owl:Class .
+:Cl_BookDetails rdf:type owl:Class .
+
+### Hierarchy
+:Cl_BookDetails rdfs:subClassOf :Cl_Book .
+
+### Object Properties
+:hasBookDetails rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Cl_Book ;
+                 rdfs:range :Cl_BookDetails .
+
+### Data Properties
+:hasNumberOfPages rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Cl_BookDetails ;
+                  rdfs:range xsd:integer .
+
+### Individuals
+:Book_NursePracticesInCancerPatientCare rdf:type :Cl_Book .
+:BookDetails_NursePracticesInCancerPatientCare rdf:type :Cl_BookDetails ;
+    :hasNumberOfPages "346"^^xsd:integer .
+
+### Relations
+:Book_NursePracticesInCancerPatientCare :hasBookDetails :BookDetails_NursePracticesInCancerPatientCare .

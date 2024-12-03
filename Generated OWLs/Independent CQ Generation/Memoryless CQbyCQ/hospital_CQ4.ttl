@@ -1,0 +1,31 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_City rdf:type owl:Class .
+:Cl_HospitalLocation rdf:type owl:Class .
+
+### Hierarchy
+:Cl_HospitalLocation rdfs:subClassOf :Cl_Hospital, :Cl_City .
+
+### Object Properties
+:op_isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Hospital ;
+    rdfs:range :Cl_City .
+
+### Data Properties
+:dp_cityName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range xsd:string .
+
+### Individuals
+:Ind_OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+:Ind_NoceraInferiore rdf:type :Cl_City ;
+    :dp_cityName "Nocera Inferiore"^^xsd:string .
+
+### Relations
+:Ind_OspedaleRiunitoDelleTreValli :op_isLocatedIn :Ind_NoceraInferiore .

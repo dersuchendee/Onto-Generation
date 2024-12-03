@@ -1,0 +1,70 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Resource rdf:type owl:Class .
+
+:Cl_Product rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Component rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Material rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Consumable rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Catalyst rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_ResourceType rdf:type owl:Class .
+
+### Object Properties
+:hasType rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Resource ;
+    rdfs:range :Cl_ResourceType .
+
+:isTypeOf rdf:type owl:ObjectProperty ;
+    owl:inverseOf :hasType .
+
+### Reification Relations
+:hasResourceType rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Resource ;
+    rdfs:range :Cl_ResourceType .
+
+### Data Properties
+:isProduct rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_ResourceType ;
+    rdfs:range xsd:boolean .
+
+:isComponent rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_ResourceType ;
+    rdfs:range xsd:boolean .
+
+:isMaterial rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_ResourceType ;
+    rdfs:range xsd:boolean .
+
+### Restrictions
+:Cl_Product owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :isProduct ;
+    owl:hasValue "true"^^xsd:boolean
+] .
+
+:Cl_Component owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :isComponent ;
+    owl:hasValue "true"^^xsd:boolean
+] .
+
+:Cl_Material owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :isMaterial ;
+    owl:hasValue "true"^^xsd:boolean
+] .

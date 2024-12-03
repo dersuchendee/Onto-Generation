@@ -1,0 +1,29 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Play rdf:type rdfs:Class .
+:Cl_PlayActInformation rdf:type rdfs:Class .
+
+### Object Properties
+:hasActInformation rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range :Cl_PlayActInformation .
+
+### Data Properties
+:actCount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_PlayActInformation ;
+    rdfs:range xsd:integer .
+
+### Individuals
+:TheMerchantOfVenice rdf:type :Cl_Play .
+
+### Reified Information
+:TheMerchantOfVeniceActInfo rdf:type :Cl_PlayActInformation ;
+    :actCount "5"^^xsd:integer .
+
+### Relationships
+:TheMerchantOfVenice :hasActInformation :TheMerchantOfVeniceActInfo .

@@ -1,0 +1,56 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+### Classes
+:Cl_Source a owl:Class .
+:Cl_BibliographicSource a owl:Class ; rdfs:subClassOf :Cl_Source .
+:Cl_ArtisticSource a owl:Class ; rdfs:subClassOf :Cl_Source .
+:Cl_OfficialSource a owl:Class ; rdfs:subClassOf :Cl_Source .
+:Cl_PersonalJournal a owl:Class ; rdfs:subClassOf :Cl_BibliographicSource .
+:Cl_LiteraryText a owl:Class ; rdfs:subClassOf :Cl_BibliographicSource .
+:Cl_NewspaperArticle a owl:Class ; rdfs:subClassOf :Cl_OfficialSource .
+:Cl_ConcertReview a owl:Class ; rdfs:subClassOf :Cl_OfficialSource .
+:Cl_Painting a owl:Class ; rdfs:subClassOf :Cl_ArtisticSource .
+:Cl_SourceCredibilityAssessment a owl:Class .
+
+### Object Properties
+:hasCredibilityAssessment a owl:ObjectProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range :Cl_SourceCredibilityAssessment .
+
+:assessedBy a owl:ObjectProperty ;
+    rdfs:domain :Cl_SourceCredibilityAssessment ;
+    rdfs:range :Cl_Person .
+
+:hasCredibilityLevel a owl:ObjectProperty ;
+    rdfs:domain :Cl_SourceCredibilityAssessment ;
+    rdfs:range xsd:string .
+
+### Data Properties
+:hasAuthor a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:hasPublicationDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:date .
+
+:hasCreationContext a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:hasContentTheme a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:hasEmotionalResponse a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .
+
+:hasHistoricalPeriod a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Source ;
+    rdfs:range xsd:string .

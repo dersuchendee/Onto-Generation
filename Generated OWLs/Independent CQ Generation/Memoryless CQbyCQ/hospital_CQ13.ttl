@@ -1,0 +1,74 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_ArticleCollection rdf:type owl:Class .
+
+:Cl_Article rdf:type owl:Class .
+
+:Cl_Book rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_ArticleCollection .
+
+:Cl_CD rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_ArticleCollection .
+
+:Cl_Seminar rdf:type owl:Class .
+
+:Cl_Hospital rdf:type owl:Class .
+
+:Cl_SeminarPresentation rdf:type owl:Class .
+
+### Object Properties
+
+:op_presentedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Article ;
+    rdfs:range :Cl_SeminarPresentation .
+
+:op_hasArticle rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ArticleCollection ;
+    rdfs:range :Cl_Article .
+
+:op_heldBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Seminar ;
+    rdfs:range :Cl_Hospital .
+
+:op_presents rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_SeminarPresentation ;
+    rdfs:range :Cl_Seminar .
+
+### Data Properties
+
+:dp_title rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Article ;
+    rdfs:range xsd:string .
+
+:dp_pageCount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Book ;
+    rdfs:range xsd:integer .
+
+:dp_date rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Seminar ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:Ind_OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+
+:Ind_Seminar2008 rdf:type :Cl_Seminar ;
+    :dp_date "2008-12"^^xsd:date ;
+    :op_heldBy :Ind_OspedaleRiunitoDelleTreValli .
+
+:Ind_ArticleCollection2008 rdf:type :Cl_Book ;
+    :dp_pageCount 346 ;
+    :dp_title "Nurse practices in cancer patient care – longitudinal studies at Italian hospitals" .
+
+:Ind_ArticleByPasquale rdf:type :Cl_Article ;
+    :dp_title "A 5 year-program for improving cancer care – experiences and future directions" ;
+    :op_presentedIn :Ind_SeminarPresentation2008 .
+
+:Ind_SeminarPresentation2008 rdf:type :Cl_SeminarPresentation ;
+    :op_presents :Ind_Seminar2008 .

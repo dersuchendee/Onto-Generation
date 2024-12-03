@@ -1,0 +1,28 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+### Object Properties
+
+### Data Properties
+
+### Reification Classes
+:Cl_ChemicalComposition rdf:type owl:Class .
+
+### Object Properties for Reification
+:hasChemicalComposition rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Material ;
+    rdfs:range :Cl_ChemicalComposition .
+
+### Data Properties for Reification
+:hasElement rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_ChemicalComposition ;
+    rdfs:range xsd:string .
+
+:hasAtomicPercentage rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_ChemicalComposition ;
+    rdfs:range xsd:decimal .

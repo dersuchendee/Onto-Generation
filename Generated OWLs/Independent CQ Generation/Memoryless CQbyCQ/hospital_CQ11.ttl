@@ -1,0 +1,36 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+### Classes
+
+:Cl_ArticleCollection a owl:Class .
+:Cl_Book a owl:Class ; rdfs:subClassOf :Cl_ArticleCollection .
+:Cl_CD a owl:Class ; rdfs:subClassOf :Cl_ArticleCollection .
+:Cl_PublicationEvent a owl:Class .
+
+### Object Properties
+
+:hasPublicationEvent a owl:ObjectProperty ;
+    rdfs:domain :Cl_Book, :Cl_CD ;
+    rdfs:range :Cl_PublicationEvent .
+
+### Data Properties
+
+:publicationDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_PublicationEvent ;
+    rdfs:range xsd:date .
+
+### Individuals and their properties
+
+:publicationEventNursePractices2008 a :Cl_PublicationEvent ;
+    :publicationDate "2008-01-01"^^xsd:date .
+
+:bookNursePracticesInCancerPatientCare a :Cl_Book ;
+    :hasPublicationEvent :publicationEventNursePractices2008 .
+
+:cdNursePracticesInCancerPatientCare a :Cl_CD ;
+    :hasPublicationEvent :publicationEventNursePractices2008 .

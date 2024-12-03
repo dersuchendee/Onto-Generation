@@ -1,0 +1,56 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Resource rdf:type owl:Class .
+:Cl_CircularValueNetwork rdf:type owl:Class .
+:Cl_Product rdf:type owl:Class ; rdfs:subClassOf :Cl_Resource .
+:Cl_Component rdf:type owl:Class ; rdfs:subClassOf :Cl_Resource .
+:Cl_Material rdf:type owl:Class ; rdfs:subClassOf :Cl_Resource .
+:Cl_ProcessStep rdf:type owl:Class .
+:Cl_Consumable rdf:type owl:Class ; rdfs:subClassOf :Cl_Resource .
+:Cl_Catalyst rdf:type owl:Class ; rdfs:subClassOf :Cl_Resource .
+:Cl_ResourceUsage rdf:type owl:Class .
+
+### Object Properties
+:isTypeOf rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Resource ;
+           rdfs:range [ rdf:type owl:Class ; owl:unionOf (:Cl_Product :Cl_Component :Cl_Material) ] .
+
+:isPartOf rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_Resource ;
+           rdfs:range :Cl_CircularValueNetwork .
+
+:hasComposition rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Cl_Resource ;
+                 rdfs:range xsd:string .
+
+:usedIn rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Resource ;
+         rdfs:range :Cl_ProcessStep .
+
+:mainFocusOf rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Resource ;
+              rdfs:range :Cl_CircularValueNetwork .
+
+### Reification (Pivot Class) Relations
+:hasResource rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_ResourceUsage ;
+             rdfs:range :Cl_Resource .
+
+:inProcessStep rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_ResourceUsage ;
+               rdfs:range :Cl_ProcessStep .
+
+:inCircularValueNetwork rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Cl_ResourceUsage ;
+                        rdfs:range :Cl_CircularValueNetwork .
+
+### Data Properties
+:hasCompositionLevel rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :Cl_Resource ;
+                     rdfs:range xsd:string .

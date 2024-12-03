@@ -1,0 +1,43 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Author rdf:type rdfs:Class .
+:Cl_Play rdf:type rdfs:Class .
+:Cl_WrittenWork rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_WrittenWork rdfs:subClassOf :Cl_Play .
+
+### Object Properties
+:op_writtenBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range :Cl_Author .
+
+### Data Properties
+:dp_title rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:string .
+
+:dp_authorName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Author ;
+    rdfs:range xsd:string .
+
+### Individuals
+:WilliamShakespeare rdf:type :Cl_Author ;
+    :dp_authorName "William Shakespeare" .
+
+:TheMerchantOfVenice rdf:type :Cl_Play ;
+    :dp_title "The Merchant of Venice" ;
+    :op_writtenBy :WilliamShakespeare .
+
+:Othello rdf:type :Cl_Play ;
+    :dp_title "Othello" ;
+    :op_writtenBy :WilliamShakespeare .
+
+:AMidsummerNightsDream rdf:type :Cl_Play ;
+    :dp_title "A Midsummer Night's Dream" ;
+    :op_writtenBy :WilliamShakespeare .

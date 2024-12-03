@@ -1,0 +1,38 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type owl:Class .
+:Cl_Hospital rdf:type owl:Class .
+:Cl_EmploymentEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_EmploymentEvent rdfs:subClassOf :Cl_Person .
+:Cl_EmploymentEvent rdfs:subClassOf :Cl_Hospital .
+
+### Object Properties
+:employedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_EmploymentEvent .
+
+:employmentInHospital rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_EmploymentEvent ;
+    rdfs:range :Cl_Hospital .
+
+### Data Properties
+:employmentStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_EmploymentEvent ;
+    rdfs:range xsd:date .
+
+### Individuals
+:PasqualeDiGennaro rdf:type :Cl_Person .
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+:EmploymentOfPasqualeDiGennaro rdf:type :Cl_EmploymentEvent .
+
+### Relations
+:PasqualeDiGennaro :employedAt :EmploymentOfPasqualeDiGennaro .
+:EmploymentOfPasqualeDiGennaro :employmentInHospital :OspedaleRiunitoDelleTreValli .
+:EmploymentOfPasqualeDiGennaro :employmentStartDate "2001-09-21"^^xsd:date .

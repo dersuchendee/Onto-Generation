@@ -1,0 +1,40 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Actor rdf:type owl:Class .
+:Cl_Competency rdf:type owl:Class .
+:Cl_Work rdf:type owl:Class .
+:Cl_CircularValueNetworkPart rdf:type owl:Class .
+:Cl_ActorCompetency rdf:type owl:Class .
+
+### Object Properties
+
+:hasCompetency rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Competency .
+
+:doesWork rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Work .
+
+:workForNetworkPart rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Work ;
+    rdfs:range :Cl_CircularValueNetworkPart .
+
+:actorHasCompetency rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_ActorCompetency .
+
+:competencyOfActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorCompetency ;
+    rdfs:range :Cl_Competency .
+
+:workLinkedToCompetency rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorCompetency ;
+    rdfs:range :Cl_Work .

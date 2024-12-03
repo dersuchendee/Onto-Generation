@@ -1,0 +1,117 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_Production rdf:type owl:Class .
+
+:Cl_Role rdf:type owl:Class .
+
+:Cl_Theatre rdf:type owl:Class .
+
+:Cl_Festival rdf:type owl:Class .
+
+:Cl_Review rdf:type owl:Class .
+
+:Cl_PersonRoleInProduction rdf:type owl:Class .
+
+### Object Properties
+
+:hasRole rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range :Cl_Role .
+
+:participatesIn rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Person ;
+                rdfs:range :Cl_Production .
+
+:performsAt rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_Production ;
+            rdfs:range :Cl_Theatre .
+
+:isReviewedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Production ;
+              rdfs:range :Cl_Review .
+
+:hosts rdf:type owl:ObjectProperty ;
+       rdfs:domain :Cl_Theatre ;
+       rdfs:range :Cl_Festival .
+
+### Reification (Pivot Class) Relations
+
+:hasPersonRoleInProduction rdf:type owl:ObjectProperty ;
+                           rdfs:domain :Cl_Person ;
+                           rdfs:range :Cl_PersonRoleInProduction .
+
+:withRole rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_PersonRoleInProduction ;
+          rdfs:range :Cl_Role .
+
+:inProduction rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_PersonRoleInProduction ;
+              rdfs:range :Cl_Production .
+
+:atTime rdf:type owl:ObjectProperty ;
+        rdfs:domain :Cl_PersonRoleInProduction ;
+        rdfs:range xsd:dateTime .
+
+### Data Properties
+
+:hasName rdf:type owl:DataProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range xsd:string .
+
+:hasTitle rdf:type owl:DataProperty ;
+          rdfs:domain :Cl_Production ;
+          rdfs:range xsd:string .
+
+:hasRating rdf:type owl:DataProperty ;
+           rdfs:domain :Cl_Review ;
+           rdfs:range xsd:integer .
+
+:hasDate rdf:type owl:DataProperty ;
+         rdfs:domain :Cl_Festival ;
+         rdfs:range xsd:date .
+
+:hasActCount rdf:type owl:DataProperty ;
+             rdfs:domain :Cl_Production ;
+             rdfs:range xsd:integer .
+
+:hasPremiereDate rdf:type owl:DataProperty ;
+                 rdfs:domain :Cl_Production ;
+                 rdfs:range xsd:date .
+
+:hasEmploymentStartDate rdf:type owl:DataProperty ;
+                        rdfs:domain :Cl_Person ;
+                        rdfs:range xsd:date .
+
+### Restrictions
+
+:Cl_PersonRoleInProduction rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasPersonRoleInProduction ;
+    owl:someValuesFrom :Cl_Person
+] .
+
+:Cl_PersonRoleInProduction rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :withRole ;
+    owl:someValuesFrom :Cl_Role
+] .
+
+:Cl_PersonRoleInProduction rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :inProduction ;
+    owl:someValuesFrom :Cl_Production
+] .
+
+:Cl_PersonRoleInProduction rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :atTime ;
+    owl:allValuesFrom xsd:dateTime
+] .

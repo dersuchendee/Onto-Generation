@@ -1,0 +1,89 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+###  http://www.example.org/test#Cl_InstrumentRealization
+:Cl_InstrumentRealization rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_MusicalInstrument
+:Cl_MusicalInstrument rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_Person
+:Cl_Person rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_Composer
+:Cl_Composer rdf:type owl:Class ;
+               rdfs:subClassOf :Cl_Person .
+
+###  http://www.example.org/test#Cl_Musicologist
+:Cl_Musicologist rdf:type owl:Class ;
+                  rdfs:subClassOf :Cl_Person .
+
+###  http://www.example.org/test#Cl_MusicalComposition
+:Cl_MusicalComposition rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_MusicFestival
+:Cl_MusicFestival rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_InstrumentFamily
+:Cl_InstrumentFamily rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_Timbre
+:Cl_Timbre rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_PitchRange
+:Cl_PitchRange rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_DynamicRange
+:Cl_DynamicRange rdf:type owl:Class .
+
+###  http://www.example.org/test#Cl_InstrumentNotation
+:Cl_InstrumentNotation rdf:type owl:Class .
+
+###  http://www.example.org/test#Op_builtBy
+:Op_builtBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_MusicalInstrument ;
+             rdfs:range :Cl_Person .
+
+###  http://www.example.org/test#Op_belongsToFamily
+:Op_belongsToFamily rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_MusicalInstrument ;
+                    rdfs:range :Cl_InstrumentFamily .
+
+###  http://www.example.org/test#Op_usedInComposition
+:Op_usedInComposition rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Cl_MusicalInstrument ;
+                      rdfs:range :Cl_MusicalComposition .
+
+###  http://www.example.org/test#Op_hasTimbre
+:Op_hasTimbre rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_MusicalInstrument ;
+              rdfs:range :Cl_Timbre .
+
+###  http://www.example.org/test#Op_hasPitchRange
+:Op_hasPitchRange rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Cl_MusicalInstrument ;
+                  rdfs:range :Cl_PitchRange .
+
+###  http://www.example.org/test#Op_hasDynamicRange
+:Op_hasDynamicRange rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_MusicalInstrument ;
+                    rdfs:range :Cl_DynamicRange .
+
+###  http://www.example.org/test#Op_hasNotation
+:Op_hasNotation rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_MusicalInstrument ;
+                rdfs:range :Cl_InstrumentNotation .
+
+###  http://www.example.org/test#Op_realizedBy
+:Op_realizedBy rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_InstrumentRealization ;
+               rdfs:range :Cl_Person .
+
+###  http://www.example.org/test#Op_realizesInstrument
+:Op_realizesInstrument rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_InstrumentRealization ;
+                       rdfs:range :Cl_MusicalInstrument .

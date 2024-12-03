@@ -1,0 +1,88 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Theatre rdf:type owl:Class .
+
+:Cl_Production rdf:type owl:Class .
+
+:Cl_Festival rdf:type owl:Class .
+
+:Cl_Play rdf:type owl:Class .
+
+:Cl_Actor rdf:type owl:Class .
+
+:Cl_Character rdf:type owl:Class .
+
+:Cl_Newspaper rdf:type owl:Class .
+
+:Cl_ReviewRating rdf:type owl:Class .
+
+### Object Properties
+
+:hasProduction rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Theatre ;
+    rdfs:range :Cl_Production .
+
+:participatesIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Festival .
+
+:features rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Actor .
+
+:playsCharacter rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Character .
+
+:performsIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Production .
+
+:writtenBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range :Cl_Actor .
+
+:reviews rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Newspaper ;
+    rdfs:range :Cl_ReviewRating .
+
+:concerns rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ReviewRating ;
+    rdfs:range :Cl_Production .
+
+### Data Properties
+
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Festival ;
+    rdfs:range xsd:string .
+
+:hasAct rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:integer .
+
+:hasPremierDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range xsd:date .
+
+:hasStarRating rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_ReviewRating ;
+    rdfs:range xsd:integer .
+
+### Individuals
+
+:Il_Gazzettino rdf:type :Cl_Newspaper .
+
+:The_Merchant_of_Venice_Grand_Theatre rdf:type :Cl_Production .
+
+### Reification
+
+:ReviewRating_Il_Gazzettino_Merchant_of_Venice rdf:type :Cl_ReviewRating ;
+    :reviews :Il_Gazzettino ;
+    :concerns :The_Merchant_of_Venice_Grand_Theatre ;
+    :hasStarRating "5"^^xsd:integer .

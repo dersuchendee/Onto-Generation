@@ -1,0 +1,42 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicalGroup rdf:type owl:Class .
+:Cl_MusicAlbum rdf:type owl:Class .
+:Cl_Song rdf:type owl:Class .
+:Cl_Musician rdf:type owl:Class .
+:Cl_CompositionEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_CompositionEvent rdfs:subClassOf :Cl_Song .
+
+### Object Properties
+:op_composedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_Musician .
+
+:op_composedDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Song ;
+    rdfs:range :Cl_CompositionEvent .
+
+### Data Properties
+:dp_compositionDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_CompositionEvent ;
+    rdfs:range xsd:date .
+
+### Individuals
+:ind_StadiumArcadium rdf:type :Cl_MusicAlbum ;
+    :op_containsSong :ind_HumpDeBump .
+
+:ind_HumpDeBump rdf:type :Cl_Song ;
+    :op_composedDuring :ind_CompositionEventHumpDeBump .
+
+:ind_CompositionEventHumpDeBump rdf:type :Cl_CompositionEvent ;
+    :dp_compositionDate "2004-01-26"^^xsd:date .
+
+### Previous RDF
+# The previous RDF content should be included here without any changes.

@@ -1,0 +1,20 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Actor rdf:type owl:Class .
+:Cl_Process rdf:type owl:Class .
+:Cl_WorkProcess rdf:type owl:Class .
+
+### Object Properties
+:op_involvedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_WorkProcess .
+
+:op_outlines rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_WorkProcess ;
+    rdfs:range :Cl_Process .

@@ -1,0 +1,52 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_MusicalInstrument rdf:type owl:Class .
+
+:Cl_InstrumentFamily rdf:type owl:Class .
+
+:Cl_MusicalComposition rdf:type owl:Class .
+
+:Cl_InstrumentInvention rdf:type owl:Class .
+
+### Object Properties
+
+:op_belongsToFamily rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range :Cl_InstrumentFamily .
+
+:op_usedInComposition rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range :Cl_MusicalComposition .
+
+:op_hasInvention rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range :Cl_InstrumentInvention .
+
+### Data Properties
+
+:dp_timbre rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range xsd:string .
+
+:dp_pitchRange rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range xsd:string .
+
+:dp_dynamicRange rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range xsd:string .
+
+:dp_notation rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_MusicalInstrument ;
+    rdfs:range xsd:string .
+
+:dp_inventionDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_InstrumentInvention ;
+    rdfs:range xsd:date .

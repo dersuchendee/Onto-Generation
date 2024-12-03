@@ -1,0 +1,48 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Person rdf:type rdfs:Class .
+
+:Cl_Band rdf:type rdfs:Class .
+
+:Cl_Role rdf:type rdfs:Class .
+
+:Cl_BandMembership rdf:type rdfs:Class ;
+    rdfs:subClassOf :Cl_Person, :Cl_Band, :Cl_Role .
+
+### Object Properties
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Person .
+
+:hasRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Role .
+
+:memberOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Band .
+
+:playsRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_BandMembership ;
+    rdfs:range :Cl_Role .
+
+:membershipInBand rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_BandMembership ;
+    rdfs:range :Cl_Band .
+
+:membershipOfPerson rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_BandMembership ;
+    rdfs:range :Cl_Person .
+
+### Data Properties
+
+:atTime rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_BandMembership ;
+    rdfs:range xsd:dateTime .

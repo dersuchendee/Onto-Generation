@@ -1,0 +1,101 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### http://www.example.org/test#Cl_Source
+:Cl_Source rdf:type owl:Class .
+
+### http://www.example.org/test#Cl_PersonalJournal
+:Cl_PersonalJournal rdf:type owl:Class ;
+                    rdfs:subClassOf :Cl_Source .
+
+### http://www.example.org/test#Cl_LiteraryText
+:Cl_LiteraryText rdf:type owl:Class ;
+                 rdfs:subClassOf :Cl_Source .
+
+### http://www.example.org/test#Cl_OfficialSource
+:Cl_OfficialSource rdf:type owl:Class ;
+                   rdfs:subClassOf :Cl_Source .
+
+### http://www.example.org/test#Cl_NewspaperArticle
+:Cl_NewspaperArticle rdf:type owl:Class ;
+                     rdfs:subClassOf :Cl_OfficialSource .
+
+### http://www.example.org/test#Cl_ConcertReview
+:Cl_ConcertReview rdf:type owl:Class ;
+                  rdfs:subClassOf :Cl_OfficialSource .
+
+### http://www.example.org/test#Cl_Painting
+:Cl_Painting rdf:type owl:Class ;
+              rdfs:subClassOf :Cl_Source .
+
+### http://www.example.org/test#Cl_OrdinaryPeopleSource
+:Cl_OrdinaryPeopleSource rdf:type owl:Class ;
+                         rdfs:subClassOf :Cl_Source .
+
+### http://www.example.org/test#Cl_SourceContext
+:Cl_SourceContext rdf:type owl:Class .
+
+### http://www.example.org/test#Cl_Creator
+:Cl_Creator rdf:type owl:Class .
+
+### http://www.example.org/test#Cl_Event
+:Cl_Event rdf:type owl:Class .
+
+### http://www.example.org/test#Cl_EmotionalResponse
+:Cl_EmotionalResponse rdf:type owl:Class .
+
+### http://www.example.org/test#Cl_HistoricalPeriod
+:Cl_HistoricalPeriod rdf:type owl:Class .
+
+### Object Properties
+
+### http://www.example.org/test#Op_hasSourceContext
+:Op_hasSourceContext rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Cl_Source ;
+                     rdfs:range :Cl_SourceContext .
+
+### http://www.example.org/test#Op_createdBy
+:Op_createdBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_SourceContext ;
+              rdfs:range :Cl_Creator .
+
+### http://www.example.org/test#Op_relatedToEvent
+:Op_relatedToEvent rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Cl_SourceContext ;
+                   rdfs:range :Cl_Event .
+
+### http://www.example.org/test#Op_elicitedEmotionalResponse
+:Op_elicitedEmotionalResponse rdf:type owl:ObjectProperty ;
+                              rdfs:domain :Cl_Source ;
+                              rdfs:range :Cl_EmotionalResponse .
+
+### http://www.example.org/test#Op_belongsToHistoricalPeriod
+:Op_belongsToHistoricalPeriod rdf:type owl:ObjectProperty ;
+                              rdfs:domain :Cl_Source ;
+                              rdfs:range :Cl_HistoricalPeriod .
+
+### Data Properties
+
+### http://www.example.org/test#Dp_hasProductionDate
+:Dp_hasProductionDate rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Cl_SourceContext ;
+                      rdfs:range xsd:date .
+
+### http://www.example.org/test#Dp_hasProductionLocation
+:Dp_hasProductionLocation rdf:type owl:DatatypeProperty ;
+                          rdfs:domain :Cl_SourceContext ;
+                          rdfs:range xsd:string .
+
+### http://www.example.org/test#Dp_hasProductionGoal
+:Dp_hasProductionGoal rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Cl_SourceContext ;
+                      rdfs:range xsd:string .
+
+### http://www.example.org/test#Dp_hasContentTheme
+:Dp_hasContentTheme rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_Source ;
+                    rdfs:range xsd:string .

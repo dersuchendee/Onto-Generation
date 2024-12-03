@@ -1,0 +1,49 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+:Cl_Actor rdf:type owl:Class .
+:Cl_ValueProposition rdf:type owl:Class .
+:Cl_Work rdf:type owl:Class .
+:Cl_Competency rdf:type owl:Class .
+:Cl_Infrastructure rdf:type owl:Class .
+:Cl_Resource rdf:type owl:Class .
+:Cl_ActorType rdf:type owl:Class .
+:Cl_Role rdf:type owl:Class .
+:Cl_ActorTypeRole rdf:type owl:Class .
+
+### Object Properties
+:hasValueProposition rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_ValueProposition .
+
+:responsibleFor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Work .
+
+:holdsCompetency rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Competency .
+
+:hasInfrastructure rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Infrastructure .
+
+:hasResource rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor , :Cl_Infrastructure ;
+    rdfs:range :Cl_Resource .
+
+:hasActorType rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorTypeRole ;
+    rdfs:range :Cl_ActorType .
+
+:hasRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorTypeRole ;
+    rdfs:range :Cl_Role .
+
+:actorHasTypeRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_ActorTypeRole .

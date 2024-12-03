@@ -1,0 +1,101 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Festival rdf:type owl:Class .
+:Cl_City rdf:type owl:Class .
+:Cl_TheatreProduction rdf:type owl:Class .
+:Cl_Theatre rdf:type owl:Class .
+:Cl_UniversityArtStudents rdf:type owl:Class .
+:Cl_Actor rdf:type owl:Class .
+:Cl_Play rdf:type owl:Class .
+:Cl_Review rdf:type owl:Class .
+:Cl_FestivalOccurrence rdf:type owl:Class .
+
+### Hierarchy
+:Cl_UniversityArtStudents rdfs:subClassOf :Cl_Actor .
+:Cl_TheatreProduction rdfs:subClassOf :Cl_Play .
+:Cl_FestivalOccurrence rdfs:subClassOf :Cl_Festival .
+
+### Object Properties
+:hasProduction rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Festival ;
+    rdfs:range :Cl_TheatreProduction .
+
+:tookPlaceIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_FestivalOccurrence ;
+    rdfs:range :Cl_City .
+
+:features rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TheatreProduction ;
+    rdfs:range :Cl_Actor .
+
+:hasReview rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_TheatreProduction ;
+    rdfs:range :Cl_Review .
+
+:employedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Theatre .
+
+### Data Properties
+:hasName rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Festival ;
+    rdfs:range xsd:string .
+
+:hasDate rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_FestivalOccurrence ;
+    rdfs:range xsd:date .
+
+:hasRating rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Review ;
+    rdfs:range xsd:integer .
+
+:playsRole rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range xsd:string .
+
+:writtenBy rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:string .
+
+:hasActCount rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:integer .
+
+:premieredOn rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_TheatreProduction ;
+    rdfs:range xsd:date .
+
+### Individuals
+:RomaLovesShakespeare rdf:type :Cl_Festival ;
+    :hasName "Roma Loves Shakespeare" .
+
+:Rome rdf:type :Cl_City .
+
+:RomaLovesShakespeareOccurrence rdf:type :Cl_FestivalOccurrence ;
+    :hasDate "2007-01-01"^^xsd:date ;
+    :tookPlaceIn :Rome .
+
+### Restrictions
+:Cl_FestivalOccurrence owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :tookPlaceIn ;
+    owl:someValuesFrom :Cl_City
+] .
+
+### Reification
+:Cl_FestivalOccurrence rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasDate ;
+    owl:someValuesFrom xsd:date
+] .
+
+:Cl_FestivalOccurrence rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty :tookPlaceIn ;
+    owl:allValuesFrom :Cl_City
+] .

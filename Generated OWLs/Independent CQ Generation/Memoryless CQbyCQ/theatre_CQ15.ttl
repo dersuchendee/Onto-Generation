@@ -1,0 +1,78 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Theatre rdf:type owl:Class .
+:Cl_Production rdf:type owl:Class .
+:Cl_Festival rdf:type owl:Class .
+:Cl_Play rdf:type owl:Class .
+:Cl_Review rdf:type owl:Class .
+:Cl_Actor rdf:type owl:Class .
+:Cl_Role rdf:type owl:Class .
+:Cl_PremierEvent rdf:type owl:Class .
+
+### Object Properties
+:hasProduction rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Theatre ;
+    rdfs:range :Cl_Production .
+
+:participatesIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Festival .
+
+:featuresPlay rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Play .
+
+:hasReview rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_Review .
+
+:employs rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Theatre ;
+    rdfs:range :Cl_Actor .
+
+:playsRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Role .
+
+:hasPremierEvent rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Production ;
+    rdfs:range :Cl_PremierEvent .
+
+### Data Properties
+:writtenBy rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:string .
+
+:hasActCount rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Play ;
+    rdfs:range xsd:integer .
+
+:hasStarRating rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Review ;
+    rdfs:range xsd:integer .
+
+:hasName rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range xsd:string .
+
+:hasRoleName rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_Role ;
+    rdfs:range xsd:string .
+
+:hasDate rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_PremierEvent ;
+    rdfs:range xsd:date .
+
+### Restrictions
+:Cl_Production owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasPremierEvent ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+### Individuals and Facts (assertions) will be added in later stages.

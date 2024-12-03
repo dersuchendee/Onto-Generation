@@ -1,0 +1,43 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Article a  rdfs:Class .
+:Cl_Book a rdfs:Class .
+:Cl_CD a  rdfs:Class .
+:Cl_ArticleCollectionComposition a rdfs:Class .
+
+### Hierarchy
+:Cl_ArticleCollectionComposition rdfs:subClassOf :Cl_Article .
+:Cl_ArticleCollectionComposition rdfs:subClassOf :Cl_Book .
+:Cl_ArticleCollectionComposition rdfs:subClassOf :Cl_CD .
+
+### Object Properties
+:op_composedOf a  owl:ObjectProperty ;
+    rdfs:domain  :Cl_Book,:Cl_CD ;
+    rdfs:range :Cl_ArticleCollectionComposition .
+   
+
+### Data Properties
+:dp_hasTitle a  owl:DatatypeProperty ;
+    rdfs:domain :Cl_Article ;
+    rdfs:range xsd:string .
+
+:dp_hasPageCount a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Book ;
+    rdfs:range xsd:integer .
+
+### Individuals
+:ArticleCollection_NursePractices a :Cl_Book ;
+    :dp_hasTitle "Nurse practices in cancer patient care – longitudinal studies at Italian hospitals" ;
+    :dp_hasPageCount 346 ;
+    :op_composedOf :Article_PasqualeDiGennaro_5YearProgram .
+
+:Article_PasqualeDiGennaro_5YearProgram a  :Cl_Article ;
+    :dp_hasTitle "A 5 year-program for improving cancer care – experiences and future directions" .
+
+:CD_ArticleCollection_NursePractices a :Cl_CD ;
+    :op_composedOf :Article_PasqualeDiGennaro_5YearProgram .

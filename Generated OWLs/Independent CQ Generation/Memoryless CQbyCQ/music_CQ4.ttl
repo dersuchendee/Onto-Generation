@@ -1,0 +1,71 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_MusicalGroup rdf:type owl:Class .
+:Cl_Musician rdf:type owl:Class .
+:Cl_Album rdf:type owl:Class .
+:Cl_Performance rdf:type owl:Class .
+:Cl_Track rdf:type owl:Class .
+:Cl_AlbumRecording rdf:type owl:Class .
+
+### Hierarchy
+:Cl_AlbumRecording rdfs:subClassOf :Cl_Album .
+
+### Object Properties
+:op_recordedBy rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Album ;
+               rdfs:range :Cl_MusicalGroup .
+
+:op_includesTrack rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Cl_Album ;
+                  rdfs:range :Cl_Track .
+
+:op_performedBy rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Performance ;
+                rdfs:range :Cl_MusicalGroup .
+
+:op_hasMember rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_MusicalGroup ;
+              rdfs:range :Cl_Musician .
+
+:op_composedBy rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Track ;
+               rdfs:range :Cl_Musician .
+
+### Data Properties
+:dp_recordingStartDate rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :Cl_AlbumRecording ;
+                        rdfs:range xsd:date .
+
+:dp_recordingEndDate rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Cl_AlbumRecording ;
+                      rdfs:range xsd:date .
+
+:dp_releaseDate rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Cl_Album ;
+                 rdfs:range xsd:date .
+
+:dp_compositionDate rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :Cl_Track ;
+                     rdfs:range xsd:date .
+
+### Individuals
+:ind_StadiumArcadium rdf:type :Cl_Album ;
+                      :op_recordedBy :ind_RedHotChiliPeppers ;
+                      :dp_releaseDate "2006-05-05"^^xsd:date .
+
+:ind_RedHotChiliPeppers rdf:type :Cl_MusicalGroup ;
+                         :op_hasMember :ind_AnthonyKiedis, :ind_Flea, :ind_JohnFrusciante, :ind_ChadSmith .
+
+:ind_HumpDeBump rdf:type :Cl_Track ;
+                 :op_includesTrack :ind_StadiumArcadium ;
+                 :op_composedBy :ind_Flea ;
+                 :dp_compositionDate "2004-01-26"^^xsd:date .
+
+:ind_StadiumArcadiumRecording rdf:type :Cl_AlbumRecording ;
+                               :dp_recordingStartDate "2004-09-01"^^xsd:date ;
+                               :dp_recordingEndDate "2006-05-05"^^xsd:date .

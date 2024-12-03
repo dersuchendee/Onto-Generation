@@ -1,0 +1,48 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type rdfs:Class .
+:Cl_UnionGroup rdf:type rdfs:Class .
+:Cl_UnionRole rdf:type rdfs:Class .
+:Cl_UnionRoleMembership rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_UnionRoleMembership rdfs:subClassOf :Cl_Person, :Cl_UnionGroup, :Cl_UnionRole .
+
+### Object Properties
+:hasUnionRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_UnionRole .
+
+:memberOfUnionGroup rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_UnionGroup .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionGroup ;
+    rdfs:range :Cl_Person .
+
+:hasRoleMembership rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_UnionRoleMembership .
+
+:roleMembershipIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range :Cl_UnionGroup .
+
+:roleOfMembership rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range :Cl_UnionRole .
+
+### Data Properties
+:roleStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range xsd:date .
+
+:roleEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range xsd:date .

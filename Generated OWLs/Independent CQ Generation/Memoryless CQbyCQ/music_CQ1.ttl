@@ -1,0 +1,69 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type rdfs:Class .
+:Cl_Instrument rdf:type rdfs:Class .
+:Cl_Band rdf:type rdfs:Class .
+:Cl_Album rdf:type rdfs:Class .
+:Cl_Track rdf:type rdfs:Class .
+:Cl_Performance rdf:type rdfs:Class .
+:Cl_Critic rdf:type rdfs:Class .
+
+### Reification Class
+:Cl_InstrumentPlaying rdf:type rdfs:Class ;
+    rdfs:subClassOf :Cl_Person, :Cl_Instrument .
+
+### Object Properties
+:playsInstrument rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Instrument .
+
+:memberOfBand rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Band .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    owl:inverseOf :memberOfBand .
+
+:createdAlbum rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Band ;
+    rdfs:range :Cl_Album .
+
+:hasTrack rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Track .
+
+:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range :Cl_Band .
+
+:reviewedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range :Cl_Critic .
+
+### Data Properties
+:hasName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range xsd:string .
+
+:hasReleaseDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:date .
+
+:hasCompositionDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Track ;
+    rdfs:range xsd:date .
+
+:hasPerformanceDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Performance ;
+    rdfs:range xsd:dateTime .
+
+:hasReview rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Album ;
+    rdfs:range xsd:string .
+
+### Individuals and their properties will be added in the next steps of ontology development.

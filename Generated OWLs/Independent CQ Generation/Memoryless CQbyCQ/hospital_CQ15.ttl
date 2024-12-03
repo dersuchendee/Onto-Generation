@@ -1,0 +1,88 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_Union rdf:type owl:Class .
+:Cl_Employee rdf:type owl:Class .
+:Cl_Nurse rdf:type owl:Class .
+:Cl_SeniorDoctor rdf:type owl:Class .
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_Article rdf:type owl:Class .
+:Cl_Seminar rdf:type owl:Class .
+:Cl_PresentationEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_Nurse rdfs:subClassOf :Cl_Employee .
+:Cl_SeniorDoctor rdfs:subClassOf :Cl_Employee .
+
+### Object Properties
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_Employee .
+
+:employs rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Hospital ;
+         rdfs:range :Cl_Employee .
+
+:evaluates rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_SeniorDoctor ;
+           rdfs:range :Cl_Employee .
+
+:hasArticle rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_ArticleCollection ;
+            rdfs:range :Cl_Article .
+
+:holdsSeminar rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Hospital ;
+              rdfs:range :Cl_Seminar .
+
+:presentsArticle rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Cl_Seminar ;
+                 rdfs:range :Cl_Article .
+
+### Reification (Pivot Class) Relations
+:hasPresentationEvent rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Cl_Seminar ;
+                      rdfs:range :Cl_PresentationEvent .
+
+:presentationOfArticle rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_PresentationEvent ;
+                       rdfs:range :Cl_Article .
+
+### Restrictions
+:Cl_Seminar owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasPresentationEvent ;
+    owl:someValuesFrom :Cl_PresentationEvent
+] .
+
+:Cl_PresentationEvent owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :presentationOfArticle ;
+    owl:someValuesFrom :Cl_Article
+] .
+
+### Data Properties
+:hasPageCount rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Cl_ArticleCollection ;
+              rdfs:range xsd:integer .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Cl_Article ;
+          rdfs:range xsd:string .
+
+:hasEmploymentDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :Cl_Employee ;
+                   rdfs:range xsd:date .
+
+:hasEvaluationDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :Cl_SeniorDoctor ;
+                   rdfs:range xsd:date .
+
+:hasSeminarDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Cl_Seminar ;
+                rdfs:range xsd:date .

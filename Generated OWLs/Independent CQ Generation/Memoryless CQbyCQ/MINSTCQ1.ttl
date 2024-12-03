@@ -1,0 +1,72 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+### Reification Classes
+:Cl_InstrumentRealization rdf:type owl:Class .
+
+### Object Properties
+:op_hasPhysicalRealization rdf:type owl:ObjectProperty ;
+                            rdfs:domain :Cl_MusicalInstrument ;
+                            rdfs:range :Cl_InstrumentRealization .
+
+### Previous RDF
+# Classes
+:Cl_MusicalInstrument rdf:type owl:Class .
+:Cl_Composer rdf:type owl:Class .
+:Cl_MusicalComposition rdf:type owl:Class .
+:Cl_MusicFestival rdf:type owl:Class .
+:Cl_Performance rdf:type owl:Class .
+:Cl_InstrumentFamily rdf:type owl:Class .
+:Cl_Timbre rdf:type owl:Class .
+:Cl_PitchRange rdf:type owl:Class .
+:Cl_DynamicRange rdf:type owl:Class .
+:Cl_InstrumentNotation rdf:type owl:Class .
+
+# Object Properties
+:op_composedBy rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_MusicalComposition ;
+               rdfs:range :Cl_Composer .
+:op_performedIn rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_Performance ;
+                rdfs:range :Cl_MusicFestival .
+:op_hasInstrumentation rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_MusicalComposition ;
+                       rdfs:range :Cl_MusicalInstrument .
+:op_belongsToFamily rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_MusicalInstrument ;
+                    rdfs:range :Cl_InstrumentFamily .
+:op_hasTimbre rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_MusicalInstrument ;
+              rdfs:range :Cl_Timbre .
+:op_hasPitchRange rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Cl_MusicalInstrument ;
+                  rdfs:range :Cl_PitchRange .
+:op_hasDynamicRange rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_MusicalInstrument ;
+                    rdfs:range :Cl_DynamicRange .
+:op_hasNotation rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_MusicalInstrument ;
+                rdfs:range :Cl_InstrumentNotation .
+
+# Data Properties
+:dp_name rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_Composer ;
+         rdfs:range xsd:string .
+:dp_era rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Cl_Composer ;
+        rdfs:range xsd:string .
+:dp_dateOfComposition rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Cl_MusicalComposition ;
+                      rdfs:range xsd:date .
+:dp_festivalDate rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Cl_MusicFestival ;
+                 rdfs:range xsd:date .
+:dp_performanceDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_Performance ;
+                    rdfs:range xsd:date .

@@ -1,0 +1,96 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Actor rdf:type owl:Class .
+
+:Cl_CircularValueNetwork rdf:type owl:Class .
+
+:Cl_ValueProposition rdf:type owl:Class .
+
+:Cl_Input rdf:type owl:Class .
+
+:Cl_Competency rdf:type owl:Class .
+
+:Cl_Resource rdf:type owl:Class .
+
+:Cl_Logic rdf:type owl:Class .
+
+:Cl_Output rdf:type owl:Class .
+
+:Cl_Product rdf:type owl:Class .
+
+:Cl_Material rdf:type owl:Class .
+
+:Cl_ActorInvolvement rdf:type owl:Class .
+
+### Object Properties
+
+:op_involvedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_ActorInvolvement .
+
+:op_hasActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_CircularValueNetwork ;
+    rdfs:range :Cl_Actor .
+
+:op_hasValueProposition rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_CircularValueNetwork ;
+    rdfs:range :Cl_ValueProposition .
+
+:op_usesInput rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Input .
+
+:op_hasCompetency rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Input ;
+    rdfs:range :Cl_Competency .
+
+:op_hasResource rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Input ;
+    rdfs:range :Cl_Resource .
+
+:op_followsLogic rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Logic .
+
+:op_producesOutput rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_Output .
+
+:op_hasProduct rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Output ;
+    rdfs:range :Cl_Product .
+
+:op_hasMaterial rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Output ;
+    rdfs:range :Cl_Material .
+
+:op_partOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorInvolvement ;
+    rdfs:range :Cl_CircularValueNetwork .
+
+:op_involvesActor rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ActorInvolvement ;
+    rdfs:range :Cl_Actor .
+
+### Reification
+
+:op_actorInvolvement rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Actor ;
+    rdfs:range :Cl_ActorInvolvement .
+
+### Restrictions
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :op_hasActor ;
+  owl:someValuesFrom :Cl_Actor ] rdfs:subClassOf :Cl_CircularValueNetwork .
+
+[ rdf:type owl:Restriction ;
+  owl:onProperty :op_involvedIn ;
+  owl:someValuesFrom :Cl_CircularValueNetwork ] rdfs:subClassOf :Cl_Actor .

@@ -1,0 +1,57 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+### Classes
+
+:Cl_Resource rdf:type owl:Class .
+
+:Cl_Product rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Component rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Material rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Consumable rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_Catalyst rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_Resource .
+
+:Cl_ProcessStep rdf:type owl:Class .
+
+:Cl_CircularValueNetwork rdf:type owl:Class .
+
+:Cl_ResourceComposition rdf:type owl:Class .
+
+### Object Properties
+
+:op_hasType rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Resource ;
+    rdfs:range [ rdf:type owl:Class ; owl:unionOf (:Cl_Product :Cl_Component :Cl_Material) ] .
+
+:op_isPartOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Resource ;
+    rdfs:range :Cl_CircularValueNetwork .
+
+:op_usedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain [ rdf:type owl:Class ; owl:unionOf (:Cl_Consumable :Cl_Catalyst) ] ;
+    rdfs:range :Cl_ProcessStep .
+
+:op_hasComposition rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Resource ;
+    rdfs:range :Cl_ResourceComposition .
+
+### Data Properties
+
+# No data properties defined yet.
+
+### Restrictions
+
+# No restrictions defined yet.

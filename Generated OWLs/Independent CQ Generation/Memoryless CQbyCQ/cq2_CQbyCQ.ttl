@@ -1,0 +1,50 @@
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Actor rdf:type owl:Class .
+:Cl_Role rdf:type owl:Class .
+:Cl_MaterialFlow rdf:type owl:Class .
+:Cl_ActorRole rdf:type owl:Class .
+
+### Object Properties
+:hasRole rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Actor ;
+         rdfs:range :Cl_Role .
+
+:involvedIn rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_Actor ;
+            rdfs:range :Cl_MaterialFlow .
+
+:roleInNetwork rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_ActorRole ;
+               rdfs:range :Cl_Role .
+
+:actorInNetwork rdf:type owl:ObjectProperty ;
+                rdfs:domain :Cl_ActorRole ;
+                rdfs:range :Cl_Actor .
+
+:materialFlowOfNetwork rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_ActorRole ;
+                       rdfs:range :Cl_MaterialFlow .
+
+### Reification
+:Cl_ActorRole rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :actorInNetwork ;
+  owl:someValuesFrom :Cl_Actor
+] .
+
+:Cl_ActorRole rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :roleInNetwork ;
+  owl:someValuesFrom :Cl_Role
+] .
+
+:Cl_ActorRole rdfs:subClassOf [
+  rdf:type owl:Restriction ;
+  owl:onProperty :materialFlowOfNetwork ;
+  owl:someValuesFrom :Cl_MaterialFlow
+] .
