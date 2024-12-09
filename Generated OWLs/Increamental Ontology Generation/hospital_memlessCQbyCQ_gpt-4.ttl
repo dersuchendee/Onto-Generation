@@ -1,0 +1,836 @@
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_MedicalDegree rdf:type owl:Class .
+
+:Cl_Hospital rdf:type owl:Class .
+
+:Cl_Union rdf:type owl:Class .
+
+:Cl_ArticleCollection rdf:type owl:Class .
+
+:Cl_Seminar rdf:type owl:Class .
+
+### Object Properties
+
+:hasMedicalDegree rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_MedicalDegree .
+
+:employedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Hospital .
+
+:unionRepresentativeOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Union .
+
+:hasArticleCollection rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Hospital ;
+    rdfs:range :Cl_ArticleCollection .
+
+:holdsSeminar rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Hospital ;
+    rdfs:range :Cl_Seminar .
+
+### Data Properties
+
+:degreeTitle rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_MedicalDegree ;
+    rdfs:range xsd:string .
+
+:degreeObtainedDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_MedicalDegree ;
+    rdfs:range xsd:date .
+
+:hasPageCount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_ArticleCollection ;
+    rdfs:range xsd:integer .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_ArticleCollection ;
+    rdfs:range xsd:string .
+
+:heldOnDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Seminar ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:PasqualeDiGennaro rdf:type :Cl_Person .
+
+:NursingAssistantDegree rdf:type :Cl_MedicalDegree ;
+    :degreeTitle "Nursing Assistant" .
+
+:CertifiedNurseDegree rdf:type :Cl_MedicalDegree ;
+    :degreeTitle "Certified Nurse" ;
+    :degreeObtainedDate "2001-05-01"^^xsd:date .
+
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+
+:UnionMaleNurses rdf:type :Cl_Union .
+
+:NursePracticesInCancerPatientCare rdf:type :Cl_ArticleCollection ;
+    :hasTitle "Nurse practices in cancer patient care – longitudinal studies at Italian hospitals" ;
+    :hasPageCount 346 .
+
+:SeminarDecember2008 rdf:type :Cl_Seminar ;
+    :heldOnDate "2008-12-01"^^xsd:date .
+
+### Relationships
+
+:PasqualeDiGennaro :hasMedicalDegree :NursingAssistantDegree .
+
+:PasqualeDiGennaro :hasMedicalDegree :CertifiedNurseDegree .
+
+:PasqualeDiGennaro :employedAt :OspedaleRiunitoDelleTreValli .
+
+:PasqualeDiGennaro :unionRepresentativeOf :UnionMaleNurses .
+
+:OspedaleRiunitoDelleTreValli :hasArticleCollection :NursePracticesInCancerPatientCare .
+
+:OspedaleRiunitoDelleTreValli :holdsSeminar :SeminarDecember2008 .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type rdfs:Class .
+:Cl_Degree rdf:type rdfs:Class .
+:Cl_StudyPeriod rdf:type rdfs:Class .
+
+### Object Properties
+:op_hasDegree rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_Degree .
+
+:op_studiedDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_StudyPeriod .
+
+:op_forDegree rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_StudyPeriod ;
+    rdfs:range :Cl_Degree .
+
+### Data Properties
+:dp_studyStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_StudyPeriod ;
+    rdfs:range xsd:date .
+
+:dp_studyEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_StudyPeriod ;
+    rdfs:range xsd:date .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type owl:Class .
+:Cl_Hospital rdf:type owl:Class .
+:Cl_EmploymentEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_EmploymentEvent rdfs:subClassOf :Cl_Person .
+:Cl_EmploymentEvent rdfs:subClassOf :Cl_Hospital .
+
+### Object Properties
+:employedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_EmploymentEvent .
+
+:employmentInHospital rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_EmploymentEvent ;
+    rdfs:range :Cl_Hospital .
+
+### Data Properties
+:employmentStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_EmploymentEvent ;
+    rdfs:range xsd:date .
+
+### Individuals
+:PasqualeDiGennaro rdf:type :Cl_Person .
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+:EmploymentOfPasqualeDiGennaro rdf:type :Cl_EmploymentEvent .
+
+### Relations
+:PasqualeDiGennaro :employedAt :EmploymentOfPasqualeDiGennaro .
+:EmploymentOfPasqualeDiGennaro :employmentInHospital :OspedaleRiunitoDelleTreValli .
+:EmploymentOfPasqualeDiGennaro :employmentStartDate "2001-09-21"^^xsd:date .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_City rdf:type owl:Class .
+:Cl_HospitalLocation rdf:type owl:Class .
+
+### Hierarchy
+:Cl_HospitalLocation rdfs:subClassOf :Cl_Hospital, :Cl_City .
+
+### Object Properties
+:op_isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Hospital ;
+    rdfs:range :Cl_City .
+
+### Data Properties
+:dp_cityName rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range xsd:string .
+
+### Individuals
+:Ind_OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+:Ind_NoceraInferiore rdf:type :Cl_City ;
+    :dp_cityName "Nocera Inferiore"^^xsd:string .
+
+### Relations
+:Ind_OspedaleRiunitoDelleTreValli :op_isLocatedIn :Ind_NoceraInferiore .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_City rdf:type rdfs:Class .
+:Cl_Country rdf:type rdfs:Class .
+
+### Object Properties
+:op_isLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_City ;
+    rdfs:range :Cl_Country .
+
+### Individuals
+:It_NoceraInferiore rdf:type :Cl_City .
+:It_Italy rdf:type :Cl_Country .
+
+### Facts
+:It_NoceraInferiore :op_isLocatedIn :It_Italy .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_Union rdf:type owl:Class .
+:Cl_StaffMember rdf:type owl:Class .
+:Cl_Nurse rdf:type owl:Class ; rdfs:subClassOf :Cl_StaffMember .
+:Cl_Doctor rdf:type owl:Class ; rdfs:subClassOf :Cl_StaffMember .
+:Cl_SeniorDoctor rdf:type owl:Class ; rdfs:subClassOf :Cl_Doctor .
+:Cl_UnionRepresentative rdf:type owl:Class ; rdfs:subClassOf :Cl_StaffMember .
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_ResearchArticle rdf:type owl:Class .
+:Cl_Seminar rdf:type owl:Class .
+:Cl_UnionMembership rdf:type owl:Class .
+
+### Object Properties
+:employedAt rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_StaffMember ;
+    rdfs:range :Cl_Hospital .
+
+:memberOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_StaffMember ;
+    rdfs:range :Cl_Union .
+
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Union ;
+    rdfs:range :Cl_UnionRepresentative .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionMembership ;
+    rdfs:range :Cl_StaffMember .
+
+:hasUnion rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionMembership ;
+    rdfs:range :Cl_Union .
+
+### Data Properties
+:hasStartDate rdf:type owl:DataProperty ;
+    rdfs:domain :Cl_UnionMembership ;
+    rdfs:range xsd:date .
+
+### Restrictions and Class Definitions
+:Cl_UnionMembership rdf:type owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasMember ; owl:someValuesFrom :Cl_StaffMember ] ;
+    owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasUnion ; owl:someValuesFrom :Cl_Union ] ;
+    owl:equivalentClass [ rdf:type owl:Restriction ; owl:onProperty :hasStartDate ; owl:someValuesFrom xsd:date ] .
+
+### Individuals and Facts (Example Individuals, not part of ontology definition)
+:PasqualeDiGennaro rdf:type :Cl_Nurse, :Cl_UnionRepresentative .
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+:UnionOfMaleNurses rdf:type :Cl_Union .
+:MembershipOfPasquale rdf:type :Cl_UnionMembership ;
+    :hasMember :PasqualeDiGennaro ;
+    :hasUnion :UnionOfMaleNurses ;
+    :hasStartDate "2002-01-01"^^xsd:date .
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Person rdf:type rdfs:Class .
+:Cl_UnionGroup rdf:type rdfs:Class .
+:Cl_UnionRole rdf:type rdfs:Class .
+:Cl_UnionRoleMembership rdf:type rdfs:Class .
+
+### Hierarchy
+:Cl_UnionRoleMembership rdfs:subClassOf :Cl_Person, :Cl_UnionGroup, :Cl_UnionRole .
+
+### Object Properties
+:hasUnionRole rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_UnionRole .
+
+:memberOfUnionGroup rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_UnionGroup .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionGroup ;
+    rdfs:range :Cl_Person .
+
+:hasRoleMembership rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Person ;
+    rdfs:range :Cl_UnionRoleMembership .
+
+:roleMembershipIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range :Cl_UnionGroup .
+
+:roleOfMembership rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range :Cl_UnionRole .
+
+### Data Properties
+:roleStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range xsd:date .
+
+:roleEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_UnionRoleMembership ;
+    rdfs:range xsd:date .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Person rdf:type owl:Class .
+
+:Cl_Employee rdf:type owl:Class ;
+             rdfs:subClassOf :Cl_Person .
+
+:Cl_Doctor rdf:type owl:Class ;
+            rdfs:subClassOf :Cl_Employee .
+
+:Cl_Nurse rdf:type owl:Class ;
+           rdfs:subClassOf :Cl_Employee .
+
+:Cl_UnionRepresentative rdf:type owl:Class ;
+                         rdfs:subClassOf :Cl_Employee .
+
+:Cl_EvaluationStatement rdf:type owl:Class .
+
+### Object Properties
+
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_UnionRepresentative .
+
+:isEmployedAt rdf:type owl:ObjectProperty ;
+               rdfs:domain :Cl_Employee ;
+               rdfs:range :Cl_Hospital .
+
+:hasWrittenStatement rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Cl_Doctor ;
+                     rdfs:range :Cl_EvaluationStatement .
+
+:evaluatesEmployee rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Cl_EvaluationStatement ;
+                    rdfs:range :Cl_Employee .
+
+### Data Properties
+
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Cl_Person ;
+         rdfs:range xsd:string .
+
+:hasEmploymentStartDate rdf:type owl:DatatypeProperty ;
+                         rdfs:domain :Cl_Employee ;
+                         rdfs:range xsd:date .
+
+:hasEvaluationDate rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Cl_EvaluationStatement ;
+                    rdfs:range xsd:date .
+
+:hasEvaluationContent rdf:type owl:DatatypeProperty ;
+                       rdfs:domain :Cl_EvaluationStatement ;
+                       rdfs:range xsd:string .
+
+### Individuals
+
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital ;
+                               :hasName "Ospedale Riunito delle Tre Valli" .
+
+:PasqualeDiGennaro rdf:type :Cl_Nurse, :Cl_UnionRepresentative ;
+                   :hasName "Pasquale Di Gennaro" ;
+                   :isEmployedAt :OspedaleRiunitoDelleTreValli ;
+                   :hasEmploymentStartDate "2001-09-21"^^xsd:date .
+
+### Reification
+
+:EvaluationStatement1 rdf:type :Cl_EvaluationStatement ;
+                      :hasWrittenStatement :Doctor1 ;
+                      :evaluatesEmployee :PasqualeDiGennaro ;
+                      :hasEvaluationDate "2002-01-15"^^xsd:date ;
+                      :hasEvaluationContent "Excellent clinical skills and patient care." .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Article a  rdfs:Class .
+:Cl_Book a rdfs:Class .
+:Cl_CD a  rdfs:Class .
+:Cl_ArticleCollectionComposition a rdfs:Class .
+
+### Hierarchy
+:Cl_ArticleCollectionComposition rdfs:subClassOf :Cl_Article .
+:Cl_ArticleCollectionComposition rdfs:subClassOf :Cl_Book .
+:Cl_ArticleCollectionComposition rdfs:subClassOf :Cl_CD .
+
+### Object Properties
+:op_composedOf a  owl:ObjectProperty ;
+    rdfs:domain  :Cl_Book,:Cl_CD ;
+    rdfs:range :Cl_ArticleCollectionComposition .
+   
+
+### Data Properties
+:dp_hasTitle a  owl:DatatypeProperty ;
+    rdfs:domain :Cl_Article ;
+    rdfs:range xsd:string .
+
+:dp_hasPageCount a owl:DatatypeProperty ;
+    rdfs:domain :Cl_Book ;
+    rdfs:range xsd:integer .
+
+### Individuals
+:ArticleCollection_NursePractices a :Cl_Book ;
+    :dp_hasTitle "Nurse practices in cancer patient care – longitudinal studies at Italian hospitals" ;
+    :dp_hasPageCount 346 ;
+    :op_composedOf :Article_PasqualeDiGennaro_5YearProgram .
+
+:Article_PasqualeDiGennaro_5YearProgram a  :Cl_Article ;
+    :dp_hasTitle "A 5 year-program for improving cancer care – experiences and future directions" .
+
+:CD_ArticleCollection_NursePractices a :Cl_CD ;
+    :op_composedOf :Article_PasqualeDiGennaro_5YearProgram .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_Book rdf:type owl:Class .
+:Cl_BookDetails rdf:type owl:Class .
+
+### Hierarchy
+:Cl_BookDetails rdfs:subClassOf :Cl_Book .
+
+### Object Properties
+:hasBookDetails rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Cl_Book ;
+                 rdfs:range :Cl_BookDetails .
+
+### Data Properties
+:hasNumberOfPages rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Cl_BookDetails ;
+                  rdfs:range xsd:integer .
+
+### Individuals
+:Book_NursePracticesInCancerPatientCare rdf:type :Cl_Book .
+:BookDetails_NursePracticesInCancerPatientCare rdf:type :Cl_BookDetails ;
+    :hasNumberOfPages "346"^^xsd:integer .
+
+### Relations
+:Book_NursePracticesInCancerPatientCare :hasBookDetails :BookDetails_NursePracticesInCancerPatientCare .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+### Classes
+
+:Cl_ArticleCollection a owl:Class .
+:Cl_Book a owl:Class ; rdfs:subClassOf :Cl_ArticleCollection .
+:Cl_CD a owl:Class ; rdfs:subClassOf :Cl_ArticleCollection .
+:Cl_PublicationEvent a owl:Class .
+
+### Object Properties
+
+:hasPublicationEvent a owl:ObjectProperty ;
+    rdfs:domain :Cl_Book, :Cl_CD ;
+    rdfs:range :Cl_PublicationEvent .
+
+### Data Properties
+
+:publicationDate a owl:DatatypeProperty ;
+    rdfs:domain :Cl_PublicationEvent ;
+    rdfs:range xsd:date .
+
+### Individuals and their properties
+
+:publicationEventNursePractices2008 a :Cl_PublicationEvent ;
+    :publicationDate "2008-01-01"^^xsd:date .
+
+:bookNursePracticesInCancerPatientCare a :Cl_Book ;
+    :hasPublicationEvent :publicationEventNursePractices2008 .
+
+:cdNursePracticesInCancerPatientCare a :Cl_CD ;
+    :hasPublicationEvent :publicationEventNursePractices2008 .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_Union rdf:type owl:Class .
+:Cl_UnionRepresentative rdf:type owl:Class .
+:Cl_Employee rdf:type owl:Class .
+:Cl_SeniorDoctor rdf:type owl:Class .
+:Cl_Nurse rdf:type owl:Class .
+:Cl_NursingAssistant rdf:type owl:Class .
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_ResearchArticle rdf:type owl:Class .
+:Cl_SeminarEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_NursingAssistant rdfs:subClassOf :Cl_Employee .
+:Cl_Nurse rdfs:subClassOf :Cl_Employee .
+:Cl_SeniorDoctor rdfs:subClassOf :Cl_Employee .
+:Cl_UnionRepresentative rdfs:subClassOf :Cl_Employee .
+
+### Object Properties
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_UnionRepresentative .
+
+:employs rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Hospital ;
+         rdfs:range :Cl_Employee .
+
+:hasWrittenEvaluation rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_SeniorDoctor ;
+                       rdfs:range :Cl_Employee .
+
+:hasArticle rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_ArticleCollection ;
+            rdfs:range :Cl_ResearchArticle .
+
+:holdsSeminar rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Hospital ;
+              rdfs:range :Cl_SeminarEvent .
+
+### Data Properties
+:hasTitle rdf:type owl:DataProperty ;
+          rdfs:domain :Cl_ResearchArticle ;
+          rdfs:range xsd:string .
+
+:hasPageCount rdf:type owl:DataProperty ;
+              rdfs:domain :Cl_ArticleCollection ;
+              rdfs:range xsd:integer .
+
+:hasDate rdf:type owl:DataProperty ;
+         rdfs:domain :Cl_SeminarEvent ;
+         rdfs:range xsd:date .
+
+### Individuals
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+
+:SeminarOnNursePractices rdf:type :Cl_SeminarEvent ;
+                          :hasDate "2008-12-01"^^xsd:date .
+
+### Relations involving reification class Cl_SeminarEvent
+:holdsSeminar rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Hospital ;
+              rdfs:range :Cl_SeminarEvent .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_ArticleCollection rdf:type owl:Class .
+
+:Cl_Article rdf:type owl:Class .
+
+:Cl_Book rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_ArticleCollection .
+
+:Cl_CD rdf:type owl:Class ;
+    rdfs:subClassOf :Cl_ArticleCollection .
+
+:Cl_Seminar rdf:type owl:Class .
+
+:Cl_Hospital rdf:type owl:Class .
+
+:Cl_SeminarPresentation rdf:type owl:Class .
+
+### Object Properties
+
+:op_presentedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Article ;
+    rdfs:range :Cl_SeminarPresentation .
+
+:op_hasArticle rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_ArticleCollection ;
+    rdfs:range :Cl_Article .
+
+:op_heldBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_Seminar ;
+    rdfs:range :Cl_Hospital .
+
+:op_presents rdf:type owl:ObjectProperty ;
+    rdfs:domain :Cl_SeminarPresentation ;
+    rdfs:range :Cl_Seminar .
+
+### Data Properties
+
+:dp_title rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Article ;
+    rdfs:range xsd:string .
+
+:dp_pageCount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Book ;
+    rdfs:range xsd:integer .
+
+:dp_date rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Cl_Seminar ;
+    rdfs:range xsd:date .
+
+### Individuals
+
+:Ind_OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+
+:Ind_Seminar2008 rdf:type :Cl_Seminar ;
+    :dp_date "2008-12"^^xsd:date ;
+    :op_heldBy :Ind_OspedaleRiunitoDelleTreValli .
+
+:Ind_ArticleCollection2008 rdf:type :Cl_Book ;
+    :dp_pageCount 346 ;
+    :dp_title "Nurse practices in cancer patient care – longitudinal studies at Italian hospitals" .
+
+:Ind_ArticleByPasquale rdf:type :Cl_Article ;
+    :dp_title "A 5 year-program for improving cancer care – experiences and future directions" ;
+    :op_presentedIn :Ind_SeminarPresentation2008 .
+
+:Ind_SeminarPresentation2008 rdf:type :Cl_SeminarPresentation ;
+    :op_presents :Ind_Seminar2008 .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+
+:Cl_Hospital rdf:type owl:Class .
+
+:Cl_Union rdf:type owl:Class .
+
+:Cl_UnionRepresentative rdf:type owl:Class .
+
+:Cl_Employee rdf:type owl:Class .
+
+:Cl_SeniorDoctor rdf:type owl:Class ;
+                 rdfs:subClassOf :Cl_Employee .
+
+:Cl_Nurse rdf:type owl:Class ;
+           rdfs:subClassOf :Cl_Employee .
+
+:Cl_NursingAssistant rdf:type owl:Class ;
+                      rdfs:subClassOf :Cl_Nurse .
+
+:Cl_CertifiedNurse rdf:type owl:Class ;
+                    rdfs:subClassOf :Cl_Nurse .
+
+:Cl_ArticleCollection rdf:type owl:Class .
+
+:Cl_Article rdf:type owl:Class .
+
+:Cl_SeminarEvent rdf:type owl:Class .
+
+### Object Properties
+
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_UnionRepresentative .
+
+:employs rdf:type owl:ObjectProperty ;
+          rdfs:domain :Cl_Hospital ;
+          rdfs:range :Cl_Employee .
+
+:evaluates rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_SeniorDoctor ;
+            rdfs:range :Cl_Employee .
+
+:hasArticle rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cl_ArticleCollection ;
+             rdfs:range :Cl_Article .
+
+:heldAt rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_SeminarEvent ;
+         rdfs:range :Cl_Hospital .
+
+### Data Properties
+
+:hasTitle rdf:type owl:DataProperty ;
+           rdfs:domain :Cl_Article ;
+           rdfs:range xsd:string .
+
+:hasPageCount rdf:type owl:DataProperty ;
+               rdfs:domain :Cl_ArticleCollection ;
+               rdfs:range xsd:integer .
+
+:hasDate rdf:type owl:DataProperty ;
+          rdfs:domain :Cl_SeminarEvent ;
+          rdfs:range xsd:date .
+
+### Individuals
+
+:OspedaleRiunitoDelleTreValli rdf:type :Cl_Hospital .
+
+### Reification
+
+:SeminarHeldAtOspedaleRiunitoDelleTreValli rdf:type :Cl_SeminarEvent ;
+                                            :heldAt :OspedaleRiunitoDelleTreValli ;
+                                            :hasDate "2008-12"^^xsd:date .
+
+
+@prefix : <http://www.example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+### Classes
+:Cl_Hospital rdf:type owl:Class .
+:Cl_Union rdf:type owl:Class .
+:Cl_Employee rdf:type owl:Class .
+:Cl_Nurse rdf:type owl:Class .
+:Cl_SeniorDoctor rdf:type owl:Class .
+:Cl_ArticleCollection rdf:type owl:Class .
+:Cl_Article rdf:type owl:Class .
+:Cl_Seminar rdf:type owl:Class .
+:Cl_PresentationEvent rdf:type owl:Class .
+
+### Hierarchy
+:Cl_Nurse rdfs:subClassOf :Cl_Employee .
+:Cl_SeniorDoctor rdfs:subClassOf :Cl_Employee .
+
+### Object Properties
+:hasUnionRepresentative rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Cl_Union ;
+                         rdfs:range :Cl_Employee .
+
+:employs rdf:type owl:ObjectProperty ;
+         rdfs:domain :Cl_Hospital ;
+         rdfs:range :Cl_Employee .
+
+:evaluates rdf:type owl:ObjectProperty ;
+           rdfs:domain :Cl_SeniorDoctor ;
+           rdfs:range :Cl_Employee .
+
+:hasArticle rdf:type owl:ObjectProperty ;
+            rdfs:domain :Cl_ArticleCollection ;
+            rdfs:range :Cl_Article .
+
+:holdsSeminar rdf:type owl:ObjectProperty ;
+              rdfs:domain :Cl_Hospital ;
+              rdfs:range :Cl_Seminar .
+
+:presentsArticle rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Cl_Seminar ;
+                 rdfs:range :Cl_Article .
+
+### Reification (Pivot Class) Relations
+:hasPresentationEvent rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Cl_Seminar ;
+                      rdfs:range :Cl_PresentationEvent .
+
+:presentationOfArticle rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Cl_PresentationEvent ;
+                       rdfs:range :Cl_Article .
+
+### Restrictions
+:Cl_Seminar owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :hasPresentationEvent ;
+    owl:someValuesFrom :Cl_PresentationEvent
+] .
+
+:Cl_PresentationEvent owl:equivalentClass [
+    rdf:type owl:Restriction ;
+    owl:onProperty :presentationOfArticle ;
+    owl:someValuesFrom :Cl_Article
+] .
+
+### Data Properties
+:hasPageCount rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Cl_ArticleCollection ;
+              rdfs:range xsd:integer .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Cl_Article ;
+          rdfs:range xsd:string .
+
+:hasEmploymentDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :Cl_Employee ;
+                   rdfs:range xsd:date .
+
+:hasEvaluationDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :Cl_SeniorDoctor ;
+                   rdfs:range xsd:date .
+
+:hasSeminarDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Cl_Seminar ;
+                rdfs:range xsd:date .

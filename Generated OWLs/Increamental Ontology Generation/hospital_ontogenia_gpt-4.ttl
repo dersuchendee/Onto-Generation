@@ -1,0 +1,492 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ns1: <http://www.example.org/ontology/hospital#> .
+@prefix ns2: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ns1:CD a owl:Class ;
+    rdfs:label "CD" ;
+    rdfs:comment "A compact disc used to store electronic articles for reading or studying." ;
+    rdfs:subClassOf ns1:ArticleCollection,
+        ns1:Publication .
+
+ns1:StudyPeriodForCertifiedNurse a ns1:StudyPeriod ;
+    ns1:hasEndDate "2001-05-01"^^xsd:date ;
+    ns1:hasStartDate "XXXX-XX-XX"^^xsd:date ;
+    ns1:studiesFor ns1:CertifiedNurseDegree .
+
+ns1:employmentStartDate a owl:DatatypeProperty ;
+    rdfs:label "employment start date" ;
+    rdfs:comment "The date on which a person's employment at a hospital began." ;
+    rdfs:domain ns1:Employment ;
+    rdfs:range xsd:date .
+
+ns1:evaluates a owl:ObjectProperty ;
+    rdfs:label "evaluates" ;
+    rdfs:comment "Indicates that an evaluation statement evaluates a specific employee." ;
+    rdfs:domain ns1:EvaluationStatement ;
+    rdfs:range ns1:Employee .
+
+ns1:evaluationDate a owl:DatatypeProperty ;
+    rdfs:label "evaluation date" ;
+    rdfs:comment "The date on which the evaluation statement was provided." ;
+    rdfs:domain ns1:EvaluationStatement ;
+    rdfs:range xsd:date .
+
+ns1:evaluationText a owl:DatatypeProperty ;
+    rdfs:label "evaluation text" ;
+    rdfs:comment "The textual content of the evaluation statement." ;
+    rdfs:domain ns1:EvaluationStatement ;
+    rdfs:range xsd:string .
+
+ns1:hasArticle a owl:ObjectProperty ;
+    rdfs:label "has article" ;
+    rdfs:comment "Associates an article collection with its constituent articles." ;
+    rdfs:domain ns1:ArticleCollection ;
+    rdfs:range ns1:ResearchArticle ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember> .
+
+ns1:hasAuthor a owl:ObjectProperty ;
+    rdfs:label "has author" ;
+    rdfs:comment "Associates a research article with its author." ;
+    rdfs:domain ns1:ResearchArticle ;
+    rdfs:range ns1:Person .
+
+ns1:hasDate a owl:DatatypeProperty ;
+    rdfs:label "has date" ;
+    rdfs:comment "Indicates the date on which the seminar took place." ;
+    rdfs:domain ns1:Seminar ;
+    rdfs:range xsd:date .
+
+ns1:hasDegree a owl:ObjectProperty ;
+    rdfs:label "has degree" ;
+    rdfs:comment "A property that associates a person with their obtained medical degrees." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:MedicalDegree .
+
+ns1:hasEmployment a owl:ObjectProperty ;
+    rdfs:label "has employment" ;
+    rdfs:comment "Associates a person with their employment details." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:Employment .
+
+ns1:hasEndDate a owl:DatatypeProperty ;
+    rdfs:label "has end date" ;
+    rdfs:comment "Indicates the end date of a study period." ;
+    rdfs:domain ns1:StudyPeriod ;
+    rdfs:range xsd:date .
+
+ns1:hasEvaluationStatement a owl:ObjectProperty ;
+    rdfs:label "has evaluation statement" ;
+    rdfs:comment "Associates an employee with their evaluation statements." ;
+    rdfs:domain ns1:Employee ;
+    rdfs:range ns1:EvaluationStatement .
+
+ns1:hasMedicalDegree a owl:ObjectProperty ;
+    rdfs:label "has medical degree" ;
+    rdfs:comment "Associates a person with their medical degrees." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:MedicalDegree .
+
+ns1:hasPresentation a owl:ObjectProperty ;
+    rdfs:label "has presentation" ;
+    rdfs:comment "Associates a seminar with the presentations that are part of it." ;
+    rdfs:domain ns1:Seminar ;
+    rdfs:range ns1:Presentation ;
+    owl:inverseOf ns1:partOfSeminar .
+
+ns1:hasPublicationDate a owl:DatatypeProperty ;
+    rdfs:label "has publication date" ;
+    rdfs:comment "Indicates the date on which the publication was released." ;
+    rdfs:domain ns1:Publication ;
+    rdfs:range xsd:date .
+
+ns1:hasStartDate a owl:DatatypeProperty ;
+    rdfs:label "has start date" ;
+    rdfs:comment "Indicates the start date of a study period." ;
+    rdfs:domain ns1:StudyPeriod ;
+    rdfs:range xsd:date .
+
+ns1:hasStudyPeriod a owl:ObjectProperty ;
+    rdfs:label "has study period" ;
+    rdfs:comment "Associates a person with the period of time they spent studying for a degree." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:StudyPeriod .
+
+ns1:hasTotalPages a owl:DatatypeProperty ;
+    rdfs:label "has total pages" ;
+    rdfs:comment "Indicates the total number of pages in a book." ;
+    rdfs:domain ns1:Book ;
+    rdfs:range xsd:integer .
+
+ns1:hasWrittenEvaluation a owl:ObjectProperty ;
+    rdfs:label "has written evaluation" ;
+    rdfs:comment "Associates a doctor with the evaluation statements they have provided." ;
+    rdfs:domain ns1:Doctor ;
+    rdfs:range ns1:EvaluationStatement .
+
+ns1:isPartOfCollection a owl:ObjectProperty ;
+    rdfs:label "is part of collection" ;
+    rdfs:comment "Associates a research article with the collection it is part of." ;
+    rdfs:domain ns1:ResearchArticle ;
+    rdfs:range ns1:ArticleCollection ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#isMemberOf> .
+
+ns1:obtainedDegreeOn a owl:DatatypeProperty ;
+    rdfs:label "obtained degree on" ;
+    rdfs:comment "The date on which the degree was obtained." ;
+    rdfs:domain [ ns1:unionOf ( ns1:NursingAssistantDegree ns1:CertifiedNurseDegree ) ] ;
+    rdfs:range xsd:date .
+
+ns1:presentedArticle a owl:ObjectProperty ;
+    rdfs:label "presented article" ;
+    rdfs:comment "Associates a presentation with the article that was presented." ;
+    rdfs:domain ns1:Presentation ;
+    rdfs:range ns1:Article .
+
+ns1:providedBy a owl:ObjectProperty ;
+    rdfs:label "provided by" ;
+    rdfs:comment "Indicates that an evaluation statement was provided by a specific doctor." ;
+    rdfs:domain ns1:EvaluationStatement ;
+    rdfs:range ns1:Doctor .
+
+ns1:represents a owl:ObjectProperty ;
+    rdfs:label "represents" ;
+    rdfs:comment "Indicates that a person represents a union, typically as a union representative." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:Union .
+
+ns1:studiesFor a owl:ObjectProperty ;
+    rdfs:label "studies for" ;
+    rdfs:comment "Associates a study period with the degree that is being pursued." ;
+    rdfs:domain ns1:StudyPeriod ;
+    rdfs:range ns1:Degree .
+
+ns1:takesPlaceAt a owl:ObjectProperty ;
+    rdfs:label "takes place at" ;
+    rdfs:comment "Associates a seminar with the hospital where it takes place." ;
+    rdfs:domain ns1:Seminar ;
+    rdfs:range ns1:Hospital .
+
+ns1:A5YearProgramForImprovingCancerCare a ns1:ResearchArticle ;
+    rdfs:label "A 5 year-program for improving cancer care � experiences and future directions" ;
+    ns1:hasAuthor ns1:PasqualeDiGennaro ;
+    ns1:isPartOfCollection ns1:NursePracticesInCancerPatientCare .
+
+ns1:DrSmith a ns1:Doctor ;
+    rdfs:label "Dr. Smith" ;
+    ns1:hasWrittenEvaluation ns1:EvaluationStatement123 ;
+    rdfs:comment "A senior doctor at Ospedale Riunito delle Tre Valli." .
+
+ns1:EmploymentOfPasqualeDiGennaro a ns1:Employment ;
+    ns1:employedAt ns1:OspedaleRiunitoDelleTreValli ;
+    ns1:employmentStartDate "2001-09-21"^^xsd:date .
+
+ns1:Italy a ns1:Country ;
+    rdfs:label "Italy" ;
+    rdfs:comment "A country in Europe, known for its rich history, art, culture, and cuisine." .
+
+ns1:NoceraInferiore a ns1:City ;
+    rdfs:label "Nocera Inferiore" ;
+    ns1:isLocatedIn ns1:Italy ;
+    rdfs:comment "A city in Italy where Ospedale Riunito delle Tre Valli is located." .
+
+ns1:NursePracticesInCancerPatientCare a ns1:Book ;
+    rdfs:label "Nurse practices in cancer patient care � longitudinal studies at Italian hospitals" ;
+    ns1:hasArticle ns1:A5YearProgramForImprovingCancerCare ;
+    ns1:hasPublicationDate "2008-01-01"^^xsd:date ;
+    ns1:hasTotalPages 346 .
+
+ns1:PresentationOfArticleByPasquale a ns1:Presentation ;
+    rdfs:label "Presentation of Article by Pasquale Di Gennaro" ;
+    ns1:partOfSeminar ns1:SeminarOnNewArticles ;
+    ns1:presentedArticle ns1:ArticleByPasqualeDiGennaro .
+
+ns1:SeminarOnNewArticles a ns1:Seminar ;
+    rdfs:label "Seminar on New Articles" ;
+    ns1:hasDate "2008-12-01"^^xsd:date ;
+    ns1:hasPresentation ns1:PresentationOfArticleByPasquale ;
+    ns1:takesPlaceAt ns1:OspedaleRiunitoDelleTreValli .
+
+ns1:StudyPeriodForNursingAssistant a ns1:StudyPeriod ;
+    ns1:hasEndDate "XXXX-XX-XX"^^xsd:date ;
+    ns1:hasStartDate "XXXX-XX-XX"^^xsd:date ;
+    ns1:studiesFor ns1:NursingAssistantDegree .
+
+ns1:UnionMembership2002 a ns1:UnionMembership ;
+    ns1:hasMembershipPeriod [ a time:Interval ;
+            time:hasBeginning "2002-01-01T00:00:00+00:00"^^xsd:dateTime ],
+        [ a time:Interval ;
+            time:hasBeginning "2002-01-01T00:00:00+00:00"^^xsd:dateTime ] ;
+    ns1:hasUnion ns1:MaleNurseUnion .
+
+ns1:UnionRepresentativeRole a ns1:UnionRole ;
+    rdfs:label "Union Representative Role" ;
+    ns1:roleInUnion ns1:MaleNurseUnion ;
+    rdfs:comment "A role representing the union members within the union's activities." .
+
+ns1:hasRole a owl:ObjectProperty ;
+    rdfs:label "has role" ;
+    rdfs:comment "Associates a person with a role they have within a union." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:UnionRole .
+
+ns1:isLocatedIn a owl:ObjectProperty ;
+    rdfs:label "is located in" ;
+    rdfs:comment "Property that associates a city with the country it is located in." ;
+    rdfs:domain ns1:City ;
+    rdfs:range ns1:Country .
+
+ns1:isPartOf a owl:ObjectProperty ;
+    rdfs:label "is part of" ;
+    rdfs:comment "Transitive property that associates a hospital with the country it is part of through the city." ;
+    owl:propertyChainAxiom ( ns1:locatedIn ns1:isLocatedIn ) .
+
+ns1:locatedIn a owl:ObjectProperty ;
+    rdfs:label "located in" ;
+    rdfs:comment "Property that associates a hospital with the city it is located in." ;
+    rdfs:domain ns1:Hospital ;
+    rdfs:range ns1:City .
+
+ns1:partOfSeminar a owl:ObjectProperty ;
+    rdfs:label "part of seminar" ;
+    rdfs:comment "Associates a presentation with the seminar it is a part of." ;
+    rdfs:domain ns1:Presentation ;
+    rdfs:range ns1:Seminar .
+
+ns1:roleInUnion a owl:ObjectProperty ;
+    rdfs:label "role in union" ;
+    rdfs:comment "Associates a union role with the union in which it is a role." ;
+    rdfs:domain ns1:UnionRole ;
+    rdfs:range ns1:Union .
+
+ns1:Article a owl:Class ;
+    rdfs:label "Article" ;
+    rdfs:comment "A written composition on a specific topic, forming an independent part of a book or other publication." .
+
+ns1:ArticleByPasqualeDiGennaro a ns1:Article ;
+    rdfs:label "A 5 year-program for improving cancer care � experiences and future directions" ;
+    foaf:maker ns1:PasqualeDiGennaro .
+
+ns1:Book a owl:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "A set of printed pages, bound together into a volume, used for reading or studying." ;
+    rdfs:subClassOf ns1:ArticleCollection,
+        ns1:Publication .
+
+ns1:EvaluationStatement123 a ns1:EvaluationStatement ;
+    ns1:evaluates ns1:PasqualeDiGennaro ;
+    ns1:evaluationDate "2023-03-15"^^xsd:date ;
+    ns1:evaluationText "Pasquale Di Gennaro has shown exceptional care in patient treatment and teamwork." ;
+    ns1:providedBy ns1:DrSmith .
+
+ns1:employedAt a owl:ObjectProperty ;
+    rdfs:label "employed at" ;
+    rdfs:comment "Associates a person with the hospital where they are employed.",
+        "Associates an employment record with a hospital." ;
+    rdfs:domain ns1:Employment,
+        ns1:Person ;
+    rdfs:range ns1:Hospital .
+
+ns1:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member" ;
+    rdfs:comment "Associates a union membership collection with its members." ;
+    rdfs:domain ns1:UnionMembership ;
+    rdfs:range ns1:Person ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#hasMember> .
+
+ns1:hasMembershipPeriod a owl:ObjectProperty ;
+    rdfs:label "has membership period" ;
+    rdfs:comment "Associates a union membership collection with the time interval during which the membership is valid." ;
+    rdfs:domain ns1:UnionMembership ;
+    rdfs:range time:Interval .
+
+ns1:hasUnion a owl:ObjectProperty ;
+    rdfs:label "has union" ;
+    rdfs:comment "Associates a union membership collection with the union it pertains to." ;
+    rdfs:domain ns1:UnionMembership ;
+    rdfs:range ns1:Union .
+
+ns1:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of" ;
+    rdfs:comment "Associates a person with the union memberships they are part of." ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:UnionMembership ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#isMemberOf> .
+
+ns1:City a owl:Class ;
+    rdfs:label "City" ;
+    rdfs:comment "A large human settlement, generally with extensive systems for housing, transportation, sanitation, utilities, land use, and communication." .
+
+ns1:Country a owl:Class ;
+    rdfs:label "Country" ;
+    rdfs:comment "A distinct territorial body or political entity. It is often referred to as the land of an individual's birth, residence, or citizenship." .
+
+ns1:Degree a owl:Class ;
+    rdfs:label "Degree" ;
+    rdfs:comment "A certification awarded by an educational institution signifying that the recipient has successfully completed a particular course of study." .
+
+ns1:Doctor a owl:Class ;
+    rdfs:label "Doctor" ;
+    rdfs:comment "A medical professional who practices medicine." ;
+    rdfs:subClassOf ns1:Person .
+
+ns1:Employee a owl:Class ;
+    rdfs:label "Employee" ;
+    rdfs:comment "An individual who works part-time or full-time under a contract of employment, whether oral or written, express or implied, and has recognized rights and duties." ;
+    rdfs:subClassOf ns1:Person .
+
+ns1:MaleNurseUnion a ns1:Union ;
+    rdfs:label "Male Nurse Union" ;
+    rdfs:comment "A union representing the interests of male nurses." .
+
+ns1:Nurse a owl:Class ;
+    rdfs:label "Nurse" ;
+    rdfs:comment "A healthcare professional responsible for patient care." ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:memberOf ;
+            owl:someValuesFrom ns1:UnionMembership ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:employedAt ;
+            owl:someValuesFrom ns1:Hospital ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:memberOf ;
+            owl:someValuesFrom ns1:UnionMembership ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:employedAt ;
+            owl:someValuesFrom ns1:Hospital ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasRole ;
+            owl:someValuesFrom ns1:UnionRole ],
+        ns1:Person .
+
+ns1:NursingAssistantDegree a ns1:Degree,
+        owl:Class ;
+    rdfs:label "Nursing Assistant Degree" ;
+    rdfs:comment "A degree that certifies an individual as a nursing assistant.",
+        "A degree that qualifies an individual to be a nursing assistant." ;
+    rdfs:subClassOf ns1:MedicalDegree .
+
+ns1:OspedaleRiunitoDelleTreValli a ns1:Hospital ;
+    rdfs:label "Ospedale Riunito delle Tre Valli" ;
+    ns1:locatedIn ns1:NoceraInferiore ;
+    rdfs:comment "A hospital located in the city of Nocera Inferiore, Italy where the seminar on new articles took place.",
+        "A hospital located in the city of Nocera Inferiore, Italy." .
+
+ns1:PasqualeDiGennaro a ns1:Employee,
+        ns1:Nurse,
+        ns1:Person,
+        foaf:Person ;
+    rdfs:label "Pasquale Di Gennaro" ;
+    ns2:jobTitle "Certified Nurse" ;
+    ns1:employedAt ns1:OspedaleRiunitoDelleTreValli ;
+    ns1:hasDegree ns1:CertifiedNurseDegree,
+        ns1:NursingAssistantDegree ;
+    ns1:hasEmployment ns1:EmploymentOfPasqualeDiGennaro ;
+    ns1:hasEvaluationStatement ns1:EvaluationStatement123 ;
+    ns1:hasMedicalDegree ns1:CertifiedNurseDegree ;
+    ns1:hasRole ns1:UnionRepresentativeRole ;
+    ns1:hasStudyPeriod ns1:StudyPeriodForNursingAssistant ;
+    ns1:memberOf ns1:UnionMembership2002 ;
+    ns1:obtainedDegreeOn "2001-05-01"^^xsd:date ;
+    ns1:represents ns1:MaleNurseUnion ;
+    rdfs:comment "A certified nurse and union representative for male nurses at Ospedale Riunito delle Tre Valli.",
+        "An employee at Ospedale Riunito delle Tre Valli who has been evaluated by Dr. Smith.",
+        "An individual who first studied to become a nursing assistant and then continued studying to become a certified nurse.",
+        "Author of a research article on improving cancer care." ;
+    foaf:name "Pasquale Di Gennaro" ;
+    foaf:publications ns1:ArticleByPasqualeDiGennaro .
+
+ns1:Publication a owl:Class ;
+    rdfs:label "Publication" ;
+    rdfs:comment "A work that has been published, typically a book or CD." .
+
+ns1:ArticleCollection a owl:Class ;
+    rdfs:label "Article Collection" ;
+    rdfs:comment "A collection of research articles, usually available as books or electronically on CDs." .
+
+ns1:CertifiedNurseDegree a ns1:Degree,
+        owl:Class ;
+    rdfs:label "Certified Nurse Degree" ;
+    rdfs:comment "A degree that certifies an individual as a certified nurse.",
+        "A degree that qualifies an individual to be a certified nurse." ;
+    rdfs:subClassOf ns1:MedicalDegree .
+
+ns1:Employment a owl:Class ;
+    rdfs:label "Employment" ;
+    rdfs:comment "The occupation or condition of being employed at an institution or organization." .
+
+ns1:MedicalDegree a owl:Class ;
+    rdfs:label "Medical Degree" ;
+    rdfs:comment "A degree obtained by an individual that qualifies them in the medical field." .
+
+ns1:Presentation a owl:Class ;
+    rdfs:label "Presentation" ;
+    rdfs:comment "An act of presenting an article or topic, typically in the context of a seminar or conference." .
+
+ns1:ResearchArticle a owl:Class ;
+    rdfs:label "Research Article" ;
+    rdfs:comment "A written composition in prose, usually nonfiction, on a specific topic, forming an independent part of a book or other publication, such as a journal or newspaper." .
+
+ns1:UnionRole a owl:Class ;
+    rdfs:label "Union Role" ;
+    rdfs:comment "A role that a person can have within a union." ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:roleInUnion ;
+            owl:someValuesFrom ns1:Union ],
+        <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Role> .
+
+ns1:Seminar a owl:Class ;
+    rdfs:label "Seminar" ;
+    rdfs:comment "A meeting for discussion or training, especially in an academic or professional setting." .
+
+ns1:Hospital a owl:Class ;
+    rdfs:label "Hospital" ;
+    rdfs:comment "A health care institution providing patient treatment with specialized medical and nursing staff and medical equipment." ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:isPartOf ;
+            owl:someValuesFrom ns1:Country ] .
+
+ns1:StudyPeriod a owl:Class ;
+    rdfs:label "Study Period" ;
+    rdfs:comment "A period of time during which a person studies for a specific degree." .
+
+ns1:EvaluationStatement a owl:Class ;
+    rdfs:label "Evaluation Statement" ;
+    rdfs:comment "A written statement provided by a senior doctor evaluating an employee's performance." .
+
+ns1:Union a owl:Class ;
+    rdfs:label "Union" ;
+    rdfs:comment "An organization that represents the collective interests of workers in negotiations with employers." .
+
+ns1:UnionMembership a owl:Class ;
+    rdfs:label "Union Membership" ;
+    rdfs:comment "A collection representing the membership of individuals in a union." ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasMembershipPeriod ;
+            owl:someValuesFrom time:Interval ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasMember ;
+            owl:someValuesFrom ns1:Nurse ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasUnion ;
+            owl:someValuesFrom ns1:Union ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasMembershipPeriod ;
+            owl:someValuesFrom time:Interval ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasMember ;
+            owl:someValuesFrom ns1:Nurse ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasUnion ;
+            owl:someValuesFrom ns1:Union ],
+        <http://www.ontologydesignpatterns.org/cp/owl/collectionentity.owl#Collection> .
+
+ns1:Person a owl:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "An individual human being." ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Agent> .
+

@@ -1,0 +1,594 @@
+@prefix dbr: <http://dbpedia.org/resource/> .
+@prefix ns1: <http://example.org/ontology/theatre#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ns1: a owl:Ontology ;
+    rdfs:comment "An ontology for representing information about theatre festivals and productions."@en .
+
+ns1:AMidsummerNightsDream a ns1:Play ;
+    rdfs:label "A Midsummer Night's Dream"@en ;
+    ns1:numberOfActs 5 ;
+    ns1:wasWrittenDuring ns1:TimePeriodOfAMidsummerNightsDream ;
+    ns1:wrotePlay ns1:WilliamShakespeare .
+
+ns1:FabioBianchi a ns1:Actor,
+        ns1:Person ;
+    rdfs:label "Fabio Bianchi"@en ;
+    ns1:employedAt ns1:GrandTheatreRome ;
+    ns1:hasEmploymentContract ns1:FabioBianchiContract .
+
+ns1:FabioBianchiDukeRole a ns1:TimeIndexedRole ;
+    rdfs:label "Fabio Bianchi as Duke of Venice"@en ;
+    ns1:atTime "2009-09-07T00:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasRole ns1:DukeOfVeniceRole .
+
+ns1:FabioBianchiServantRole a ns1:TimeIndexedRole ;
+    rdfs:label "Fabio Bianchi as Servant"@en ;
+    ns1:atTime "2009-09-07T00:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasRole ns1:ServantRole .
+
+ns1:RomaLovesShakespeare a ns1:TheatreFestival ;
+    rdfs:label "Roma Loves Shakespeare"@en ;
+    ns1:featuredProduction ns1:MerchantOfVenice_Pisa,
+        ns1:MerchantOfVenice_Venice,
+        ns1:MidsummerNightsDreamProduction,
+        ns1:OthelloProduction ;
+    ns1:startDate "2007-01-01"^^xsd:date ;
+    ns1:tookPlaceIn dbr:Rome .
+
+ns1:TheMerchantOfVenice a ns1:Play ;
+    rdfs:label "The Merchant of Venice"@en ;
+    ns1:numberOfActs 5 ;
+    ns1:wasWrittenDuring ns1:TimePeriodOfTheMerchantOfVenice ;
+    ns1:wrotePlay ns1:WilliamShakespeare .
+
+ns1:TheatreInPisa a ns1:Theatre ;
+    rdfs:label "Theatre in Pisa"@en ;
+    ns1:isLocatedIn dbr:Pisa .
+
+ns1:TheatreInstituteVenice a ns1:Theatre ;
+    rdfs:label "Theatre Institute in Venice"@en ;
+    ns1:isLocatedIn dbr:Venice .
+
+ns1:hasProduction a owl:ObjectProperty ;
+    rdfs:label "has production"@en ;
+    rdfs:comment "The production in which an ensemble performs."@en ;
+    rdfs:domain ns1:Ensemble ;
+    rdfs:range ns1:Production .
+
+ns1:isInCountry a owl:ObjectProperty ;
+    rdfs:label "is in country"@en ;
+    rdfs:comment "The country in which a city is located."@en ;
+    rdfs:domain ns1:City ;
+    rdfs:range ns1:Country .
+
+ns1:isLocatedIn a owl:ObjectProperty ;
+    rdfs:label "is located in"@en ;
+    rdfs:comment "The city in which a theatre is located."@en ;
+    rdfs:domain ns1:Theatre ;
+    rdfs:range ns1:City .
+
+ns1:reviewOf a owl:ObjectProperty ;
+    rdfs:label "review of"@en ;
+    rdfs:comment "Associates a review with the production it assesses."@en ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Production ;
+    owl:inverseOf ns1:hasReview .
+
+ns1:roleAtTime a owl:ObjectProperty ;
+    rdfs:label "role at time"@en ;
+    rdfs:comment "Associates a time indexed role with a specific time interval."@en ;
+    rdfs:domain ns1:TimeIndexedRole ;
+    rdfs:range <http://www.w3.org/2006/time/Interval> .
+
+ns1:startDate a owl:DatatypeProperty ;
+    rdfs:label "start date"@en ;
+    rdfs:comment "The starting date of a festival or production."@en ;
+    rdfs:domain ns1:TheatreFestival ;
+    rdfs:range xsd:date .
+
+ns1:tookPlaceIn a owl:ObjectProperty ;
+    rdfs:label "took place in"@en ;
+    rdfs:comment "The city in which a theatre festival took place."@en ;
+    rdfs:domain ns1:TheatreFestival ;
+    rdfs:range ns1:City .
+
+dbr:Pisa ns1:isInCountry ns1:Italy .
+
+dbr:Venice ns1:isInCountry ns1:Italy .
+
+ns1:Act a owl:Class ;
+    rdfs:label "Act"@en ;
+    rdfs:comment "A division or unit of a theatre work, including a play, film, opera, and musical theatre, used to divide the presentation into parts."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:inverseOf ns1:numberOfActs ;
+            owl:onProperty ns1:hasAct ] .
+
+ns1:DukeOfVeniceRole a ns1:Role ;
+    rdfs:label "Duke of Venice"@en ;
+    ns1:inProduction ns1:MerchantOfVenice .
+
+ns1:FabioBianchiContract a ns1:EmploymentContract ;
+    rdfs:label "Employment Contract of Fabio Bianchi"@en ;
+    ns1:employmentStartDate "2004-05-01"^^xsd:date .
+
+ns1:GrandTheatreRome a ns1:Theatre ;
+    rdfs:label "Grand Theatre in Rome"@en ;
+    ns1:isLocatedIn dbr:Rome .
+
+ns1:IlGazzettino a ns1:Newspaper ;
+    rdfs:label "Il Gazzettino"@en .
+
+ns1:MerchantOfVeniceReview a ns1:Review ;
+    rdfs:label "Review of The Merchant of Venice (Grand Theatre)"@en ;
+    ns1:publishedBy ns1:IlGazzettino ;
+    ns1:reviewOf ns1:MerchantOfVenice_GrandTheatre ;
+    ns1:starRating 5 .
+
+ns1:MerchantOfVenice_GrandTheatre a ns1:Production,
+        ns1:TheatreProduction ;
+    rdfs:label "The Merchant of Venice (Grand Theatre)"@en ;
+    ns1:hasPlay dbr:The_Merchant_of_Venice ;
+    ns1:hasPremier ns1:MerchantOfVenice_GrandTheatre_Premier ;
+    ns1:hasReview ns1:MerchantOfVeniceReview ;
+    ns1:startDate "2009-09-07"^^xsd:date .
+
+ns1:MerchantOfVenice_GrandTheatre_Premier a ns1:Premier ;
+    rdfs:label "Premier of The Merchant of Venice (Grand Theatre)"@en ;
+    ns1:premierDate "2009-09-07"^^xsd:date .
+
+ns1:MerchantOfVenice_Pisa a ns1:TheatreProduction ;
+    rdfs:label "The Merchant of Venice (Pisa)"@en ;
+    ns1:hasPlay dbr:The_Merchant_of_Venice .
+
+ns1:MerchantOfVenice_Venice a ns1:TheatreProduction ;
+    rdfs:label "The Merchant of Venice (Venice)"@en ;
+    ns1:hasPlay dbr:The_Merchant_of_Venice .
+
+ns1:MidsummerNightsDream a ns1:Play ;
+    rdfs:label "A Midsummer Night's Dream"@en .
+
+ns1:MidsummerNightsDreamProduction a ns1:TheatreProduction ;
+    rdfs:label "A Midsummer Night's Dream Production"@en ;
+    ns1:hasPlay ns1:MidsummerNightsDream .
+
+ns1:Othello a ns1:Play ;
+    rdfs:label "Othello"@en ;
+    ns1:numberOfActs 5 ;
+    ns1:wasWrittenDuring ns1:TimePeriodOfOthello ;
+    ns1:wrotePlay ns1:WilliamShakespeare .
+
+ns1:OthelloProduction a ns1:TheatreProduction ;
+    rdfs:label "Othello Production"@en ;
+    ns1:hasPlay ns1:Othello .
+
+ns1:ServantRole a ns1:Role ;
+    rdfs:label "Servant"@en ;
+    ns1:inProduction ns1:MerchantOfVenice .
+
+ns1:TimePeriodOfAMidsummerNightsDream a ns1:TimePeriod ;
+    rdfs:label "Time period of A Midsummer Night's Dream"@en ;
+    ns1:hasEndTime "1596-12-31T23:59:59+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "1595-01-01T00:00:00+00:00"^^xsd:dateTime .
+
+ns1:TimePeriodOfOthello a ns1:TimePeriod ;
+    rdfs:label "Time period of Othello"@en ;
+    ns1:hasEndTime "1604-12-31T23:59:59+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "1603-01-01T00:00:00+00:00"^^xsd:dateTime .
+
+ns1:TimePeriodOfTheMerchantOfVenice a ns1:TimePeriod ;
+    rdfs:label "Time period of The Merchant of Venice"@en ;
+    ns1:hasEndTime "1598-12-31T23:59:59+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "1596-01-01T00:00:00+00:00"^^xsd:dateTime .
+
+ns1:atTime a owl:DatatypeProperty ;
+    rdfs:label "at time"@en ;
+    rdfs:comment "A specific point in time or interval during which a person has a role."@en ;
+    rdfs:domain ns1:TimeIndexedRole ;
+    rdfs:range xsd:dateTime .
+
+ns1:employmentStartDate a owl:DatatypeProperty ;
+    rdfs:label "employment start date"@en ;
+    rdfs:comment "The date on which the actor's employment contract with the theatre begins."@en ;
+    rdfs:domain ns1:EmploymentContract ;
+    rdfs:range xsd:date .
+
+ns1:endTime a owl:DatatypeProperty ;
+    rdfs:label "end time"@en ;
+    rdfs:comment "The end time of a time interval."@en ;
+    rdfs:domain ns1:TimeInterval ;
+    rdfs:range xsd:dateTime .
+
+ns1:hasAct a owl:ObjectProperty ;
+    rdfs:label "has act"@en ;
+    rdfs:comment "Indicates that a play consists of a number of acts."@en ;
+    rdfs:domain ns1:Play ;
+    rdfs:range ns1:Act .
+
+ns1:hasEmploymentContract a owl:ObjectProperty ;
+    rdfs:label "has employment contract"@en ;
+    rdfs:comment "Associates an actor with their employment contract."@en ;
+    rdfs:domain ns1:Actor ;
+    rdfs:range ns1:EmploymentContract .
+
+ns1:hasEndTime a owl:DatatypeProperty ;
+    rdfs:label "has end time"@en ;
+    rdfs:comment "Indicates the end time of a time period."@en ;
+    rdfs:domain ns1:TimePeriod ;
+    rdfs:range xsd:dateTime .
+
+ns1:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "An individual who is a member of an ensemble."@en ;
+    rdfs:domain ns1:Ensemble ;
+    rdfs:range ns1:Individual .
+
+ns1:hasPremier a owl:ObjectProperty ;
+    rdfs:label "has premier"@en ;
+    rdfs:comment "Associates a theatre production with its premier."@en ;
+    rdfs:domain ns1:TheatreProduction ;
+    rdfs:range ns1:Premier .
+
+ns1:hasPremiere a owl:ObjectProperty ;
+    rdfs:label "has premiere"@en ;
+    rdfs:comment "Associates a theatre production with its premiere."@en ;
+    rdfs:domain ns1:TheatreProduction ;
+    rdfs:range ns1:Premiere .
+
+ns1:hasStartTime a owl:DatatypeProperty ;
+    rdfs:label "has start time"@en ;
+    rdfs:comment "Indicates the start time of a time period."@en ;
+    rdfs:domain ns1:TimePeriod ;
+    rdfs:range xsd:dateTime .
+
+ns1:hasTimeIndexedRole a owl:ObjectProperty ;
+    rdfs:label "has time indexed role"@en ;
+    rdfs:comment "Associates a person with a time indexed role."@en ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:TimeIndexedRole .
+
+ns1:hasTimeInterval a owl:ObjectProperty ;
+    rdfs:label "has time interval"@en ;
+    rdfs:comment "The time interval during which an individual is a member of an ensemble."@en ;
+    rdfs:domain ns1:Individual ;
+    rdfs:range ns1:TimeInterval .
+
+ns1:inProduction a owl:ObjectProperty ;
+    rdfs:label "in production"@en ;
+    rdfs:comment "The production in which a role is performed."@en ;
+    rdfs:domain ns1:Role ;
+    rdfs:range ns1:Production .
+
+ns1:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of"@en ;
+    rdfs:comment "The ensemble to which an individual belongs."@en ;
+    rdfs:domain ns1:Individual ;
+    rdfs:range ns1:Ensemble .
+
+ns1:performsRole a owl:ObjectProperty ;
+    rdfs:label "performs role"@en ;
+    rdfs:comment "The role that an individual performs in a production."@en ;
+    rdfs:domain ns1:Individual ;
+    rdfs:range ns1:Role .
+
+ns1:premierDate a owl:DatatypeProperty ;
+    rdfs:label "premier date"@en ;
+    rdfs:comment "The date of the premier of a theatre production."@en ;
+    rdfs:domain ns1:Premier ;
+    rdfs:range xsd:date .
+
+ns1:premiereDate a owl:DatatypeProperty ;
+    rdfs:label "premiere date"@en ;
+    rdfs:comment "The date of the premiere of a theatre production."@en ;
+    rdfs:domain ns1:Premiere ;
+    rdfs:range xsd:date .
+
+ns1:publishedBy a owl:ObjectProperty ;
+    rdfs:label "published by"@en ;
+    rdfs:comment "Associates a review with the newspaper in which it is published."@en ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Newspaper .
+
+ns1:starRating a owl:DatatypeProperty ;
+    rdfs:label "star rating"@en ;
+    rdfs:comment "The star rating given in a review."@en,
+        "The star rating given to a production in a review."@en ;
+    rdfs:domain ns1:Review ;
+    rdfs:range xsd:integer .
+
+ns1:startTime a owl:DatatypeProperty ;
+    rdfs:label "start time"@en ;
+    rdfs:comment "The start time of a time interval."@en ;
+    rdfs:domain ns1:TimeInterval ;
+    rdfs:range xsd:dateTime .
+
+ns1:wasWrittenDuring a owl:ObjectProperty ;
+    rdfs:label "was written during"@en ;
+    rdfs:comment "Associates a play with the time period during which it was written."@en ;
+    rdfs:domain ns1:Play ;
+    rdfs:range ns1:TimePeriod .
+
+dbr:Rome ns1:isInCountry ns1:Italy .
+
+ns1:Country a owl:Class ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A distinct territorial body or political entity."@en .
+
+ns1:MerchantOfVenice a ns1:Production ;
+    rdfs:label "The Merchant of Venice"@en .
+
+ns1:Premiere a owl:Class ;
+    rdfs:label "Premiere"@en ;
+    rdfs:comment "The debut performance of a theatre production."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ns1:premiereDate ] .
+
+ns1:employedAt a owl:ObjectProperty ;
+    rdfs:label "employed at"@en ;
+    rdfs:comment "The theatre where the actor is employed."@en ;
+    rdfs:domain ns1:Actor ;
+    rdfs:range ns1:Theatre .
+
+ns1:hasRole a owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:comment "A role that a person has within a production."@en,
+        "A role that is part of a production."@en ;
+    rdfs:domain ns1:Person,
+        ns1:Production ;
+    rdfs:range ns1:Role .
+
+ns1:numberOfActs a owl:DatatypeProperty ;
+    rdfs:label "number of acts"@en ;
+    rdfs:comment "Specifies the number of acts that a play contains."@en ;
+    rdfs:domain ns1:Play ;
+    rdfs:range xsd:nonNegativeInteger .
+
+ns1:Author a owl:Class ;
+    rdfs:label "Author"@en ;
+    rdfs:comment "An individual who writes plays or other literary works."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:wrotePlay ;
+            owl:someValuesFrom ns1:Play ] .
+
+ns1:City a owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:comment "A large human settlement."@en .
+
+ns1:Italy a ns1:Country ;
+    rdfs:label "Italy"@en .
+
+ns1:Newspaper a owl:Class ;
+    rdfs:label "Newspaper"@en ;
+    rdfs:comment "A publication containing news, information, and advertising, usually printed on low-cost paper called newsprint."@en .
+
+ns1:Person a owl:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "A human being."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasTimeIndexedRole ;
+            owl:someValuesFrom ns1:TimeIndexedRole ] .
+
+ns1:WilliamShakespeare a ns1:Author ;
+    rdfs:label "William Shakespeare"@en .
+
+ns1:hasReview a owl:ObjectProperty ;
+    rdfs:label "has review"@en ;
+    rdfs:comment "Associates a production with a review."@en,
+        "Associates a theatre production with its review."@en ;
+    rdfs:domain ns1:Production,
+        ns1:TheatreProduction ;
+    rdfs:range ns1:Review .
+
+ns1:wrotePlay a owl:ObjectProperty ;
+    rdfs:label "wrote play"@en ;
+    rdfs:comment "Associates an author with a play they have written."@en ;
+    rdfs:domain ns1:Author ;
+    rdfs:range ns1:Play .
+
+ns1:EmploymentContract a owl:Class ;
+    rdfs:label "Employment Contract"@en ;
+    rdfs:comment "A contract that legally binds an actor and a theatre, indicating the actor's employment."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ns1:employmentStartDate ] .
+
+ns1:Ensemble a owl:Class ;
+    rdfs:label "Ensemble"@en ;
+    rdfs:comment "A group of individuals, such as actors, working together in a theatre production."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasMember ;
+            owl:someValuesFrom ns1:Individual ] .
+
+ns1:Premier a owl:Class ;
+    rdfs:label "Premier"@en ;
+    rdfs:comment "The debut performance of a theatrical production."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ns1:premierDate ] .
+
+ns1:TheatreFestival a owl:Class ;
+    rdfs:label "Theatre Festival"@en ;
+    rdfs:comment "A festival event that includes one or more theatre productions."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:featuredProduction ;
+            owl:someValuesFrom ns1:TheatreProduction ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:featuredProduction ;
+            owl:someValuesFrom ns1:TheatreProduction ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:featuredProduction ;
+            owl:someValuesFrom ns1:TheatreProduction ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:featuredProduction ;
+            owl:someValuesFrom ns1:TheatreProduction ] .
+
+ns1:TimeInterval a owl:Class ;
+    rdfs:label "Time Interval"@en ;
+    rdfs:comment "A specific interval of time during which an individual is a member of an ensemble."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty ns1:startTime ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty ns1:endTime ],
+        <http://www.w3.org/2006/time/TemporalEntity> .
+
+ns1:featuredProduction a owl:ObjectProperty ;
+    rdfs:label "featured production"@en ;
+    rdfs:comment "A theatre production that is part of a festival's program."@en ;
+    rdfs:domain ns1:TheatreFestival ;
+    rdfs:range ns1:TheatreProduction .
+
+ns1:hasPlay a owl:ObjectProperty ;
+    rdfs:label "has play"@en ;
+    rdfs:comment "The play that is performed in a theatre production."@en ;
+    rdfs:domain ns1:TheatreProduction ;
+    rdfs:range ns1:Play .
+
+ns1:Individual a owl:Class ;
+    rdfs:label "Individual"@en ;
+    rdfs:comment "A single individual, such as an actor or a director, who may be a member of an ensemble."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:memberOf ;
+            owl:someValuesFrom ns1:Ensemble ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:performsRole ;
+            owl:someValuesFrom ns1:Role ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasTimeInterval ;
+            owl:someValuesFrom ns1:TimeInterval ] .
+
+ns1:hasActor a owl:ObjectProperty ;
+    rdfs:label "has actor"@en ;
+    rdfs:comment "An actor that is employed by the theatre."@en,
+        "An actor that performs in a theatre production."@en ;
+    rdfs:domain ns1:Theatre,
+        ns1:TheatreProduction ;
+    rdfs:range ns1:Actor ;
+    owl:inverseOf ns1:employedAt .
+
+ns1:TimeIndexedRole a owl:Class ;
+    rdfs:label "Time Indexed Role"@en ;
+    rdfs:comment "A role associated with a person for a specific time interval."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasRole ;
+            owl:someValuesFrom ns1:Role ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty ns1:atTime ] .
+
+ns1:Review a owl:Class ;
+    rdfs:label "Review"@en ;
+    rdfs:comment "A critical assessment of a theatre production, typically published in a newspaper or magazine."@en,
+        "A critical assessment of a theatre production."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ns1:starRating ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:publishedBy ;
+            owl:someValuesFrom ns1:Newspaper ] .
+
+ns1:Theatre a owl:Class ;
+    rdfs:label "Theatre"@en ;
+    rdfs:comment "A venue for hosting theatre productions."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasActor ;
+            owl:someValuesFrom ns1:Actor ] .
+
+ns1:TimePeriod a owl:Class ;
+    rdfs:label "Time Period"@en ;
+    rdfs:comment "A span of time during which an event occurs or an entity exists."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty ns1:hasStartTime ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty ns1:hasEndTime ] .
+
+ns1:Production a owl:Class ;
+    rdfs:label "Production"@en ;
+    rdfs:comment "A theatre production such as a play, musical, or other performance."@en,
+        "A theatre production, such as a play or musical, which may involve multiple ensembles and roles."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasRole ;
+            owl:someValuesFrom ns1:Role ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasReview ;
+            owl:someValuesFrom ns1:Review ] .
+
+ns1:Role a owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A character or function that a person can perform within a theatre production."@en,
+        "A character or function that an individual can perform within a theatre production."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:inProduction ;
+            owl:someValuesFrom ns1:Production ] .
+
+ns1:Actor a owl:Class ;
+    rdfs:label "Actor"@en ;
+    rdfs:comment "A person who portrays a character in a performance."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:employedAt ;
+            owl:someValuesFrom ns1:Theatre ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasEmploymentContract ;
+            owl:someValuesFrom ns1:EmploymentContract ] .
+
+ns1:Play a owl:Class ;
+    rdfs:label "Play"@en ;
+    rdfs:comment "A dramatic composition or piece of drama."@en,
+        "A dramatic composition written by an author."@en,
+        "A form of literature intended for theatrical performance."@en,
+        "A form of literature written by a playwright, usually consisting of scripted dialogue between characters, intended for theatrical performance rather than just reading."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:inverseOf [ a owl:Restriction ;
+                    owl:onProperty ns1:wrotePlay ;
+                    owl:someValuesFrom ns1:Author ] ;
+            owl:onProperty ns1:wrotePlay ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:wasWrittenDuring ;
+            owl:someValuesFrom ns1:TimePeriod ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ns1:numberOfActs ] .
+
+ns1:TheatreProduction a owl:Class ;
+    rdfs:label "Theatre Production"@en ;
+    rdfs:comment "A theatrical performance or series of performances."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ns1:hasPlay ;
+            owl:someValuesFrom ns1:Play ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasActor ;
+            owl:someValuesFrom ns1:Actor ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasReview ;
+            owl:someValuesFrom ns1:Review ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasPlay ;
+            owl:someValuesFrom ns1:Play ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasPremier ;
+            owl:someValuesFrom ns1:Premier ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasActor ;
+            owl:someValuesFrom ns1:Actor ],
+        [ a owl:Restriction ;
+            owl:cardinality 1 ;
+            owl:onProperty ns1:hasPremiere ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasPlay ;
+            owl:someValuesFrom ns1:Play ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasActor ;
+            owl:someValuesFrom ns1:Actor ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasPlay ;
+            owl:someValuesFrom ns1:Play ],
+        [ a owl:Restriction ;
+            owl:onProperty ns1:hasActor ;
+            owl:someValuesFrom ns1:Actor ] .
+

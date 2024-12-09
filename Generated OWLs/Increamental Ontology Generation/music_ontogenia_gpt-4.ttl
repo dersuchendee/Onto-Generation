@@ -1,0 +1,436 @@
+@prefix ns1: <http://www.example.org/ontology/music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.example.org/ontology/music> a owl:Ontology ;
+    rdfs:comment "An ontology for representing information about musical bands, their members, and the instruments they play."@en .
+
+ns1:AnthonyKiedis a ns1:Person ;
+    rdfs:label "Anthony Kiedis"@en ;
+    ns1:hasMembership ns1:AnthonyKiedisMembership ;
+    ns1:hasRole ns1:Vocalist ;
+    ns1:memberOf ns1:RedHotChiliPeppers ;
+    ns1:playsInstrument ns1:Vocals .
+
+ns1:ChadSmith a ns1:Person ;
+    rdfs:label "Chad Smith"@en ;
+    ns1:hasMembership ns1:ChadSmithMembership ;
+    ns1:hasRole ns1:Instrumentalist ;
+    ns1:memberOf ns1:RedHotChiliPeppers ;
+    ns1:playsInstrument ns1:Drums .
+
+ns1:Flea a ns1:Person ;
+    rdfs:label "Flea"@en ;
+    ns1:hasMembership ns1:FleaMembership ;
+    ns1:hasRole ns1:Instrumentalist,
+        ns1:Vocalist ;
+    ns1:memberOf ns1:RedHotChiliPeppers ;
+    ns1:playsInstrument ns1:Bass,
+        ns1:Keyboards,
+        ns1:Trumpet,
+        ns1:Vocals .
+
+ns1:JohnFrusciante a ns1:Person ;
+    rdfs:label "John Frusciante"@en ;
+    ns1:hasMembership ns1:JohnFruscianteMembership ;
+    ns1:hasRole ns1:Instrumentalist ;
+    ns1:memberOf ns1:RedHotChiliPeppers ;
+    ns1:playsInstrument ns1:Guitar .
+
+ns1:PortlandPerformance a ns1:Performance ;
+    ns1:hasPerformanceDate "2006-08-11"^^xsd:date ;
+    ns1:hasSong ns1:HumpDeBump ;
+    ns1:occurredDuring ns1:PortlandPerformanceTimeInterval ;
+    ns1:performedAt ns1:Portland,
+        ns1:PortlandOregon ;
+    ns1:performedBy ns1:RedHotChiliPeppers .
+
+ns1:composedOn a owl:DatatypeProperty ;
+    rdfs:label "composed on"@en ;
+    rdfs:comment "Indicates the date on which a track was composed."@en ;
+    rdfs:domain ns1:Track ;
+    rdfs:range xsd:date .
+
+ns1:hasBeginDate a owl:DatatypeProperty ;
+    rdfs:label "has begin date"@en ;
+    rdfs:comment "Indicates the start date of a time interval."@en ;
+    rdfs:domain <http://www.w3.org/2006/time/Interval> ;
+    rdfs:range xsd:date .
+
+ns1:hasContent a owl:DatatypeProperty ;
+    rdfs:label "has content"@en ;
+    rdfs:comment "The textual content of the review."@en ;
+    rdfs:domain ns1:Review ;
+    rdfs:range xsd:string .
+
+ns1:hasDate a owl:DatatypeProperty ;
+    rdfs:label "has date"@en ;
+    rdfs:comment "Indicates the specific date of an event."@en,
+        "The date when the review was published."@en ;
+    rdfs:domain ns1:Review,
+        ns1:TimeInterval ;
+    rdfs:range xsd:date .
+
+ns1:hasEndDate a owl:DatatypeProperty ;
+    rdfs:label "has end date"@en ;
+    rdfs:comment "Indicates the end date of a time interval."@en ;
+    rdfs:domain ns1:TimeInterval,
+        <http://www.w3.org/2006/time/Interval> ;
+    rdfs:range xsd:date .
+
+ns1:hasMember a owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    rdfs:comment "Indicates a person who is a member of a band."@en ;
+    rdfs:domain ns1:Band ;
+    rdfs:range ns1:Person ;
+    owl:inverseOf ns1:memberOf .
+
+ns1:hasMembership a owl:ObjectProperty ;
+    rdfs:label "has membership"@en ;
+    rdfs:comment "Connects a person to a band membership, which includes temporal information."@en ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:BandMembership .
+
+ns1:hasPerformanceDate a owl:DatatypeProperty ;
+    rdfs:label "has performance date"@en ;
+    rdfs:comment "Indicates the date on which the performance took place."@en ;
+    rdfs:domain ns1:Performance ;
+    rdfs:range xsd:date .
+
+ns1:hasRecordingSession a owl:ObjectProperty ;
+    rdfs:label "has recording session"@en ;
+    rdfs:comment "Associates an album with its recording session."@en ;
+    rdfs:domain ns1:Album ;
+    rdfs:range ns1:RecordingSession .
+
+ns1:hasReleaseDate a owl:DatatypeProperty ;
+    rdfs:label "has release date"@en ;
+    rdfs:comment "Indicates the release date of an album."@en ;
+    rdfs:domain ns1:Album ;
+    rdfs:range xsd:date .
+
+ns1:hasRole a owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:comment "Indicates the role of a person within a context, such as a band."@en ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:Role .
+
+ns1:hasSong a owl:ObjectProperty ;
+    rdfs:label "has song"@en ;
+    rdfs:comment "Associates a performance with a song that was played during it."@en ;
+    rdfs:domain ns1:Performance ;
+    rdfs:range ns1:Song .
+
+ns1:hasStartDate a owl:DatatypeProperty ;
+    rdfs:label "has start date"@en ;
+    rdfs:comment "Indicates the start date of a time interval."@en ;
+    rdfs:domain ns1:TimeInterval ;
+    rdfs:range xsd:date .
+
+ns1:hasTimeInterval a owl:ObjectProperty ;
+    rdfs:label "has time interval"@en ;
+    rdfs:comment "Associates a recording session with the time interval during which it occurred."@en ;
+    rdfs:domain ns1:RecordingSession ;
+    rdfs:range ns1:TimeInterval .
+
+ns1:isLocatedIn a owl:ObjectProperty ;
+    rdfs:label "is located in"@en ;
+    rdfs:comment "Associates a city with the region it is located in."@en ;
+    rdfs:domain ns1:City ;
+    rdfs:range ns1:Region .
+
+ns1:isPartOf a owl:ObjectProperty ;
+    rdfs:label "is part of"@en ;
+    rdfs:comment "Associates a region with the country it is part of."@en ;
+    rdfs:domain ns1:Region ;
+    rdfs:range ns1:Country ;
+    rdfs:subPropertyOf <http://www.ontologydesignpatterns.org/cp/owl/partof.owlisPartOf> .
+
+ns1:memberDuring a owl:ObjectProperty ;
+    rdfs:label "member during"@en ;
+    rdfs:comment "Connects a band membership to the time interval during which the membership is valid."@en ;
+    rdfs:domain ns1:BandMembership ;
+    rdfs:range <http://www.w3.org/2006/time/Interval> .
+
+ns1:membershipInBand a owl:ObjectProperty ;
+    rdfs:label "membership in band"@en ;
+    rdfs:comment "Connects a band membership to the band."@en ;
+    rdfs:domain ns1:BandMembership ;
+    rdfs:range ns1:Band .
+
+ns1:numberOfTracks a owl:DatatypeProperty ;
+    rdfs:label "number of tracks"@en ;
+    rdfs:comment "Indicates the total number of tracks on an album."@en ;
+    rdfs:domain ns1:Album ;
+    rdfs:range xsd:nonNegativeInteger .
+
+ns1:occurredDuring a owl:ObjectProperty ;
+    rdfs:label "occurred during"@en ;
+    rdfs:comment "Associates a performance with the time interval during which it occurred."@en ;
+    rdfs:domain ns1:Performance ;
+    rdfs:range ns1:TimeInterval .
+
+ns1:performedAt a owl:ObjectProperty ;
+    rdfs:label "performed at"@en ;
+    rdfs:comment "Associates a performance with its location."@en ;
+    rdfs:domain ns1:Performance ;
+    rdfs:range ns1:Location .
+
+ns1:performedBy a owl:ObjectProperty ;
+    rdfs:label "performed by"@en ;
+    rdfs:comment "Associates a performance with the music group that performed it."@en ;
+    rdfs:domain ns1:Performance ;
+    rdfs:range ns1:MusicGroup .
+
+ns1:playsInstrument a owl:ObjectProperty ;
+    rdfs:label "plays instrument"@en ;
+    rdfs:comment "Indicates the instrument that a person plays."@en ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:Instrument .
+
+ns1:recordedBy a owl:ObjectProperty ;
+    rdfs:label "recorded by"@en ;
+    rdfs:comment "Associates an album with the music group that recorded it."@en ;
+    rdfs:domain ns1:Album ;
+    rdfs:range ns1:MusicGroup .
+
+ns1:reviewOf a owl:ObjectProperty ;
+    rdfs:label "review of"@en ;
+    rdfs:comment "Indicates the music record that the review assesses."@en ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Record ;
+    owl:inverseOf ns1:hasReview .
+
+ns1:reviewedBy a owl:ObjectProperty ;
+    rdfs:label "reviewed by"@en ;
+    rdfs:comment "Indicates the critic who wrote the review."@en ;
+    rdfs:domain ns1:Review ;
+    rdfs:range ns1:Critic .
+
+ns1:AnthonyKiedisMembership a ns1:BandMembership ;
+    ns1:memberDuring ns1:AnthonyKiedisTimeInterval ;
+    ns1:membershipInBand ns1:RedHotChiliPeppers .
+
+ns1:AnthonyKiedisTimeInterval a <http://www.w3.org/2006/time/Interval> ;
+    ns1:hasBeginDate "1983-01-01"^^xsd:date ;
+    ns1:hasEndDate "9999-12-31"^^xsd:date .
+
+ns1:Bass a ns1:Instrument ;
+    rdfs:label "Bass Guitar"@en .
+
+ns1:ChadSmithMembership a ns1:BandMembership ;
+    ns1:memberDuring ns1:ChadSmithTimeInterval ;
+    ns1:membershipInBand ns1:RedHotChiliPeppers .
+
+ns1:ChadSmithTimeInterval a <http://www.w3.org/2006/time/Interval> ;
+    ns1:hasBeginDate "1988-01-01"^^xsd:date ;
+    ns1:hasEndDate "9999-12-31"^^xsd:date .
+
+ns1:CrianHiatt a ns1:Critic ;
+    rdfs:label "Crian Hiatt"@en .
+
+ns1:Drums a ns1:Instrument ;
+    rdfs:label "Drums"@en .
+
+ns1:FleaMembership a ns1:BandMembership ;
+    ns1:memberDuring ns1:FleaTimeInterval ;
+    ns1:membershipInBand ns1:RedHotChiliPeppers .
+
+ns1:FleaTimeInterval a <http://www.w3.org/2006/time/Interval> ;
+    ns1:hasBeginDate "1983-01-01"^^xsd:date ;
+    ns1:hasEndDate "9999-12-31"^^xsd:date .
+
+ns1:Guitar a ns1:Instrument ;
+    rdfs:label "Guitar"@en .
+
+ns1:JohnFruscianteMembership a ns1:BandMembership ;
+    ns1:memberDuring ns1:JohnFruscianteTimeInterval ;
+    ns1:membershipInBand ns1:RedHotChiliPeppers .
+
+ns1:JohnFruscianteTimeInterval a <http://www.w3.org/2006/time/Interval> ;
+    ns1:hasBeginDate "1988-01-01"^^xsd:date ;
+    ns1:hasEndDate "9999-12-31"^^xsd:date .
+
+ns1:Keyboards a ns1:Instrument ;
+    rdfs:label "Keyboards"@en .
+
+ns1:Oregon a ns1:Region ;
+    rdfs:label "Oregon"@en ;
+    ns1:isPartOf ns1:UnitedStates .
+
+ns1:Portland a ns1:City,
+        ns1:Location ;
+    rdfs:label "Portland"@en,
+        "Portland, Oregon"@en ;
+    ns1:isLocatedIn ns1:Oregon .
+
+ns1:PortlandOregon a ns1:Location ;
+    rdfs:label "Portland, Oregon"@en .
+
+ns1:PortlandPerformanceTimeInterval a ns1:TimeInterval ;
+    ns1:hasDate "2006-08-11"^^xsd:date .
+
+ns1:StadiumArcadium a ns1:Album,
+        ns1:MusicRecord,
+        ns1:Record ;
+    rdfs:label "Stadium Arcadium"@en ;
+    ns1:hasRecordingSession ns1:StadiumArcadiumRecording ;
+    ns1:hasReleaseDate "2006-05-05"^^xsd:date ;
+    ns1:hasReview ns1:StadiumArcadiumReview ;
+    ns1:hasTrack ns1:HumpDeBump ;
+    ns1:numberOfTracks "28"^^xsd:nonNegativeInteger ;
+    ns1:recordedBy ns1:RedHotChiliPeppers .
+
+ns1:StadiumArcadiumRecording a ns1:RecordingSession ;
+    ns1:hasTimeInterval ns1:StadiumArcadiumRecordingInterval .
+
+ns1:StadiumArcadiumRecordingInterval a ns1:TimeInterval ;
+    ns1:hasEndDate "2006-05-05"^^xsd:date ;
+    ns1:hasStartDate "2004-09-01"^^xsd:date .
+
+ns1:StadiumArcadiumReview a ns1:Review ;
+    ns1:hasContent "The most ambitious work in his twenty-three-year career."@en ;
+    ns1:hasDate "2006-05-09"^^xsd:date ;
+    ns1:reviewOf ns1:StadiumArcadium ;
+    ns1:reviewedBy ns1:CrianHiatt .
+
+ns1:Trumpet a ns1:Instrument ;
+    rdfs:label "Trumpet"@en .
+
+ns1:UnitedStates a ns1:Country ;
+    rdfs:label "United States"@en .
+
+ns1:hasReview a owl:ObjectProperty ;
+    rdfs:label "has review"@en ;
+    rdfs:comment "Associates a music record with a review."@en ;
+    rdfs:domain ns1:Record ;
+    rdfs:range ns1:Review .
+
+ns1:hasTrack a owl:ObjectProperty ;
+    rdfs:label "has track"@en ;
+    rdfs:comment "Associates a music record with a track that it contains."@en,
+        "Associates an album with one of its tracks."@en ;
+    rdfs:domain ns1:Album,
+        ns1:MusicRecord ;
+    rdfs:range ns1:Track .
+
+ns1:memberOf a owl:ObjectProperty ;
+    rdfs:label "member of"@en ;
+    rdfs:comment "Indicates the band that a person is a member of."@en ;
+    rdfs:domain ns1:Person ;
+    rdfs:range ns1:Band .
+
+ns1:City a owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:comment "A large human settlement, generally with extensive systems for housing, transportation, sanitation, utilities, land use, and communication."@en .
+
+ns1:Country a owl:Class ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A distinct territorial body or political entity. It is often referred to as the land of an individual's birth, residence, or citizenship."@en .
+
+ns1:Critic a owl:Class ;
+    rdfs:label "Critic"@en ;
+    rdfs:comment "A person who writes reviews for music records."@en ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Agent> .
+
+ns1:HumpDeBump a ns1:Song,
+        ns1:Track ;
+    rdfs:label "Hump de Bump"@en ;
+    ns1:composedOn "2004-01-26"^^xsd:date .
+
+ns1:MusicRecord a owl:Class ;
+    rdfs:label "Music Record"@en ;
+    rdfs:comment "A music record which can be an album, EP, or single, and contains at least one track."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ns1:hasTrack ;
+            owl:someValuesFrom ns1:Track ] .
+
+ns1:Song a owl:Class ;
+    rdfs:label "Song"@en ;
+    rdfs:comment "A single piece of music performed by a music group."@en .
+
+ns1:Vocalist a owl:Class ;
+    rdfs:label "Vocalist"@en ;
+    rdfs:comment "A musician whose instrument is their voice."@en ;
+    rdfs:subClassOf ns1:Role .
+
+ns1:Vocals a ns1:Instrument ;
+    rdfs:label "Vocals"@en .
+
+ns1:Instrumentalist a owl:Class ;
+    rdfs:label "Instrumentalist"@en ;
+    rdfs:comment "A musician who plays a musical instrument."@en ;
+    rdfs:subClassOf ns1:Role .
+
+ns1:Location a owl:Class ;
+    rdfs:label "Location"@en ;
+    rdfs:comment "A place where events occur."@en .
+
+ns1:MusicGroup a owl:Class ;
+    rdfs:label "Music Group"@en ;
+    rdfs:comment "A group of people who play music together."@en .
+
+ns1:Record a owl:Class ;
+    rdfs:label "Record"@en ;
+    rdfs:comment "A music album or single."@en .
+
+ns1:RecordingSession a owl:Class ;
+    rdfs:label "Recording Session"@en ;
+    rdfs:comment "A period during which an album is recorded."@en .
+
+ns1:Region a owl:Class ;
+    rdfs:label "Region"@en ;
+    rdfs:comment "An area, especially part of a country or the world having definable characteristics but not always fixed boundaries."@en .
+
+ns1:Role a owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A function or part performed especially in a particular operation or process."@en ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Role> .
+
+ns1:Band a owl:Class ;
+    rdfs:label "Musical Band"@en ;
+    rdfs:comment "A group of individuals who perform music together."@en .
+
+ns1:Track a owl:Class ;
+    rdfs:label "Track"@en ;
+    rdfs:comment "A single piece of music or song that is part of a music record."@en,
+        "A single song or piece of music on an album."@en .
+
+ns1:Album a owl:Class ;
+    rdfs:label "Album"@en ;
+    rdfs:comment "A collection of recorded music, usually consisting of multiple tracks."@en,
+        "A collection of recorded music."@en .
+
+ns1:Performance a owl:Class ;
+    rdfs:label "Performance"@en ;
+    rdfs:comment "A live presentation of music by a music group."@en,
+        "A live presentation of music."@en .
+
+ns1:Review a owl:Class ;
+    rdfs:label "Review"@en ;
+    rdfs:comment "A critical assessment of a music record."@en .
+
+ns1:BandMembership a owl:Class ;
+    rdfs:label "Band Membership"@en ;
+    rdfs:comment "A relationship class for representing the membership of a person in a band at a certain point in time."@en .
+
+ns1:Instrument a owl:Class ;
+    rdfs:label "Musical Instrument"@en ;
+    rdfs:comment "A device created or adapted to make musical sounds."@en .
+
+ns1:TimeInterval a owl:Class ;
+    rdfs:label "Time Interval"@en ;
+    rdfs:comment "A time interval with a beginning and an end."@en ;
+    rdfs:subClassOf <http://www.w3.org/2006/time/TemporalEntity> .
+
+ns1:Person a owl:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "An individual human being."@en ;
+    rdfs:subClassOf <http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Agent> .
+
+ns1:RedHotChiliPeppers a ns1:Band,
+        ns1:MusicGroup ;
+    rdfs:label "Red Hot Chili Peppers"@en .
+
