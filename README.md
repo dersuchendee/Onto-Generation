@@ -14,7 +14,10 @@ This repository contains supplementary materials for the submitted paper in ESWC
 ![alt text](Images/digram.png)
 
 
-This work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, dataset for evaluation and some details that could not be fit in the page count : )
+This work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
+
+The ontology engineering process is complex, time-consuming, and error-prone, even for experienced ontology engineers. In this work, we investigate the potential of Large Language Models (LLMs) to provide effective OWL ontology drafts directly from ontological requirements described using user stories and competency questions. Our main contribution is the introduction and evaluation of two new prompting techniques for automated ontology development: **Memoryless CQbyCQ** and **Ontogenia**. We also emphasize the importance of **three structural criteria** for ontology assessment, alongside expert qualitative evaluation, highlighting the need for a multi-dimensional evaluation in order to capture the quality and usability of the generated ontologies. Our experiments, conducted on a **benchmark dataset of ten ontologies with 100 distinct CQs and 29 different user stories**, compare the performance of three LLMs using the two prompting techniques. The results demonstrate improvements over the current state-of-the-art in LLM-supported ontology engineering. More specifically, the model \texttt{OpenAI o1-preview} with Ontogenia produces OWL models of sufficient quality, significantly outperforming novice ontology engineers in modelling ability. However, we still note some common mistakes and variability of result quality, which is important to take into account when using LLMs for ontology authoring support. We discuss these limitations and propose directions for future research.
+
 
 ## Contents of the directory
 
@@ -38,3 +41,12 @@ password for zipped files: 28mRFhW6wVnu7Wh
 
 ## GPT-4 hyperparameters
 Our work used GPT-4 API version 1106, with the model's hyperparameters (frequency\_penalty, presence\_penalty, and temperature) set to zero. In fact, these hyperparameters manage the model's output. The frequency\_penalty penalizes frequently seen words during training, while the presence\_penalty penalizes words present in the current context when generating the next token. High temperature forces the model to be creative. This is to make sure if a prefix/class/property is defined in the ontology, in the future, LLM can use it again and not penalized.
+
+# License
+<p>
+  This software is licensed under the
+  <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
+</p>
+<a href="https://opensource.org/licenses/MIT" target="_blank">
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License">
+</a
