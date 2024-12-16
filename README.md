@@ -9,7 +9,8 @@
 </div>
 
 
-This repository contains supplementary materials for the submitted paper in ESWC 2025 - Research Track.  
+This repository contains supplementary materials for the submitted paper in ESWC 2025 - Research Track. Our work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
+
 
 ## Abstract
 
@@ -22,7 +23,6 @@ The ontology engineering process is complex, time-consuming, and error-prone, ev
 ![alt text](Images/digram.png)
 _Illustration of the two OWL generation settings and the four evaluations for assessing the generated OWL. The top one generates an OWL concerning only one CQ. The middle one generates an OWL concerning CQs associated with one narrative. At the bottom, four OWL evaluations setups including OOPS!, proportion of modelled CQs, statistics of superfluous components and expert evaluation are shown._
 
-This work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
 
 
 
