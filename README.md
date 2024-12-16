@@ -1,5 +1,8 @@
-## Onto-Generate-2024
-This repository contains supplementary materials ESWC 2025 - Research Track.  
+## Ontology Generation with LLMs
+
+![Ontology Generation with LLMs Logo](Images/ontology-generation-with-llms-high-resolution-logo.png)
+
+This repository contains supplementary materials for the submitted paper in ESWC 2025 - Research Track.  
 
 Title: Improving Ontology Generation using Large Language Models
 
@@ -7,6 +10,7 @@ Title: Improving Ontology Generation using Large Language Models
 
 
 This work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, dataset for evaluation and some details that could not be fit in the page count : )
+
 ## Prompting techniques
 The prompting techniques used in this work can be found [here](/PromptingTechniques)
 
