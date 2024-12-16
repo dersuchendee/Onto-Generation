@@ -20,7 +20,7 @@ This work improved ontology generation performance using two new prompting techn
 
 |   | Title                                                      |                         Description                         |
 |:-:|:-----------------------------------------------------------|:---------------------------------------------------------:|
-| 1 | [Dataset for Ontology generation](/Dataset_OntoGen)           The dataset used in this work.                                  |  |
+| 1 | [Dataset for Ontology generation](/Dataset_OntoGen)          |   The dataset used in this work.                                  |
 | 2 | [Experiment Results](/Experiment Results)  |           The results of the experiments for what concerns the evaluation.            |
 |3 | [Generated OWLs](/Generated OWLs)       |             Generated OWL files for Ontogenia and MemlessCQbyCQ.              |
 |4| [Prompting Techniques](/Prompting Techniques)|              The code to execute the two prompting techniques.              |
