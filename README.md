@@ -1,5 +1,5 @@
 <div align="center">
- <img src="Images/ontology-generation-with-llms-high-resolution-logo.png" style="width: 20%; height: auto;"/>
+ <img src="Images/ontology-generation-with-llms-high-resolution-logo.png" style="width: 40%; height: auto;"/>
  <H1>Ontology Generation with LLMs</H1>
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
