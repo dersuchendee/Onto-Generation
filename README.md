@@ -12,9 +12,7 @@
 This repository contains supplementary materials for the submitted paper in ESWC 2025 - Research Track. Our work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
 
 
-## Abstract
 
-The ontology engineering process is complex, time-consuming, and error-prone, even for experienced ontology engineers. In this work, we investigate the potential of Large Language Models (LLMs) to provide effective OWL ontology drafts directly from ontological requirements described using user stories and competency questions. Our main contribution is the introduction and evaluation of two new prompting techniques for automated ontology development: **Memoryless CQbyCQ** and **Ontogenia**. We also emphasize the importance of **three structural criteria** for ontology assessment, alongside expert qualitative evaluation, highlighting the need for a multi-dimensional evaluation in order to capture the quality and usability of the generated ontologies. Our experiments, conducted on a **benchmark dataset of ten ontologies with 100 distinct CQs and 29 different user stories**, compare the performance of three LLMs using the two prompting techniques. The results demonstrate improvements over the current state-of-the-art in LLM-supported ontology engineering. More specifically, the model \texttt{OpenAI o1-preview} with Ontogenia produces OWL models of sufficient quality, significantly outperforming novice ontology engineers in modelling ability. However, we still note some common mistakes and variability of result quality, which is important to take into account when using LLMs for ontology authoring support. We discuss these limitations and propose directions for future research.
 
 ---
 
