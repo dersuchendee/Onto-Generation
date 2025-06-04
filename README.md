@@ -9,7 +9,7 @@
 </div>
 
 
-This repository contains supplementary materials for the submitted paper in ESWC 2025 - Research Track. Our work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
+This repository contains supplementary materials for the accepted paper in ESWC 2025 - Research Track. Our work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
 
 
 
