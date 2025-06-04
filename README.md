@@ -49,6 +49,17 @@ Our work used GPT-4 API version 1106, with the model's hyperparameters (frequenc
 
 # License
 <p>
+
+ [Citation](#)  
+```bibtex
+@inproceedings{lippolis2025ontology,
+  title={Ontology generation using large language models},
+  author={Lippolis, Anna Sofia and Saeedizade, Mohammad Javad and Keskis{\"a}rkk{\"a}, Robin and Zuppiroli, Sara and Ceriani, Miguel and Gangemi, Aldo and Blomqvist, Eva and Nuzzolese, Andrea Giovanni},
+  booktitle={European Semantic Web Conference},
+  pages={321--341},
+  year={2025},
+  organization={Springer}
+}
   This software is licensed under the
   <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
 </p>
