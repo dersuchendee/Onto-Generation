@@ -49,7 +49,14 @@ Our work used GPT-4 API version 1106, with the model's hyperparameters (frequenc
 
 # License
 <p>
+This software is licensed under the
+  <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
+</p>
+<a href="https://opensource.org/licenses/MIT" target="_blank">
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License">
+</a
 
+# Citation
  [Citation](#)  
 ```bibtex
 @inproceedings{lippolis2025ontology,
@@ -60,9 +67,4 @@ Our work used GPT-4 API version 1106, with the model's hyperparameters (frequenc
   year={2025},
   organization={Springer}
 }
-  This software is licensed under the
-  <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
-</p>
-<a href="https://opensource.org/licenses/MIT" target="_blank">
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License">
-</a
+  
