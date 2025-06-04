@@ -55,6 +55,7 @@ This software is licensed under the
 <a href="https://opensource.org/licenses/MIT" target="_blank">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License">
 </a
+</p>
 
 # Citation
  [Citation](#)  
