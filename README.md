@@ -7,7 +7,7 @@
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
 </div>
-[![Watch the video](https://img.youtube.com/vi/<VIDEO_ID>/0.jpg)](https://videolectures.net/eswc2025_bernardin_sofia_lippolis)
+[![Watch the video](Images/email.jpg)](https://videolectures.net/eswc2025_bernardin_sofia_lippolis)
 
 
 This repository contains supplementary materials for the accepted paper in ESWC 2025 - Research Track. Our work improved ontology generation performance using two new prompting techniques. In this repository you can find details of the prompts, the dataset and other material for the evaluation and some details that could not be fit in the page count : )
@@ -70,4 +70,5 @@ This software is licensed under the
   organization={Springer}
 }
   
+
 
