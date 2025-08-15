@@ -7,7 +7,7 @@
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
 </div>
-<div align="center"> <h2>Watch the video:</h2>h2>
+<div align="center"> <h2>Watch the video:</h2>
 <a href="https://videolectures.net/eswc2025_bernardin_sofia_lippolis">
   <img src="Images/email.jpg" style="width: 80%; height: auto;" />
 </a>
@@ -75,6 +75,7 @@ This software is licensed under the
   organization={Springer}
 }
   
+
 
 
 
